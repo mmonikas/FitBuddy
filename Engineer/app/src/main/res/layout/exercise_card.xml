@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/exerciseCard"
+    tools:ignore="contentDescription"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="8dp"
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="12dp"
+    android:layout_marginEnd="12dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:elevation="6dp"
+        android:padding="4dp">
+
+        <ImageView
+            android:id="@+id/card_exercise_image"
+            android:layout_width="match_parent"
+            android:layout_height="194dp"
+            android:layout_gravity="center"
+            android:src="@drawable/exercises_menu_img"/>
+
+        <TextView
+            android:id="@+id/card_exercise_name"
+            android:layout_width="304dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="24dp"
+            android:fontFamily="sans-serif-black"
+            android:textSize="24sp"
+            android:textColor="@color/primaryTextColor" />
+
+        <TextView
+            android:id="@+id/card_exercise_category"
+            android:layout_width="304dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="24dp"
+            android:fontFamily="sans-serif-thin"
+            android:text=""
+            android:textSize="14sp"
+            android:textColor="@color/primaryTextColor"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            android:layout_marginStart="8dp">
+
+            <Button
+                android:id="@+id/open_exercise_edit"
+                android:layout_width="100dp"
+                android:layout_height="28dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:backgroundTint="@color/primaryDarkColor"
+                android:backgroundTintMode="screen"
+                android:textSize="12sp"
+                android:textAllCaps="true"
+                android:textAppearance="@style/Widget.MaterialComponents.Button.TextButton"
+                android:textColor="@color/primaryTextColor"
+                android:text="@string/edit_button" />
+
+            <Button
+                android:id="@+id/deleteButton"
+                android:layout_width="100dp"
+                android:layout_height="28dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:backgroundTint="@color/primaryDarkColor"
+                android:backgroundTintMode="screen"
+                android:textSize="12sp"
+                android:layout_marginStart="8dp"
+                android:textAllCaps="true"
+                android:textAppearance="@style/Widget.MaterialComponents.Button.TextButton"
+                android:textColor="@color/primaryTextColor"
+                android:text="@string/delete_button" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

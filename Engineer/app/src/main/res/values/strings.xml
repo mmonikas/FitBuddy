@@ -20,4 +20,6 @@
     <string name="login"/>
     <string name="register">register</string>
     <string name="nothing"/>
+    <string name="delete_button">DELETE</string>
+    <string name="edit_button">EDIT</string>
 </resources>
