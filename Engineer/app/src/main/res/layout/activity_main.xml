@@ -33,6 +33,7 @@
                 android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="8dp"
                 app:defaultNavHost="true"
                 app:navGraph="@navigation/nav_graph" />
 
@@ -40,6 +41,7 @@
 
     <com.google.android.material.navigation.NavigationView
             android:id="@+id/navigationView"
+
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"

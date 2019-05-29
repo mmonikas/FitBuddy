@@ -22,5 +22,9 @@
               android:label="fragment_exercises_list" tools:layout="@layout/fragment_exercises_list">
         <action android:id="@+id/action_exercisesListFragment_to_exerciseDetails"
                 app:destination="@id/exerciseDetails"/>
+        <action android:id="@+id/action_exercisesListFragment_to_addExerciseFragment"
+                app:destination="@id/addExerciseFragment"/>
     </fragment>
+    <fragment android:id="@+id/addExerciseFragment" android:name="com.monika.AddExerciseFragment"
+              android:label="fragment_add_exercise" tools:layout="@layout/fragment_add_exercise"/>
 </navigation>
