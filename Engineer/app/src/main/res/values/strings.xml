@@ -9,4 +9,15 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="importLabel">Import</string>
+    <string name="galleryLabel">Gallery</string>
+    <string name="slideshowLabel">Slideshow</string>
+    <string name="toolsLabel">Tools</string>
+    <string name="communicateLabel">Communicate</string>
+    <string name="shareLabel">Share</string>
+    <string name="sendLabel">Send</string>
+    <string name="home">Home</string>
+    <string name="login"/>
+    <string name="register">register</string>
+    <string name="nothing"/>
 </resources>
