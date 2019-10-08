@@ -6,6 +6,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="button_signIn">Zaloguj się</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -22,4 +23,23 @@
     <string name="nothing"/>
     <string name="delete_button">DELETE</string>
     <string name="edit_button">EDIT</string>
+    <string name="name_hint">Name</string>
+    <string name="description_hint">Description</string>
+    <string name="rating_hint">Difficulty level</string>
+    <string name="load_hint">Load</string>
+    <string name="equipment_hint">Equipment</string>
+    <string name="category_hint">Category</string>
+    <string name="done_button">Save</string>
+    <string name="name_hint_hint">Name</string>
+    <string name="load_kg_hint">Kg</string>
+    <string name="exercisesLabel">Exercises</string>
+    <string name="workoutsLabel">Workouts</string>
+    <string name="description_hint2">ex. Squeeze your glutes while getting up with the bar</string>
+    <string name="equipment_hint2">ex. bar, kettle</string>
+    <string name="addExerciseLabel">New exercise</string>
+
+
+    <!-- login and register fragment -->
+    <string name="loginUsername">login</string>
+    <string name="loginPassword">password</string>
 </resources>

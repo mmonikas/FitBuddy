@@ -5,21 +5,14 @@
 
     <group android:checkableBehavior="single">
         <item
-                android:id="@+id/nav_camera"
-                android:icon="@drawable/ic_menu_camera"
-                android:title="@string/importLabel"/>
+                android:id="@+id/nav_exercises"
+                android:icon="@drawable/exercises_menu_img"
+                android:title="@string/exercisesLabel"/>
         <item
-                android:id="@+id/nav_gallery"
+                android:id="@+id/nav_add_exercise"
                 android:icon="@drawable/ic_menu_gallery"
-                android:title="@string/galleryLabel"/>
-        <item
-                android:id="@+id/nav_slideshow"
-                android:icon="@drawable/ic_menu_slideshow"
-                android:title="@string/slideshowLabel"/>
-        <item
-                android:id="@+id/nav_manage"
-                android:icon="@drawable/ic_menu_manage"
-                android:title="@string/toolsLabel"/>
+                android:title="@string/workoutsLabel"/>
+
     </group>
 
     <item android:title="@string/communicateLabel">
@@ -28,10 +21,7 @@
                     android:id="@+id/nav_share"
                     android:icon="@drawable/ic_menu_share"
                     android:title="@string/shareLabel"/>
-            <item
-                    android:id="@+id/nav_send"
-                    android:icon="@drawable/ic_menu_send"
-                    android:title="@string/sendLabel"/>
+
         </menu>
     </item>
 

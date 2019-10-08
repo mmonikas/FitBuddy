@@ -26,7 +26,7 @@
         <ImageView
             android:id="@+id/card_exercise_image"
             android:layout_width="match_parent"
-            android:layout_height="194dp"
+            android:layout_height="128dp"
             android:layout_gravity="center"
             android:src="@drawable/exercises_menu_img"/>
 

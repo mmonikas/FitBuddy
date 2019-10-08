@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "674543772705",
+    "firebase_url": "https://macro-outpost-239712.firebaseio.com",
+    "project_id": "macro-outpost-239712",
+    "storage_bucket": "macro-outpost-239712.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674543772705:android:b75a5cfcbeb54a78ffaf60",
+        "android_client_info": {
+          "package_name": "com.monika"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674543772705-cgsdl4ve3lvl3tholl29i0i59k5jo2vf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.monika",
+            "certificate_hash": "0b2090068f96e70184bcbd7801d0544fa7e37725"
+          }
+        },
+        {
+          "client_id": "674543772705-05976vojkdhneiesf2f6l9fsb6bp2iha.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWEgDybtOqYA-JgAn4NnCNUjFDIp-Njcs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674543772705-05976vojkdhneiesf2f6l9fsb6bp2iha.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,8 @@
 package com.monika;
 
+import com.monika.Model.Category;
+import com.monika.Model.Exercise;
+
 import java.util.ArrayList;
 import java.util.List;
 
