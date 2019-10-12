@@ -40,6 +40,11 @@
 
 
     <!-- login and register fragment -->
-    <string name="loginUsername">login</string>
-    <string name="loginPassword">password</string>
+    <string name="loginUsernameHint"><font size="15">Login</font></string>
+    <string name="loginPasswordHint"><font size="15">Hasło</font></string>
+    <string name="logoDesc">Logo</string>
+    <string name="registerWithGoogle">Zaloguj przez Google</string>
+    <string name="errorSignIn">Niepoprawny login lub hasło</string>
+    <string name="button_signUp">Zarejestruj się</string>
+    <string name="errorGoogleSignIn">Wystąpił błąd podczas logowania</string>
 </resources>

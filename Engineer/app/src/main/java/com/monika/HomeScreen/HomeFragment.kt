@@ -1,4 +1,4 @@
-package com.monika
+package com.monika.HomeScreen
 
 import android.os.Bundle
 import android.util.Log
@@ -7,12 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QueryDocumentSnapshot
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.android.gms.tasks.Task
-import androidx.annotation.NonNull
-import com.google.android.gms.tasks.OnCompleteListener
-
+import com.monika.R
 
 
 class HomeFragment : Fragment() {
@@ -24,7 +19,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        setUpDatabase()
+       // setUpDatabase()
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 

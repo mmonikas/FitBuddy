@@ -3,7 +3,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context=".WorkoutsList"
+             tools:context=".WorkoutsMainPage.WorkoutsList"
 android:layout_columnSpan="2"
 android:layout_rowSpan="2">
 

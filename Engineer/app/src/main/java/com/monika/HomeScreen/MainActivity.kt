@@ -1,29 +1,22 @@
-package com.monika
+package com.monika.HomeScreen
 
-import android.app.PendingIntent.getActivity
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import android.widget.Toast
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.AuthResult
-import com.google.android.gms.tasks.Task
-import androidx.annotation.NonNull
-import com.google.android.gms.tasks.OnCompleteListener
-import android.R.attr.password
-import androidx.fragment.app.FragmentActivity
+import com.monika.R
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -40,7 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
 
         setUpNavigation()
-        createUser()
+       // createUser()
 
 
 
@@ -50,8 +43,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onStart() {
         super.onStart()
-        val currentUser = mAuth.currentUser
-        print(currentUser)
+//        val currentUser = mAuth.currentUser
+//        print(currentUser)
     }
 
     private fun createUser() {

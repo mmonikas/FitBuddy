@@ -1,4 +1,4 @@
-package com.monika;
+package com.monika.WorkoutsMainPage;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import com.monika.Model.Exercise;
+import com.monika.R;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package com.monika;
+package com.monika.WorkoutsMainPage;
 
-import com.monika.Model.Category;
+import com.monika.Enums.Category;
 import com.monika.Model.Exercise;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class ExercisesList {
             local_exercises = new ArrayList<>();
             Exercise e1 = new Exercise(getLocalList().size(), "Squat");
             e1.setExercise_description("Perfect exercise to grow your quads.");
-            e1.setCategory(Category.Legs);
+            e1.setCategory(Category.LEGS);
             e1.setExercise_load("10");
             Exercise e2 = new Exercise(getLocalList().size(), "Bicycle crunch");
             e2.setExercise_description("Exercise targetting abs.");

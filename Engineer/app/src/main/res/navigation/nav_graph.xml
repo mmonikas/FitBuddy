@@ -2,14 +2,14 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph"
-            app:startDestination="@id/homeFragment">
+            app:startDestination="@id/loginFragment">
 
     <fragment android:id="@+id/loginFragment" android:name="com.monika.SignInAndRegister.LoginFragment"
               tools:layout="@layout/fragment_login">
         <action android:id="@+id/action_loginFragment_to_registerFragment" app:destination="@id/registerFragment"/>
         <action android:id="@+id/action_loginFragment_to_homeFragment" app:destination="@id/homeFragment"/>
     </fragment>
-    <fragment android:id="@+id/homeFragment" android:name="com.monika.HomeFragment"
+    <fragment android:id="@+id/homeFragment" android:name="com.monika.HomeScreen.HomeFragment"
               tools:layout="@layout/fragment_home" android:label="@string/home">
         <action android:id="@+id/action_homeFragment_to_exercisesListFragment"
                 app:destination="@id/exercisesListFragment"/>
@@ -17,9 +17,9 @@
     </fragment>
     <fragment android:id="@+id/registerFragment" android:name="com.monika.SignInAndRegister.RegisterFragment"
               tools:layout="@layout/fragment_register"/>
-    <fragment android:id="@+id/exerciseDetails" android:name="com.monika.ExerciseDetails"
+    <fragment android:id="@+id/exerciseDetails" android:name="com.monika.WorkoutsMainPage.ExerciseDetails"
               android:label="fragment_exercise_details" tools:layout="@layout/fragment_exercise_details"/>
-    <fragment android:id="@+id/exercisesListFragment" android:name="com.monika.ExercisesListFragment"
+    <fragment android:id="@+id/exercisesListFragment" android:name="com.monika.WorkoutsMainPage.ExercisesListFragment"
               android:label="fragment_exercises_list" tools:layout="@layout/fragment_exercises_list">
         <action android:id="@+id/action_exercisesListFragment_to_exerciseDetails"
                 app:destination="@id/exerciseDetails"/>
@@ -28,13 +28,13 @@
     </fragment>
     <!--<fragment android:id="@+id/addExerciseFragment" android:name="com.monika.AddExerciseFragment"-->
               <!--android:label="@string/addExerciseLabel" tools:layout="@layout/fragment_add_exercise"/>-->
-    <!--<fragment android:id="@+id/workoutsList" android:name="com.monika.WorkoutsList"-->
+    <!--<fragment android:id="@+id/workoutsList" android:name="com.monika.WorkoutsMainPage.WorkoutsList"-->
               <!--android:label="fragment_workouts_list" tools:layout="@layout/fragment_workouts_list">-->
         <!--<action android:id="@+id/action_workoutsList_to_workoutDetails" app:destination="@id/workoutDetails"/>-->
         <!--<action android:id="@+id/action_workoutsList_to_workoutAdd" app:destination="@id/workoutAdd"/>-->
     <!--</fragment>-->
-    <fragment android:id="@+id/workoutDetails" android:name="com.monika.WorkoutDetails"
+    <fragment android:id="@+id/workoutDetails" android:name="com.monika.WorkoutsMainPage.WorkoutDetails"
               android:label="fragment_workout_details" tools:layout="@layout/fragment_workout_details"/>
-    <fragment android:id="@+id/workoutAdd" android:name="com.monika.WorkoutAdd" android:label="fragment_workout_add"
+    <fragment android:id="@+id/workoutAdd" android:name="com.monika.WorkoutsMainPage.WorkoutAdd" android:label="fragment_workout_add"
               tools:layout="@layout/fragment_workout_add"/>
 </navigation>
