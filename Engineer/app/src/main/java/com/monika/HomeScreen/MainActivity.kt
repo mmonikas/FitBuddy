@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -16,6 +17,7 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import android.widget.Toast
+import androidx.navigation.findNavController
 import com.monika.R
 
 
@@ -26,7 +28,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var navigationView: NavigationView
     private lateinit var navController: NavController
     public val TAG: String = "dbTag"
-    val mAuth = FirebaseAuth.getInstance()
+    private val mAuth = FirebaseAuth.getInstance()
+    private val presenter = MainActivityPresenter()
+    private var backPressedOnce: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +83,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         supportActionBar!!.title = getString(R.string.nothing)
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-        supportActionBar!!.setDisplayShowHomeEnabled(false)
+      //  supportActionBar!!.setDisplayShowHomeEnabled(false)
 
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.navigationView)
@@ -98,11 +102,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
     override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
+
+        if(backPressedOnce) {
+            System.exit(0)
         }
+        else if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }
+        Toast.makeText(this, R.string.closeAgainToExit, Toast.LENGTH_SHORT).show()
+        backPressedOnce = true
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -116,7 +125,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> false
+            R.id.action_logOut -> {
+                presenter.logOutUser()
+                navController.navigate(R.id.loginFragment)
+                false
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -126,9 +140,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawerLayout.closeDrawers()
 
-        val id = item.itemId
-
-        when (id) {
+        when (item.itemId) {
             R.id.nav_exercises -> {
                 navController.navigate(R.id.registerFragment)
             }
@@ -142,7 +154,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawerLayout.closeDrawer(GravityCompat.START)
 
-        return true
+        return false
     }
 
 }

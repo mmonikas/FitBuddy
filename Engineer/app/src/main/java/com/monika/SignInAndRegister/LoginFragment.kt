@@ -16,20 +16,21 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
 import com.monika.Enums.FirebaseRequestResult
 import com.monika.HomeScreen.MainActivity
 import com.monika.R
 import com.monika.Services.AuthenticationService
 import com.monika.Services.Utils
 import kotlinx.android.synthetic.main.fragment_login.*
-import kotlinx.android.synthetic.main.fragment_login.loginFragment_progressBar
-import kotlinx.android.synthetic.main.loader_view.*
 
 
 class LoginFragment : Fragment() {
 
     //Google Login Request Code
+    private val presenter = LoginFragmentPresenter()
     private val RC_SIGN_IN = 7
+
     //Google Sign In Client
     private lateinit var mGoogleSignInClient: GoogleSignInClient
 
@@ -42,14 +43,14 @@ class LoginFragment : Fragment() {
             .requestEmail()
             .build()
         mGoogleSignInClient = GoogleSignIn.getClient(activity!!, gso)
-        return inflater.inflate(com.monika.R.layout.fragment_login, container, false)
+        return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
     override fun onStart() {
         super.onStart()
-//        if (FirebaseAuth.getInstance().currentUser != null) {
-//            Navigation.findNavController(view!!).navigate(R.id.homeFragment)
-//        }
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            Navigation.findNavController(view!!).navigate(R.id.homeFragment)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,32 +64,17 @@ class LoginFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                val account = task.getResult(ApiException::class.java)
-                if (account != null) {
-                    AuthenticationService.instance.logUserWithGoogle(account) {
-                        result ->
-                        if (result == FirebaseRequestResult.SUCCESS) {
-                            Navigation.findNavController(view!!).navigate(R.id.homeFragment)
-                        }
-                        else if (result == FirebaseRequestResult.FAILURE) {
-                            loginFragment_progress.visibility = View.GONE
-                            Toast.makeText(context, R.string.errorSignIn, Toast.LENGTH_LONG).show()
-                        }
-                    }
+            presenter.signInUserWithGoogle(data) {
+                result ->
+                if (result == FirebaseRequestResult.SUCCESS) {
+                    Navigation.findNavController(view!!).popBackStack(R.id.homeFragment, false)
                 }
-            } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
-                Log.w("Login", "Google sign in failed", e)
-                // ...
-                Toast.makeText(context, R.string.errorGoogleSignIn, Toast.LENGTH_LONG).show()
+                else if (result == FirebaseRequestResult.FAILURE) {
+                    Toast.makeText(context, R.string.errorGoogleSignIn, Toast.LENGTH_LONG).show()
+                }
             }
-
         }
     }
 
@@ -117,15 +103,14 @@ class LoginFragment : Fragment() {
             loginFragment_progress.visibility = View.VISIBLE
             val username = loginFragment_loginEditText.text.toString()
             val password = loginFragment_passwordEditText.text.toString()
-            if (!username.isNullOrEmpty() && !password.isNullOrEmpty()) {
-                AuthenticationService.instance.logUserWithCredentials(activity as MainActivity, username, password) { result ->
-                    if (result == FirebaseRequestResult.SUCCESS) {
-                        Navigation.findNavController(it).navigate(R.id.homeFragment)
-                    }
-                    else if (result == FirebaseRequestResult.FAILURE) {
-                        loginFragment_progress.visibility = View.GONE
-                        Toast.makeText(context, R.string.errorSignIn, Toast.LENGTH_LONG).show()
-                    }
+            presenter.signInUserWith(username, password, activity as MainActivity) {
+                result ->
+                if (result == FirebaseRequestResult.SUCCESS) {
+                    Navigation.findNavController(view!!).popBackStack(R.id.homeFragment, false)
+                }
+                else if (result == FirebaseRequestResult.FAILURE) {
+                    loginFragment_progress.visibility = View.GONE
+                    Toast.makeText(context, R.string.errorSignIn, Toast.LENGTH_LONG).show()
                 }
             }
         }

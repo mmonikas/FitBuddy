@@ -5,7 +5,7 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Ustawienia</string>
     <string name="button_signIn">Zaloguj się</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -47,4 +47,6 @@
     <string name="errorSignIn">Niepoprawny login lub hasło</string>
     <string name="button_signUp">Zarejestruj się</string>
     <string name="errorGoogleSignIn">Wystąpił błąd podczas logowania</string>
+    <string name="action_logOut">Wyloguj się</string>
+    <string name="closeAgainToExit">Naciśnij ponownie, aby wyjść z aplikacji</string>
 </resources>
