@@ -18,6 +18,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import android.widget.Toast
 import androidx.navigation.findNavController
+import com.google.firebase.database.FirebaseDatabase
 import com.monika.R
 
 
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
         setUpNavigation()
        // createUser()
 
@@ -142,7 +143,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         when (item.itemId) {
             R.id.nav_exercises -> {
-                navController.navigate(R.id.registerFragment)
+                navController.navigate(R.id.exercisesListFragment)
             }
             R.id.nav_add_exercise -> {
                // navController.navigate(R.id.addExerciseFragment)

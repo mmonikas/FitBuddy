@@ -40,7 +40,7 @@
 
 
     <!-- login and register fragment -->
-    <string name="loginUsernameHint"><font size="15">Login</font></string>
+    <string name="loginUsernameHint"><font size="15">Adres e-mail</font></string>
     <string name="loginPasswordHint"><font size="15">Hasło</font></string>
     <string name="logoDesc">Logo</string>
     <string name="registerWithGoogle">Zaloguj przez Google</string>
@@ -49,4 +49,5 @@
     <string name="errorGoogleSignIn">Wystąpił błąd podczas logowania</string>
     <string name="action_logOut">Wyloguj się</string>
     <string name="closeAgainToExit">Naciśnij ponownie, aby wyjść z aplikacji</string>
+    <string name="registerFragment_signUpButtonText">Utwórz konto</string>
 </resources>
