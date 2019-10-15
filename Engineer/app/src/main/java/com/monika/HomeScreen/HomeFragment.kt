@@ -6,11 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.navigation.Navigation
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.monika.R
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class HomeFragment : Fragment() {
@@ -36,10 +40,16 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
+        setTabLayout()
     }
 
     private fun setLayout() {
         (activity as MainActivity).supportActionBar?.show()
+    }
+
+    private fun setTabLayout() {
+        val tabLayout = view?.findViewById<TabLayout>(R.id.home_tab_layout)
+        tabLayout?.setupWithViewPager(home_pager)
     }
 
     private fun setUpDatabase() {
@@ -91,4 +101,21 @@ class HomeFragment : Fragment() {
                 }
             }
     }
+}
+
+
+class HomeFragmentPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    override fun getCount(): Int {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItem(position: Int): Fragment {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+//    override fun getCount(): Int  = 4
+//
+//    override fun getPageTitle(position: Int): CharSequence {
+//        return "OBJECT ${(position + 1)}"
+//    }
 }

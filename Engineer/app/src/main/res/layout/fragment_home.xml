@@ -5,10 +5,17 @@
              android:layout_height="match_parent"
              tools:context=".HomeScreen.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.viewpager.widget.ViewPager
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/home_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/home"/>
+            android:layout_height="match_parent">
+
+        <com.google.android.material.tabs.TabLayout
+                android:id="@+id/home_tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+    </androidx.viewpager.widget.ViewPager>
 
 </FrameLayout>

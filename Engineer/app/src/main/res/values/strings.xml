@@ -50,4 +50,9 @@
     <string name="action_logOut">Wyloguj się</string>
     <string name="closeAgainToExit">Naciśnij ponownie, aby wyjść z aplikacji</string>
     <string name="registerFragment_signUpButtonText">Utwórz konto</string>
+    <string name="registerNameHint">Imię</string>
+    <string name="registerPasswordRepeatHint">Powtórz hasło</string>
+    <string name="registerErrorData">Wprowadź prawidłowe dane</string>
+    <string name="registerSuccess">Konto zostało utworzone!</string>
+    <string name="registerFailure">Wystąpił nieoczekiwany błąd. Proszę spróbować ponownie.</string>
 </resources>

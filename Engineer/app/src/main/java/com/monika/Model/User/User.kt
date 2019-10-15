@@ -1,8 +1,8 @@
 package com.monika.Model.User
 
 data class User (
-    val name: String? = null,
-    val password: String? = null,
-    val email: String? = null,
-    val sex: Int? = null
+    var name: String? = null,
+    var password: String? = null,
+    var email: String? = null,
+    var sex: Int? = null
 )

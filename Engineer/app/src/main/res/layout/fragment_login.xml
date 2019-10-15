@@ -88,11 +88,12 @@
         <com.google.android.material.button.MaterialButton
                 android:text="@string/button_signIn"
                 android:layout_marginTop="@dimen/button_top_margin"
-                android:layout_width="220dp"
+                android:layout_width="@dimen/button_big_width"
                 android:layout_gravity="center_horizontal"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/button_big_height"
                 android:id="@+id/loginFragment_nextButton"
                 android:elevation="@dimen/button_elevation"
+                app:cornerRadius="@dimen/button_big_radius"
                 android:fontFamily="@font/roboto_medium"/>
 
         <com.google.android.gms.common.SignInButton

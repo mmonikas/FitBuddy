@@ -22,7 +22,8 @@ class AuthenticationService {
         val instance = AuthenticationService()
     }
 
-    fun signInUserWithCredentials(activity: Activity, username: String, password: String, completion: (result: FirebaseRequestResult) -> Unit) {
+    fun signInUserWithCredentials(activity: Activity, username: String, password: String,
+                                  completion: (result: FirebaseRequestResult) -> Unit) {
         auth = FirebaseAuth.getInstance()
         auth.signInWithEmailAndPassword(username, password).addOnCompleteListener(activity) {
                 task ->
@@ -56,6 +57,27 @@ class AuthenticationService {
                     completion(FirebaseRequestResult.FAILURE)
                 }
 
+            }
+    }
+
+    fun signUpUserWithUserdata(activity: Activity, email: String, password: String,
+                               completion: (result: FirebaseRequestResult) -> Unit) {
+//        val email = "mmail2@interia.pl"
+//        val password = "moniczka123!"
+        auth = FirebaseAuth.getInstance()
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(activity) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d("Registration", "createUserWithEmail:success")
+                    val user = auth.currentUser
+                    completion(FirebaseRequestResult.SUCCESS)
+
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w("Registration", "createUserWithEmail:failure", task.exception)
+                    completion(FirebaseRequestResult.FAILURE)
+                }
             }
     }
 }
