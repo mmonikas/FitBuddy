@@ -14,7 +14,8 @@ import com.monika.Services.AuthenticationService
 
 class LoginFragmentPresenter {
 
-    fun signInUserWith(username: String, password: String, activity: MainActivity, completionHandler: (result: FirebaseRequestResult) -> Unit) {
+    fun signInUserWith(username: String, password: String, activity: MainActivity, completionHandler:
+        (result: FirebaseRequestResult) -> Unit) {
         if (!username.isNullOrEmpty() && !password.isNullOrEmpty()) {
             AuthenticationService.instance.signInUserWithCredentials(activity, username, password) {
                     result ->

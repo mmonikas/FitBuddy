@@ -5,10 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.navigation.Navigation
+import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -20,6 +22,8 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : Fragment() {
 
     private val TAG: String = "dbTag"
+    private lateinit var calendarDaysCollectionPagerAdapter: HomeFragmentPagerAdapter
+    private lateinit var viewPager: ViewPager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +45,12 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
         setTabLayout()
+        FirebaseAuth.getInstance().addAuthStateListener {
+            val user = FirebaseAuth.getInstance().currentUser
+            if (user != null ) {
+                viewPager.adapter = HomeFragmentPagerAdapter(childFragmentManager)
+            }
+        }
     }
 
     private fun setLayout() {
@@ -50,72 +60,12 @@ class HomeFragment : Fragment() {
     private fun setTabLayout() {
         val tabLayout = view?.findViewById<TabLayout>(R.id.home_tab_layout)
         tabLayout?.setupWithViewPager(home_pager)
+//        tabLayout?.minimumWidth =
+        calendarDaysCollectionPagerAdapter = HomeFragmentPagerAdapter(childFragmentManager)
+        viewPager = view?.findViewById(R.id.home_pager)!!
+        viewPager.adapter = calendarDaysCollectionPagerAdapter
+
     }
 
-    private fun setUpDatabase() {
-        val db = FirebaseFirestore.getInstance()
-        // Create a new user with a first and last name
-        val user = hashMapOf(
-            "first" to "Ada",
-            "last" to "Lovelace",
-            "born" to 1815
-        )
 
-        // Add a new document with a generated ID
-        db.collection("Users")
-            .add(user)
-            .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
-            }
-
-        // Create a new user with a first, middle, and last name
-        val user2 = hashMapOf(
-            "first" to "Alan",
-            "middle" to "Mathison",
-            "last" to "Turing",
-            "born" to 1912
-        )
-
-        // Add a new document with a generated ID
-        db.collection("Users")
-            .add(user2)
-            .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
-            }
-
-        db.collection("users")
-            .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    for (document in task.result!!) {
-                        Log.d(TAG, document.id + " => " + document.data)
-                    }
-                } else {
-                    Log.w(TAG, "Error getting documents.", task.exception)
-                }
-            }
-    }
-}
-
-
-class HomeFragmentPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-    override fun getCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getItem(position: Int): Fragment {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-//    override fun getCount(): Int  = 4
-//
-//    override fun getPageTitle(position: Int): CharSequence {
-//        return "OBJECT ${(position + 1)}"
-//    }
 }

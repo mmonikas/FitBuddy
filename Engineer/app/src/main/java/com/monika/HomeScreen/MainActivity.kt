@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import android.widget.Toast
 import androidx.navigation.findNavController
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 import com.monika.R
 
 
@@ -50,30 +51,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onStart()
 //        val currentUser = mAuth.currentUser
 //        print(currentUser)
-    }
-
-    private fun createUser() {
-        val email = "mmail2@interia.pl"
-        val password = "moniczka123!"
-        mAuth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d("TAG", "createUserWithEmail:success")
-                    val user = mAuth.currentUser
-                    print(user.toString())
-
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w("TAG", "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(this, "Authentication failed.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                }
-
-                // ...
-            }
+        val user = FirebaseAuth.getInstance().currentUser
+        Log.w("UserID", user?.uid.toString())
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
     }
 
     private fun setUpNavigation() {
@@ -126,7 +106,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> false
+            R.id.action_settings -> {
+                setUpDatabase()
+                false
+            }
             R.id.action_logOut -> {
                 presenter.logOutUser()
                 navController.navigate(R.id.loginFragment)
@@ -158,4 +141,44 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return false
     }
 
+    private fun setUpDatabase() {
+        val db = FirebaseFirestore.getInstance()
+        // Create a new user with a first and last name
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+        val workout = hashMapOf(
+            "name" to "superButtSquat",
+            "userID" to userId
+        )
+
+        // Add a new document with a generated ID
+        db.collection("Workouts")
+            .add(workout)
+            .addOnSuccessListener { documentReference ->
+                Log.d(TAG, "Workout added with ID: ${documentReference.id}")
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error adding document", e)
+            }
+
+        // Create a new user with a first, middle, and last name
+//        val user2 = hashMapOf(
+//            "first" to "Alan",
+//            "middle" to "Mathison",
+//            "last" to "Turing",
+//            "born" to 1912
+//        )
+//
+//        // Add a new document with a generated ID
+//        db.collection("Users")
+//            .add(user2)
+//            .addOnSuccessListener { documentReference ->
+//                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+//            }
+//            .addOnFailureListener { e ->
+//                Log.w(TAG, "Error adding document", e)
+//            }
+
+
+    }
 }

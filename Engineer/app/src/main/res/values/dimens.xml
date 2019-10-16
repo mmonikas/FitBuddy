@@ -10,4 +10,5 @@
     <dimen name="button_big_radius">24dp</dimen>
     <dimen name="button_big_width">248dp</dimen>
     <dimen name="button_big_height">64dp</dimen>
+    <dimen name="tab_minWidth">50dp</dimen>
 </resources>

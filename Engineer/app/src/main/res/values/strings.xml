@@ -55,4 +55,7 @@
     <string name="registerErrorData">Wprowadź prawidłowe dane</string>
     <string name="registerSuccess">Konto zostało utworzone!</string>
     <string name="registerFailure">Wystąpił nieoczekiwany błąd. Proszę spróbować ponownie.</string>
+    <string name="channel_name">fitbuddy_channel</string>
+    <string name="channel_description">Channel description</string>
+    <string name="default_notification_channel_id">default</string>
 </resources>
