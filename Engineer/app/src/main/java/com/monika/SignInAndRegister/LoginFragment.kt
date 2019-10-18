@@ -10,18 +10,23 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.monika.Enums.FirebaseRequestResult
 import com.monika.HomeScreen.MainActivity
+import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
 import com.monika.Services.AuthenticationService
 import com.monika.Services.Utils
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_login.*
 
 
@@ -69,7 +74,7 @@ class LoginFragment : Fragment() {
             presenter.signInUserWithGoogle(data) {
                 result ->
                 if (result == FirebaseRequestResult.SUCCESS) {
-                    Navigation.findNavController(view!!).popBackStack(R.id.homeFragment, false)
+                    Navigation.findNavController(view!!).navigate(R.id.homeFragment)
                 }
                 else if (result == FirebaseRequestResult.FAILURE) {
                     Toast.makeText(context, R.string.errorGoogleSignIn, Toast.LENGTH_LONG).show()
@@ -106,7 +111,10 @@ class LoginFragment : Fragment() {
             presenter.signInUserWith(username, password, activity as MainActivity) {
                 result ->
                 if (result == FirebaseRequestResult.SUCCESS) {
-                    Navigation.findNavController(view!!).popBackStack(R.id.homeFragment, false)
+                    fetchData { workoutList ->
+                        val bundle = bundleOf("workouts" to workoutList)
+                        Navigation.findNavController(view!!).navigate(R.id.homeFragment, bundle)
+                    }
                 }
                 else if (result == FirebaseRequestResult.FAILURE) {
                     loginFragment_progress.visibility = View.GONE
@@ -128,5 +136,29 @@ class LoginFragment : Fragment() {
             val signInIntent = mGoogleSignInClient.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
+    }
+
+    private fun fetchData(completion: (result: ArrayList<Workout>) -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+        // Create a new user with a first and last name
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        val TAG = "itemtag"
+        db.collection("Workouts")
+            .whereEqualTo("userID", userId)
+            .get()
+            .addOnSuccessListener { documents ->
+                val workoutsList = ArrayList<Workout>()
+                for (document in documents) {
+                    val workout = document.toObject(Workout::class.java)
+                    Log.w(TAG, "Error getting documents: ", document.data.getValue("name") as Throwable?)
+                    workoutsList.add(workout)
+                }
+                completion(workoutsList)
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting documents: ", exception)
+                loginFragment_progress.visibility = View.GONE
+                completion(ArrayList())
+            }
     }
 }

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.monika.R
+import kotlinx.android.synthetic.main.fragment_collection_calendar_day.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 
 
@@ -29,7 +30,7 @@ class CalendarDayFragment : Fragment() {
 //            textView.text = getInt(ARG_OBJECT).toString()
 //        }
         arguments?.takeIf { it.containsKey("exerciseName") }?.apply {
-            textView.text = getString("exerciseName")
+            calendar_dayName.text = getString("exerciseName")
         }
 
 

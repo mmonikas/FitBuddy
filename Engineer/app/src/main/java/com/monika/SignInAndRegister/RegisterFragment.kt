@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.monika.Enums.FirebaseRequestResult
 import com.monika.HomeScreen.MainActivity
 import com.monika.Model.User.User
@@ -35,11 +36,12 @@ class RegisterFragment : Fragment() {
         registerFragment_nextButton.setOnClickListener {
             val userData = getInputData()
             val isInputDataValid = presenter.isDataValid(userData, registerFragment_passwordRepeatEditText.text.toString())
-            if (isInputDataValid == true) {
+            if (isInputDataValid) {
                 presenter.registerUserWithUserdata(activity as MainActivity, userData) {
                     result ->
                     if (result == FirebaseRequestResult.SUCCESS) {
                         Toast.makeText(context, R.string.registerSuccess, Toast.LENGTH_LONG).show()
+                        Navigation.findNavController(view!!).popBackStack(R.id.loginFragment, true)
                     }
                     else if (result == FirebaseRequestResult.FAILURE) {
                         Toast.makeText(context, R.string.registerFailure, Toast.LENGTH_LONG).show()

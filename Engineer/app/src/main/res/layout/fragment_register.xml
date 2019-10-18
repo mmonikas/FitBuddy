@@ -19,7 +19,7 @@
                 android:gravity="center"
                 android:visibility="gone">
             <ProgressBar
-                    android:id="@+id/loginFragment_progressBar"
+                    android:id="@+id/registerFragment_progressBar"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:indeterminate="true"

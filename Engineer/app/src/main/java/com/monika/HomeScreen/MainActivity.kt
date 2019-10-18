@@ -20,7 +20,10 @@ import android.widget.Toast
 import androidx.navigation.findNavController
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
+import com.monika.Enums.FirebaseRequestResult
+import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
+import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -39,6 +42,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         FirebaseDatabase.getInstance().setPersistenceEnabled(true)
         setUpNavigation()
+
        // createUser()
 
 
@@ -49,11 +53,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onStart() {
         super.onStart()
-//        val currentUser = mAuth.currentUser
-//        print(currentUser)
         val user = FirebaseAuth.getInstance().currentUser
         Log.w("UserID", user?.uid.toString())
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
     }
 
     private fun setUpNavigation() {
@@ -81,7 +82,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return NavigationUI.navigateUp(navController, drawerLayout)
     }
 
-
     override fun onBackPressed() {
 
         if(backPressedOnce) {
@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> {
-                setUpDatabase()
+             //   setUpDatabase()
                 false
             }
             R.id.action_logOut -> {
@@ -140,6 +140,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         return false
     }
+
+//    private fun fetchData(completion: (result: ArrayList<Workout>) -> Unit) {
+//        val db = FirebaseFirestore.getInstance()
+//        // Create a new user with a first and last name
+//        val userId = FirebaseAuth.getInstance().currentUser?.uid
+//        val TAG = "itemtag"
+//        db.collection("Workouts")
+//            .whereEqualTo("userID", true)
+//            .get()
+//            .addOnSuccessListener { documents ->
+//                val workoutsList = ArrayList<Workout>()
+//                for (document in documents) {
+//                    val workout = document.toObject(Workout::class.java)
+//                    Log.w(TAG, "Error getting documents: ", document.data.getValue("name") as Throwable?)
+//                    workoutsList.add(workout)
+//                }
+//                completion(workoutsList)
+//            }
+//            .addOnFailureListener { exception ->
+//                Log.w(TAG, "Error getting documents: ", exception)
+//                homeFragment_progress.visibility = View.GONE
+//                completion(ArrayList())
+//            }
+//    }
 
     private fun setUpDatabase() {
         val db = FirebaseFirestore.getInstance()

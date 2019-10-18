@@ -14,6 +14,7 @@ class HomeFragmentPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(
 
 
     val ARG_OBJECT = "object"
+    var workouts = ArrayList<Workout>()
 
     override fun getCount(): Int {
         return 10
@@ -21,10 +22,11 @@ class HomeFragmentPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(
 
     override fun getItem(position: Int): Fragment {
         val fragment = CalendarDayFragment()
-        val db = FirebaseFirestore.getInstance()
-        // Create a new user with a first and last name
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
-        val TAG = "itemtag"
+        fragment.arguments = Bundle().apply {
+            // Our object is just an integer :-P
+            putInt(ARG_OBJECT, position + 1)
+            putString("exerciseName", workouts[0].name)
+        }
 //        db.collection("Workouts")
 //            .get()
 //            .addOnCompleteListener { task ->
@@ -36,25 +38,6 @@ class HomeFragmentPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(
 //                    Log.w(TAG, "Error getting documents.", task.exception)
 //                }
 //            }
-        db.collection("Workouts")
-            .whereEqualTo("userID", true)
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    val workout = document.toObject(Workout::class.java)
-                    Log.d(TAG, "${document.id} => ${document.data}")
-                    fragment.arguments = Bundle().apply {
-                        // Our object is just an integer :-P
-                        putInt(ARG_OBJECT, position + 1)
-                        putString("exerciseName", workout.name)
-                    }
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents: ", exception)
-            }
-
-
         return fragment
     }
 
