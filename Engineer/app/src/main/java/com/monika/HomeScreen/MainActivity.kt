@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onStart() {
         super.onStart()
         val user = FirebaseAuth.getInstance().currentUser
-        Log.w("UserID", user?.uid.toString())
+        user?.let { Log.w("UserID", user?.uid.toString()) }
     }
 
     private fun setUpNavigation() {
@@ -82,18 +82,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return NavigationUI.navigateUp(navController, drawerLayout)
     }
 
-    override fun onBackPressed() {
-
-        if(backPressedOnce) {
-            System.exit(0)
-        }
-        else if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        }
-        Toast.makeText(this, R.string.closeAgainToExit, Toast.LENGTH_SHORT).show()
-        backPressedOnce = true
-
-    }
+//    override fun onBackPressed() {
+//
+//        if(backPressedOnce) {
+//            System.exit(0)
+//        }
+//        else if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+//            drawerLayout.closeDrawer(GravityCompat.START)
+//        }
+//        Toast.makeText(this, R.string.closeAgainToExit, Toast.LENGTH_SHORT).show()
+//        backPressedOnce = true
+//
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -140,30 +140,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         return false
     }
-
-//    private fun fetchData(completion: (result: ArrayList<Workout>) -> Unit) {
-//        val db = FirebaseFirestore.getInstance()
-//        // Create a new user with a first and last name
-//        val userId = FirebaseAuth.getInstance().currentUser?.uid
-//        val TAG = "itemtag"
-//        db.collection("Workouts")
-//            .whereEqualTo("userID", true)
-//            .get()
-//            .addOnSuccessListener { documents ->
-//                val workoutsList = ArrayList<Workout>()
-//                for (document in documents) {
-//                    val workout = document.toObject(Workout::class.java)
-//                    Log.w(TAG, "Error getting documents: ", document.data.getValue("name") as Throwable?)
-//                    workoutsList.add(workout)
-//                }
-//                completion(workoutsList)
-//            }
-//            .addOnFailureListener { exception ->
-//                Log.w(TAG, "Error getting documents: ", exception)
-//                homeFragment_progress.visibility = View.GONE
-//                completion(ArrayList())
-//            }
-//    }
 
     private fun setUpDatabase() {
         val db = FirebaseFirestore.getInstance()

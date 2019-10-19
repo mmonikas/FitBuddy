@@ -7,10 +7,14 @@ import androidx.navigation.Navigation
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
 import com.monika.Enums.FirebaseRequestResult
+import com.monika.Enums.UserDataType
 import com.monika.HomeScreen.MainActivity
+import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
 import com.monika.Services.AuthenticationService
+import com.monika.Services.DatabaseService
 
 class LoginFragmentPresenter {
 
@@ -45,6 +49,17 @@ class LoginFragmentPresenter {
                 completionHandler(FirebaseRequestResult.FAILURE)
             }
 
+        }
+    }
+
+    fun fetchUserWorkouts(completion: (result: ArrayList<Workout>) -> Unit) {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser != null) {
+            DatabaseService.instance.fetchUserData(UserDataType.WORKOUT, currentUser.uid) {
+                    result ->
+                val workoutList = result as ArrayList<Workout>
+                completion(workoutList)
+            }
         }
     }
 

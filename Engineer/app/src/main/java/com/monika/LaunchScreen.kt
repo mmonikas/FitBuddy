@@ -14,9 +14,12 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.monika.HomeScreen.MainActivity
 import com.monika.Model.WorkoutPlan.Workout
+import com.monika.WorkoutsMainPage.LaunchScreenPresenter
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LaunchScreen : Fragment() {
+
+    private val presenter = LaunchScreenPresenter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,10 +34,16 @@ class LaunchScreen : Fragment() {
         if (FirebaseAuth.getInstance().currentUser == null) {
             Navigation.findNavController(view!!).navigate(R.id.loginFragment)
         } else {
-            fetchData {
-                workoutList ->
-                val bundle = bundleOf("workouts" to workoutList)
-                Navigation.findNavController(view!!).navigate(R.id.homeFragment, bundle, null)
+            presenter.fetchUserWorkouts {
+                workoutListResult ->
+                if (workoutListResult.isNotEmpty()) {
+                    val bundle = bundleOf("workouts" to workoutListResult)
+                    Navigation.findNavController(view!!).navigate(R.id.homeFragment, bundle, null)
+                }
+                else {
+                    //loginFragment_progress.visibility = View.GONE
+                    //TODO zrob to cos bo nie dziala obviously
+                }
             }
         }
     }
@@ -42,28 +51,5 @@ class LaunchScreen : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as MainActivity).supportActionBar?.hide()
-    }
-
-    private fun fetchData(completion: (result: ArrayList<Workout>) -> Unit) {
-        val db = FirebaseFirestore.getInstance()
-        // Create a new user with a first and last name
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
-        val TAG = "itemtag"
-        db.collection("Workouts")
-            .whereEqualTo("userID", userId)
-            .get()
-            .addOnSuccessListener { documents ->
-                val workoutsList = ArrayList<Workout>()
-                for (document in documents) {
-                    val workout = document.toObject(Workout::class.java)
-                    workoutsList.add(workout)
-                }
-                completion(workoutsList)
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents: ", exception)
-                loginFragment_progress.visibility = View.GONE
-                completion(ArrayList())
-            }
     }
 }

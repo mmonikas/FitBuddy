@@ -60,8 +60,6 @@ class HomeFragment : Fragment() {
         tabLayout?.setupWithViewPager(home_pager)
 //        tabLayout?.minimumWidth =
 //        calendarDaysCollectionPagerAdapter = HomeFragmentPagerAdapter(childFragmentManager)
-//        viewPager = view?.findViewById(R.id.home_pager)!!
-        //  viewPager.adapter = calendarDaysCollectionPagerAdapter
         val adapter = HomeFragmentPagerAdapter(childFragmentManager)
         adapter.workouts = presenter.workouts
         home_pager.adapter = adapter

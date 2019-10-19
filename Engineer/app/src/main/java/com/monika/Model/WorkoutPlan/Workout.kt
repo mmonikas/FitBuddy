@@ -1,7 +1,5 @@
 package com.monika.Model.WorkoutPlan
 
-import com.monika.Model.WorkoutComponents.WorkoutElement
-
 data class Workout (
     val userID: String? = null,
     val name: String? = null

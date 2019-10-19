@@ -7,7 +7,7 @@
     <fragment android:id="@+id/loginFragment" android:name="com.monika.SignInAndRegister.LoginFragment"
               tools:layout="@layout/fragment_login">
         <action android:id="@+id/action_loginFragment_to_registerFragment" app:destination="@id/registerFragment"
-                app:enterAnim="@anim/nav_default_enter_anim"/>
+                app:enterAnim="@anim/nav_default_enter_anim" app:popUpTo="@+id/loginFragment"/>
     </fragment>
     <fragment android:id="@+id/homeFragment" android:name="com.monika.HomeScreen.HomeFragment"
               tools:layout="@layout/fragment_home" android:label="@string/home">
@@ -15,6 +15,7 @@
                 app:destination="@id/exercisesListFragment"/>
         <action android:id="@+id/action_homeFragment_to_loginFragment" app:destination="@id/loginFragment"
                 app:popUpToInclusive="true"/>
+        <action android:id="@+id/action_homeFragment_to_loginFragment2" app:destination="@id/loginFragment"/>
         <!--<action android:id="@+id/action_homeFragment_to_workoutsList" app:destination="@id/workoutsList"/>-->
     </fragment>
     <fragment android:id="@+id/registerFragment" android:name="com.monika.SignInAndRegister.RegisterFragment"
@@ -24,7 +25,7 @@
     <fragment android:id="@+id/exercisesListFragment" android:name="com.monika.WorkoutsMainPage.ExercisesListFragment"
               android:label="fragment_exercises_list" tools:layout="@layout/fragment_exercises_list">
         <action android:id="@+id/action_exercisesListFragment_to_exerciseDetails"
-                app:destination="@id/exerciseDetails"/>
+                app:destination="@id/exerciseDetails" app:popUpTo="@+id/exercisesListFragment"/>
         <!--<action android:id="@+id/action_exercisesListFragment_to_addExerciseFragment"-->
                 <!--app:destination="@id/addExerciseFragment"/>-->
     </fragment>

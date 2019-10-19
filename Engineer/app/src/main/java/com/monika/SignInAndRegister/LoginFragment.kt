@@ -111,7 +111,7 @@ class LoginFragment : Fragment() {
             presenter.signInUserWith(username, password, activity as MainActivity) {
                 result ->
                 if (result == FirebaseRequestResult.SUCCESS) {
-                    fetchData { workoutList ->
+                    presenter.fetchUserWorkouts { workoutList ->
                         val bundle = bundleOf("workouts" to workoutList)
                         Navigation.findNavController(view!!).navigate(R.id.homeFragment, bundle)
                     }
@@ -136,29 +136,5 @@ class LoginFragment : Fragment() {
             val signInIntent = mGoogleSignInClient.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
-    }
-
-    private fun fetchData(completion: (result: ArrayList<Workout>) -> Unit) {
-        val db = FirebaseFirestore.getInstance()
-        // Create a new user with a first and last name
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
-        val TAG = "itemtag"
-        db.collection("Workouts")
-            .whereEqualTo("userID", userId)
-            .get()
-            .addOnSuccessListener { documents ->
-                val workoutsList = ArrayList<Workout>()
-                for (document in documents) {
-                    val workout = document.toObject(Workout::class.java)
-                    Log.w(TAG, "Error getting documents: ", document.data.getValue("name") as Throwable?)
-                    workoutsList.add(workout)
-                }
-                completion(workoutsList)
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents: ", exception)
-                loginFragment_progress.visibility = View.GONE
-                completion(ArrayList())
-            }
     }
 }
