@@ -31,11 +31,16 @@ class LaunchScreen : Fragment() {
 
     override fun onStart() {
         super.onStart()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).supportActionBar?.hide()
         if (FirebaseAuth.getInstance().currentUser == null) {
             Navigation.findNavController(view!!).navigate(R.id.loginFragment)
         } else {
             presenter.fetchUserWorkouts {
-                workoutListResult ->
+                    workoutListResult ->
                 if (workoutListResult.isNotEmpty()) {
                     val bundle = bundleOf("workouts" to workoutListResult)
                     Navigation.findNavController(view!!).navigate(R.id.homeFragment, bundle, null)
@@ -46,10 +51,5 @@ class LaunchScreen : Fragment() {
                 }
             }
         }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        (activity as MainActivity).supportActionBar?.hide()
     }
 }

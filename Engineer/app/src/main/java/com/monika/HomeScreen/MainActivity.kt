@@ -1,12 +1,9 @@
 package com.monika.HomeScreen
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -16,14 +13,9 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import android.widget.Toast
-import androidx.navigation.findNavController
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
-import com.monika.Enums.FirebaseRequestResult
-import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
-import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -57,14 +49,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         user?.let { Log.w("UserID", user?.uid.toString()) }
     }
 
-    private fun setUpNavigation() {
+    fun setUpNavigation() {
+
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         toolbar.setTitleTextColor(getColor(R.color.primaryTextColor))
-        supportActionBar!!.title = getString(R.string.nothing)
-
-        supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+        supportActionBar?.title = getString(R.string.nothing)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
       //  supportActionBar!!.setDisplayShowHomeEnabled(false)
 
         drawerLayout = findViewById(R.id.drawer_layout)

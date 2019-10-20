@@ -2,7 +2,6 @@ package com.monika.SignInAndRegister
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,21 +11,17 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.monika.Enums.FirebaseRequestResult
 import com.monika.HomeScreen.MainActivity
-import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
-import com.monika.Services.AuthenticationService
 import com.monika.Services.Utils
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_login.*
 
 
@@ -113,7 +108,10 @@ class LoginFragment : Fragment() {
                 if (result == FirebaseRequestResult.SUCCESS) {
                     presenter.fetchUserWorkouts { workoutList ->
                         val bundle = bundleOf("workouts" to workoutList)
-                        Navigation.findNavController(view!!).navigate(R.id.homeFragment, bundle)
+                        val navOptions = NavOptions.Builder()
+                            .setPopUpTo(R.id.homeFragment, true)
+                            .build()
+                        findNavController().navigate(R.id.homeFragment, bundle, navOptions)
                     }
                 }
                 else if (result == FirebaseRequestResult.FAILURE) {

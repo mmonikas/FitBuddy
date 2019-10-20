@@ -2,21 +2,32 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph"
-            app:startDestination="@id/lanuchScreen">
+            app:startDestination="@id/homeFragment">
 
     <fragment android:id="@+id/loginFragment" android:name="com.monika.SignInAndRegister.LoginFragment"
               tools:layout="@layout/fragment_login">
-        <action android:id="@+id/action_loginFragment_to_registerFragment" app:destination="@id/registerFragment"
-                app:enterAnim="@anim/nav_default_enter_anim" app:popUpTo="@+id/loginFragment"/>
+        <action android:id="@+id/action_loginFragment_to_registerFragment"
+                app:popUpToInclusive="true"
+                app:enterAnim="@anim/slide_out_top"
+                app:exitAnim="@anim/slide_in_top"
+                app:popEnterAnim="@anim/slide_out_top"
+                app:popExitAnim="@anim/slide_in_top"
+                app:destination="@id/registerFragment"
+                app:popUpTo="@+id/loginFragment"/>
+        <action android:id="@+id/action_loginFragment_to_homeFragment"
+                app:destination="@id/homeFragment"></action>
+                <!--app:popUpTo="@+id/loginFragment"-->
+                <!--app:popUpToInclusive="true"-->
+                s<!--app:enterAnim="@anim/slide_out_top"-->
+                <!--app:exitAnim="@anim/slide_in_top"-->
+                <!--app:popEnterAnim="@anim/slide_out_top"-->
+                <!--app:popExitAnim="@anim/slide_in_top" />-->
     </fragment>
     <fragment android:id="@+id/homeFragment" android:name="com.monika.HomeScreen.HomeFragment"
               tools:layout="@layout/fragment_home" android:label="@string/home">
         <action android:id="@+id/action_homeFragment_to_exercisesListFragment"
-                app:destination="@id/exercisesListFragment"/>
-        <action android:id="@+id/action_homeFragment_to_loginFragment" app:destination="@id/loginFragment"
-                app:popUpToInclusive="true"/>
-        <action android:id="@+id/action_homeFragment_to_loginFragment2" app:destination="@id/loginFragment"/>
-        <!--<action android:id="@+id/action_homeFragment_to_workoutsList" app:destination="@id/workoutsList"/>-->
+                app:destination="@id/exercisesListFragment" app:popUpTo="@+id/homeFragment"/>
+        <action android:id="@+id/action_homeFragment_to_loginFragment" app:destination="@id/loginFragment"/>
     </fragment>
     <fragment android:id="@+id/registerFragment" android:name="com.monika.SignInAndRegister.RegisterFragment"
               tools:layout="@layout/fragment_register"/>
@@ -42,9 +53,9 @@
               tools:layout="@layout/fragment_workout_add"/>
     <fragment android:id="@+id/loaderFragment" android:name="com.monika.LoaderFragment" android:label="fragment_loader"
               tools:layout="@layout/fragment_loader"/>
-    <fragment android:id="@+id/lanuchScreen" android:name="com.monika.LaunchScreen"
-              android:label="fragment_lanuch_screen" tools:layout="@layout/fragment_launch_screen">
-        <action android:id="@+id/action_lanuchScreen_to_homeFragment" app:destination="@id/homeFragment"
-                app:popUpToInclusive="true"/>
+    <fragment android:id="@+id/launchScreen" android:name="com.monika.LaunchScreen"
+              android:label="fragment_launch_screen" tools:layout="@layout/fragment_launch_screen">
+        <action android:id="@+id/action_launchScreen_to_loginFragment2" app:destination="@id/loginFragment"
+                app:popUpTo="@+id/nav_graph" app:popUpToInclusive="true"/>
     </fragment>
 </navigation>

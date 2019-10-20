@@ -2,11 +2,24 @@
 <resources>
   <color name="primaryColor">#54E0E0E0</color>
   <color name="primaryLightColor">#FFFFFF</color>
-  <color name="primaryDarkColor">#444444</color>
-  <color name="secondaryColor">#03A9F4</color>
-  <color name="secondaryLightColor">#00BCD4</color>
-  <color name="secondaryDarkColor">#3F51B5</color>
+  <color name="primaryDarkColor">#b4b6bd</color>
+  <color name="secondaryColor">#b4b6bd</color>
+  <!--<color name="secondaryLightColor">#00BCD4</color>-->
+  <!--<color name="secondaryDarkColor">#3F51B5</color>-->
   <color name="primaryTextColor">#000000</color>
   <color name="secondaryTextColor">#000000</color>
   <color name="mainSeparatorColor">#DAE0E0E0</color>
+
+    <color name="mcgpalette0_50">#e1e2e5</color>
+    <color name="mcgpalette0_100">#b4b6bd</color>
+    <!--<color name="secondaryLightColor">#838592</color>-->
+    <!--<color name="secondaryColor">#515466</color>-->
+    <!--<color name="secondaryDarkColor">#2b3045</color>-->
+    <color name="mcgpalette0_500">#060B24</color>
+    <color name="mcgpalette0_600">#050a20</color>
+    <color name="mcgpalette0_700">#04081b</color>
+    <color name="mcgpalette0_800">#030616</color>
+    <color name="mcgpalette0_900">#02030d</color>
+
+
 </resources>

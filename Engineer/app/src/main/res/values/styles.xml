@@ -22,4 +22,9 @@
         <item name="android:navigationIcon">@color/primaryTextColor</item>
         <item name="android:titleTextStyle">?attr/textAppearanceHeadline3</item>
     </style>
+    
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+
+    <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
 </resources>

@@ -18,6 +18,8 @@ import com.monika.Services.DatabaseService
 
 class LoginFragmentPresenter {
 
+    var workouts = ArrayList<Workout>()
+
     fun signInUserWith(username: String, password: String, activity: MainActivity, completionHandler:
         (result: FirebaseRequestResult) -> Unit) {
         if (!username.isNullOrEmpty() && !password.isNullOrEmpty()) {
