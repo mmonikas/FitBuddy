@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+                android:background="@color/mcgpalette0_50">
 
     <TextView
             android:text="TextView"
@@ -11,9 +12,10 @@
             android:id="@+id/calendar_dayName"/>
 
     <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/mainSeparatorColor"/>
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/mainSeparatorColor"
+    />
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/calendarDay_recyclerView"

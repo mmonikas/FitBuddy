@@ -13,4 +13,6 @@
     <dimen name="tab_minWidth">50dp</dimen>
     <dimen name="cardView_margin">12dp</dimen>
     <dimen name="cardView_radius">8dp</dimen>
+    <dimen name="textView_margin">8dp</dimen>
+
 </resources>

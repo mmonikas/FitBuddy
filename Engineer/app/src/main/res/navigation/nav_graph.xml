@@ -34,7 +34,7 @@
     <fragment android:id="@+id/exerciseDetails" android:name="com.monika.WorkoutsMainPage.ExerciseDetails"
               android:label="fragment_exercise_details" tools:layout="@layout/fragment_exercise_details"/>
     <fragment android:id="@+id/exercisesListFragment" android:name="com.monika.WorkoutsMainPage.ExercisesListFragment"
-              android:label="fragment_exercises_list" tools:layout="@layout/fragment_exercises_list">
+              android:label="Ćwiczenia" tools:layout="@layout/fragment_exercises_list">
         <action android:id="@+id/action_exercisesListFragment_to_exerciseDetails"
                 app:destination="@id/exerciseDetails" app:popUpTo="@+id/exercisesListFragment"/>
         <!--<action android:id="@+id/action_exercisesListFragment_to_addExerciseFragment"-->

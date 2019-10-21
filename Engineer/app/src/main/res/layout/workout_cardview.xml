@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/primaryLightColor"
+        style="@style/Widget.MaterialComponents.CardView"
+        app:cardCornerRadius="@dimen/cardView_radius">
+
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                    android:orientation="vertical"
+    android:layout_margin="@dimen/cardView_margin">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content">
+            <ImageView
+                    android:layout_width="50dp"
+                    android:scaleType="centerInside"
+                    android:layout_height="50dp"
+                    android:src="@drawable/icons8triceps100"
+                    android:id="@+id/imageView2"
+                    android:contentDescription="@string/categoryImage"
+                    android:layout_marginEnd="@dimen/cardView_margin">
+
+            </ImageView>
+        </LinearLayout>
+
+        <TextView
+                android:text="@string/workout_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_marginEnd="10dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="@color/mcgpalette0_500"
+                android:id="@+id/workoutcard_name"/>
+        <View
+                android:layout_marginTop="@dimen/cardView_margin"
+                android:layout_marginBottom="@dimen/cardView_margin"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/mainSeparatorColor"/>
+        <TextView
+                android:text="@string/workout_initTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/workoutcard_inittime"
+                android:layout_marginBottom="@dimen/textView_margin"/>
+        <TextView
+                android:text="@string/workout_exercisesNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/workoutcard_exercisesNumber"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

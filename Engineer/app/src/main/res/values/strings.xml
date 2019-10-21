@@ -67,4 +67,9 @@
     <string name="exercise_description">To jest przykładowy opis ćwiczenia.</string>
     <string name="exercise_number">1.</string>
     <string name="exercise_category">kategoria</string>
+    <string name="categoryImage">Obrazek kategorii</string>
+    <string name="workout_name">Nazwa treningu</string>
+    <string name="workout_initTime">Data utworzenia</string>
+    <string name="workout_exercisesNumber">Liczba ćwiczeń w treningu</string>
+    <string name="exercise_level">Poziom trudności:</string>
 </resources>

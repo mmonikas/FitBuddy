@@ -6,7 +6,7 @@
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.CardView"
         android:layout_margin="@dimen/cardView_margin"
-        app:cardBackgroundColor="@color/mainSeparatorColor"
+        app:cardBackgroundColor="@color/primaryLightColor"
         app:cardCornerRadius="@dimen/cardView_radius">
 
     <LinearLayout android:layout_width="match_parent"
@@ -27,19 +27,52 @@
                       android:orientation="vertical"
         >
 
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:id="@+id/exerciseName"
-                      android:text="@string/exercise_name"
-                      android:textSize="17sp"
-                      android:textStyle="bold"
-                      android:layout_marginBottom="10dp" android:textColor="@color/primaryTextColor"/>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal"
+                          android:weightSum="4"
+                          android:layout_marginBottom="@dimen/textView_margin"
+                            android:gravity="center|center_horizontal|center_vertical"
+                            android:layout_gravity="center_vertical|center_horizontal|center">
+                <TextView android:layout_width="1084dp"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/exerciseName"
+                          android:text="@string/exercise_name"
+                          android:textSize="17sp"
+                          android:textStyle="bold"
+                          android:layout_weight="3"
+                          android:textColor="@color/primaryTextColor"/>
+
+                <ImageView android:layout_width="match_parent"
+                           android:layout_height="match_parent"
+                           android:visibility="visible"
+                           android:layout_weight="1"
+                           android:scaleType="centerInside"
+                           android:src="@drawable/icons8triceps100"
+                />
+            </LinearLayout>
 
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:lines="3"
+                      android:maxLines="3"
                       android:id="@+id/exerciseDescription"
-                      android:text="@string/exercise_description"
+                      android:text="To jest przykładowy długi opis To jest przykładowy długi opisTo jest przykładowy długi opisTo jest przykładowy długi opisTo jest przykładowy długi opisTo jest przykładowy długi opis">
+                
+            </TextView>
+                      <!--android:text="@string/exercise_description"-->
+
+            <View
+                    android:layout_marginTop="@dimen/textView_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/mainSeparatorColor"
+                    android:layout_marginBottom="@dimen/textView_margin"
+            />
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:maxLines="3"
+                      android:id="@+id/exerciseLevel"
+                      android:text="@string/exercise_level"
             />
 
             <!--<View android:layout_height="112dp" android:layout_width="139dp"-->
