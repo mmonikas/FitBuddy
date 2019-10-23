@@ -1,25 +1,21 @@
-package com.monika.HomeScreen
+package com.monika.HomeScreen.CalendarPager
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.monika.Model.WorkoutComponents.Category
 import com.monika.Model.WorkoutComponents.Exercise
 import com.monika.R
 import kotlinx.android.synthetic.main.calendar_day_workout_cardview.view.*
 
-class CalendarDayWorkoutsAdapter(private val exercisesForDay: ArrayList<Exercise>):
-    RecyclerView.Adapter<CalendarDayWorkoutsAdapter.CalendarDayWorkoutsViewHolder>() {
+class ExercisesListAdapter(private val exercisesForDay: ArrayList<Exercise>):
+    RecyclerView.Adapter<ExercisesListAdapter.CalendarDayWorkoutsViewHolder>() {
 
     class CalendarDayWorkoutsViewHolder(cardView: CardView): RecyclerView.ViewHolder(cardView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarDayWorkoutsViewHolder {
         val cardView = LayoutInflater.from(parent.context).inflate(R.layout.calendar_day_workout_cardview, parent, false) as CardView
-
         //TODO set view size margins etc
         return CalendarDayWorkoutsViewHolder(cardView)
     }

@@ -19,7 +19,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.monika.Enums.FirebaseRequestResult
-import com.monika.HomeScreen.MainActivity
+import com.monika.HomeScreen.MainActivity.MainActivity
 import com.monika.R
 import com.monika.Services.Utils
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -49,7 +49,7 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         if (FirebaseAuth.getInstance().currentUser != null) {
-            Navigation.findNavController(view!!).navigate(R.id.homeFragment)
+            Navigation.findNavController(view!!).navigate(R.id.homeGridFragment)
         }
     }
 
@@ -69,7 +69,7 @@ class LoginFragment : Fragment() {
             presenter.signInUserWithGoogle(data) {
                 result ->
                 if (result == FirebaseRequestResult.SUCCESS) {
-                    Navigation.findNavController(view!!).navigate(R.id.homeFragment)
+                    Navigation.findNavController(view!!).navigate(R.id.homeGridFragment)
                 }
                 else if (result == FirebaseRequestResult.FAILURE) {
                     Toast.makeText(context, R.string.errorGoogleSignIn, Toast.LENGTH_LONG).show()

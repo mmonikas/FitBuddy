@@ -1,4 +1,4 @@
-package com.monika.HomeScreen
+package com.monika.HomeScreen.MainActivity
 
 import android.os.Bundle
 import android.util.Log
@@ -13,7 +13,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -97,10 +96,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> {
-             //   setUpDatabase()
-                false
-            }
             R.id.action_logOut -> {
                 presenter.logOutUser()
                 navController.navigate(R.id.loginFragment)
@@ -130,6 +125,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.closeDrawer(GravityCompat.START)
 
         return false
+    }
+
+    fun showToolbar() {
+        supportActionBar?.show()
+    }
+
+    fun hideToolbar() {
+        supportActionBar?.hide()
     }
 
     fun showProgressView() {

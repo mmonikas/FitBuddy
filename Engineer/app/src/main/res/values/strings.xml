@@ -72,4 +72,6 @@
     <string name="workout_initTime">Data utworzenia</string>
     <string name="workout_exercisesNumber">Liczba ćwiczeń w treningu</string>
     <string name="exercise_level">Poziom trudności:</string>
+    <string name="exerciseNumOfSets">Serie:</string>
+    <string name="exerciseNumOfReps">Powtórzenia:</string>
 </resources>

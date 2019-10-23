@@ -2,12 +2,11 @@ package com.monika.HomeScreen
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.cardview.widget.CardView
-import androidx.core.view.marginBottom
-import androidx.core.view.marginRight
 import androidx.recyclerview.widget.RecyclerView
 import com.monika.Enums.MenuItemType
-import com.monika.HomeFragmentDelegate
+import com.monika.Enums.MenuItemType.*
 import com.monika.Model.Home.HomeMenuItem
 import com.monika.R
 import com.monika.Services.Utils
@@ -34,12 +33,24 @@ class HomeGridAdapter(private val menuItems: Array<HomeMenuItem>): RecyclerView.
     }
 
     override fun onBindViewHolder(holder: HomeGridViewHolder, position: Int) {
-        holder.itemView.homegridmenu_cardTitle.text = menuItems[position].name?.name
+        holder.itemView.homegridmenu_cardTitle.text = menuItems[position].name?.name?.capitalize()
+        setImage(holder.itemView.homegridmenu_cardImage, menuItems[position].name)
         holder.itemView.setOnClickListener {
             menuItems[position].name?.let {
                 menuItemType ->
                 homeFragmentDelegate?.gridMenuItemTriggered(atIndex = position, withId = menuItemType)
             }
+        }
+    }
+
+    private fun setImage(homegridmenu_cardImage: ImageView?, name: MenuItemType?) {
+        when (name) {
+            ćwiczenia ->  homegridmenu_cardImage?.setImageResource(R.drawable.ic_fitness_center_black_24dp)
+            kalendarz ->  homegridmenu_cardImage?.setImageResource(R.drawable.ic_fitness_center_black_24dp)
+            treningi ->  homegridmenu_cardImage?.setImageResource(R.drawable.ic_assignment_black_24dp)
+            przyjaciele ->  homegridmenu_cardImage?.setImageResource(R.drawable.ic_people_black_24dp)
+            profil ->  homegridmenu_cardImage?.setImageResource(R.drawable.ic_person_black_24dp)
+            ustawienia ->  homegridmenu_cardImage?.setImageResource(R.drawable.ic_menu_manage)
         }
     }
 }

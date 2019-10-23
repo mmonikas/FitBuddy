@@ -1,6 +1,5 @@
 package com.monika;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import com.monika.HomeScreen.HomeFragment;
-import com.monika.HomeScreen.HomeFragmentPresenter;
 import com.monika.Model.WorkoutComponents.Exercise;
-import com.monika.Model.WorkoutPlan.Workout;
 
 import java.util.ArrayList;
 

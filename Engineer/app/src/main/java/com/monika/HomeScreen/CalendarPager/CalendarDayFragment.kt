@@ -1,4 +1,4 @@
-package com.monika.HomeScreen
+package com.monika.HomeScreen.CalendarPager
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -33,7 +33,7 @@ class CalendarDayFragment : Fragment() {
             val exercises = get("exercises") as ArrayList<Exercise>
             exercises.let {
                 viewManager = LinearLayoutManager(context)
-                viewAdapter = CalendarDayWorkoutsAdapter(exercises)
+                viewAdapter = ExercisesListAdapter(exercises)
                 recyclerView = view.findViewById<RecyclerView>(R.id.calendarDay_recyclerView).apply {
                     // use this setting to improve performance if you know that changes
                     // in content do not change the layout size of the RecyclerView

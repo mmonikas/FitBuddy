@@ -23,7 +23,7 @@
                 <!--app:popEnterAnim="@anim/slide_out_top"-->
                 <!--app:popExitAnim="@anim/slide_in_top" />-->
     </fragment>
-    <fragment android:id="@+id/homeFragment" android:name="com.monika.HomeScreen.HomeFragment"
+    <fragment android:id="@+id/homeFragment" android:name="com.monika.HomeScreen.CalendarPager.HomeFragment"
               tools:layout="@layout/fragment_home" android:label="@string/home">
         <action android:id="@+id/action_homeFragment_to_exercisesListFragment"
                 app:destination="@id/exercisesListFragment" app:popUpTo="@+id/homeFragment"/>
@@ -58,6 +58,8 @@
         <action android:id="@+id/action_launchScreen_to_loginFragment2" app:destination="@id/loginFragment"
                 app:popUpTo="@+id/nav_graph" app:popUpToInclusive="true"/>
     </fragment>
-    <fragment android:id="@+id/homeGridFragment" android:name="com.monika.HomeGridFragment"
+    <fragment android:id="@+id/homeGridFragment" android:name="com.monika.HomeScreen.HomeGridFragment"
               android:label="fragment_home_grid" tools:layout="@layout/fragment_home_grid"/>
+    <fragment android:id="@+id/workoutsList" android:name="com.monika.WorkoutsMainPage.WorkoutsList"
+              android:label="Treningi" tools:layout="@layout/fragment_workouts_list"/>
 </navigation>

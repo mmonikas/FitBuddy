@@ -1,4 +1,4 @@
-package com.monika
+package com.monika.HomeScreen
 
 
 import android.os.Bundle
@@ -6,21 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.monika.Enums.MenuItemType
 import com.monika.Enums.MenuItemType.*
-import com.monika.HomeScreen.HomeGridAdapter
+import com.monika.HomeScreen.MainActivity.MainActivity
 import com.monika.Model.Home.HomeMenuItem
-import com.monika.HomeScreen.MainActivity
+import com.monika.R
 import com.monika.SignInAndRegister.LoginFragmentPresenter
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home_grid.*
 
 interface HomeFragmentDelegate {
@@ -76,28 +72,47 @@ class HomeGridFragment : Fragment(), HomeFragmentDelegate {
     override fun gridMenuItemTriggered(atIndex: Int, withId: MenuItemType) {
         (activity as MainActivity).showProgressView()
         when (withId) {
-            KALENDARZ -> {
+            kalendarz -> {}
+            treningi -> fetchDataAndOpenWorkoutsFragment()
+            ćwiczenia -> fetchDataAndOpenExercisesFragment()
+            przyjaciele -> {}
+            profil -> {}
+            ustawienia -> {}
+        }
+    }
 
-            }
-            PROFIL -> {
+    private fun fetchDataAndOpenCalendarFragment() {
+    }
 
+    private fun fetchDataAndOpenWorkoutsFragment() {
+        presenter.fetchUserWorkouts { result ->
+            if (result.isNotEmpty()) {
+                presenter.workouts = result
+                val bundle = bundleOf("workouts" to result)
+                (activity as MainActivity).showToolbar()
+                Navigation.findNavController(view!!).navigate(R.id.workoutsList, bundle, null)
             }
-            TRENINGI -> {}
-            ĆWICZENIA -> {
-                fetchDataAndOpenExercisesFragment()
+        }
+    }
+
+    private fun fetchDataAndOpenExercisesFragment() {
+        presenter.fetchBaseExercises { result ->
+            if (result.isNotEmpty()) {
+                presenter.exercises = result
+                val bundle = bundleOf("exercises" to result)
+                (activity as MainActivity).showToolbar()
+                Navigation.findNavController(view!!).navigate(R.id.exercisesListFragment, bundle, null)
             }
-            PRZYJACIELE -> {}
-            USTAWIENIA -> {}
         }
     }
 
     private fun setMenuItems() {
-        val item0 = HomeMenuItem(id = 0, name = KALENDARZ)
-        val item1 = HomeMenuItem(id = 1, name = TRENINGI)
-        val item2 = HomeMenuItem(id = 2, name = ĆWICZENIA)
-        val item3 = HomeMenuItem(id = 3, name = PRZYJACIELE)
-        val item4 = HomeMenuItem(id = 4, name = PROFIL)
-        val item5 = HomeMenuItem(id = 5, name = USTAWIENIA)
+        val item0 = HomeMenuItem(id = 0, name = kalendarz)
+        val item1 = HomeMenuItem(id = 1, name = treningi)
+        val item2 = HomeMenuItem(id = 2, name = ćwiczenia)
+        val item3 = HomeMenuItem(id = 3, name = przyjaciele)
+        val item4 = HomeMenuItem(id = 4, name = profil)
+        val item5 = HomeMenuItem(id = 5, name = ustawienia)
         val items = arrayOf(item0, item1, item2, item3, item4, item5)
         val homeAdapter = HomeGridAdapter(menuItems = items)
         homeAdapter.homeFragmentDelegate = this
@@ -107,13 +122,4 @@ class HomeGridFragment : Fragment(), HomeFragmentDelegate {
         }
     }
 
-    private fun fetchDataAndOpenExercisesFragment() {
-        presenter.fetchBaseExercises { result ->
-            if (result.isNotEmpty()) {
-                presenter.exercises = result
-                val bundle = bundleOf("exercises" to result)
-                Navigation.findNavController(view!!).navigate(R.id.homeFragment, bundle, null)
-            }
-        }
-    }
 }

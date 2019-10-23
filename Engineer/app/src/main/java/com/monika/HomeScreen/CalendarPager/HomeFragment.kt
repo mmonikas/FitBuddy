@@ -1,21 +1,18 @@
-package com.monika.HomeScreen
+package com.monika.HomeScreen.CalendarPager
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.monika.HomeScreen.MainActivity.MainActivity
 import com.monika.Model.WorkoutComponents.Exercise
 import com.monika.R
 import com.monika.SignInAndRegister.LoginFragmentPresenter
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import java.lang.Exception
 
 
 class HomeFragment : Fragment() {
@@ -66,13 +63,6 @@ class HomeFragment : Fragment() {
         if (presenter.exercises.isNotEmpty()) {
             setTabLayout()
         }
-//        if (FirebaseAuth.getInstance().currentUser != null) {
-//            setTabLayout()
-//        }
-//        if (FirebaseAuth.getInstance().currentUser == null) {
-//            Navigation.findNavController(view!!).navigate(R.id.loginFragment)
-//        }
-
     }
 
     private fun setLayout() {
@@ -82,6 +72,7 @@ class HomeFragment : Fragment() {
     private fun setTabLayout() {
         val tabLayout = view?.findViewById<TabLayout>(R.id.home_tab_layout)
         tabLayout?.setupWithViewPager(home_pager)
+        tabLayout?.isTabIndicatorFullWidth = true
 //        tabLayout?.minimumWidth =
 //        calendarDaysCollectionPagerAdapter = HomeFragmentPagerAdapter(childFragmentManager)
         val adapter = HomeFragmentPagerAdapter(childFragmentManager)

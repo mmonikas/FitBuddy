@@ -3,7 +3,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-             tools:context=".HomeScreen.HomeFragment">
+             tools:context=".HomeScreen.CalendarPager.HomeFragment">
 
     <LinearLayout
             android:id="@+id/homeFragment_progress"
@@ -16,6 +16,7 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:indeterminate="true"
+                android:progressTint="@color/accentOrange"
                 android:layout_gravity="center"
         />
     </LinearLayout>
@@ -31,7 +32,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabMode="scrollable"
+                style="@style/Widget.MaterialComponents.TabLayout.Colored"
                 app:tabMinWidth="@dimen/tab_minWidth"
+                app:tabIndicatorColor="@color/accentOrange"
+                app:tabSelectedTextColor="@color/accentOrange"
                 app:tabGravity="fill"/>
 
     </androidx.viewpager.widget.ViewPager>

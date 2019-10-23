@@ -1,21 +1,15 @@
 package com.monika
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.firestore.FirebaseFirestore
-import com.monika.HomeScreen.MainActivity
-import com.monika.Model.WorkoutPlan.Workout
+import com.monika.HomeScreen.MainActivity.MainActivity
 import com.monika.WorkoutsMainPage.LaunchScreenPresenter
-import kotlinx.android.synthetic.main.fragment_login.*
 
 class LaunchScreen : Fragment() {
 

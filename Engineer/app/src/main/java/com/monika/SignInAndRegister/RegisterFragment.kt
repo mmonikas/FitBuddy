@@ -1,7 +1,6 @@
 package com.monika.SignInAndRegister
 
 import android.os.Bundle
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.monika.Enums.FirebaseRequestResult
-import com.monika.HomeScreen.MainActivity
+import com.monika.HomeScreen.MainActivity.MainActivity
 import com.monika.Model.User.User
 import com.monika.R
 import kotlinx.android.synthetic.main.fragment_register.*

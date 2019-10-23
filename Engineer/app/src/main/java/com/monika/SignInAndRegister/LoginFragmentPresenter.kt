@@ -7,8 +7,11 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.monika.Enums.FirebaseRequestResult
 import com.monika.Enums.UserDataType
-import com.monika.HomeScreen.MainActivity
+import com.monika.HomeScreen.MainActivity.MainActivity
 import com.monika.Model.WorkoutComponents.Exercise
+import com.monika.Model.WorkoutComponents.WorkoutElement
+import com.monika.Model.WorkoutPlan.FirebaseWorkout
+import com.monika.Model.WorkoutPlan.FirebaseWorkoutElement
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.Services.AuthenticationService
 import com.monika.Services.DatabaseService
@@ -55,10 +58,39 @@ class LoginFragmentPresenter {
     fun fetchUserWorkouts(completion: (result: ArrayList<Workout>) -> Unit) {
         val currentUser = FirebaseAuth.getInstance().currentUser
         if (currentUser != null) {
+            var workoutsList = ArrayList<Workout>()
             DatabaseService.instance.fetchUserData(UserDataType.WORKOUT, currentUser.uid) {
                     result ->
-                val workoutList = result as ArrayList<Workout>
-                completion(workoutList)
+                val firebaseWorkoutList = result as ArrayList<FirebaseWorkout>
+                firebaseWorkoutList.forEach { workout ->
+                    val workoutToAdd = Workout()
+                    workoutToAdd.userID = currentUser.uid
+                    workoutToAdd.initDate = workout.initDate
+                    workoutToAdd.name = workout.name
+                    var exercisesToAdd = ArrayList<WorkoutElement>()
+                    val currentWorkoutComponentsPath = workout.exercises
+                    currentWorkoutComponentsPath?.forEach { path ->
+                        fetchWorkoutElement(path) {
+                            result ->
+                            val workoutElement = result as FirebaseWorkoutElement
+                            val workoutElementToAdd = WorkoutElement()
+                            workoutElementToAdd.numOfReps = workoutElement.numOfReps
+                            workoutElementToAdd.numOfSets = workoutElement.numOfSets
+                            val exerciseId = workoutElement.exercise
+                            exerciseId?.let {
+                                fetchExercise(exerciseId) {
+                                    result ->
+                                    val exercise = result as Exercise
+                                    workoutElementToAdd.exercise = exercise
+                                    exercisesToAdd.add(workoutElementToAdd)
+                                }
+                            }
+                        }
+                    }
+                    workoutToAdd.exercises = exercisesToAdd
+                    workoutsList.add(workoutToAdd)
+                }
+                completion(workoutsList)
             }
         }
     }
@@ -81,4 +113,29 @@ class LoginFragmentPresenter {
             completion(exercisesList)
         }
     }
+
+    fun fetchWorkout(documentId: String, completion: (result: Any) -> Unit) {
+        DatabaseService.instance.fetchCustomDocument(UserDataType.WORKOUT, documentId) {
+            result ->
+            val workout = result as Workout
+            completion(workout)
+        }
+    }
+
+    fun fetchExercise(documentId: String, completion: (result: Any) -> Unit) {
+        DatabaseService.instance.fetchCustomDocument(UserDataType.EXERCISE, documentId) {
+                result ->
+            val exercise = result as Exercise
+            completion(exercise)
+        }
+    }
+
+    fun fetchWorkoutElement(documentId: String, completion: (result: Any) -> Unit) {
+        DatabaseService.instance.fetchCustomDocument(UserDataType.WORKOUT_ELEMENT, documentId) {
+                result ->
+            val element = result as FirebaseWorkoutElement
+            completion(element)
+        }
+    }
+
 }

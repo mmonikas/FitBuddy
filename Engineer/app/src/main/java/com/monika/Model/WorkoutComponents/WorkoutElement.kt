@@ -1,8 +1,11 @@
 package com.monika.Model.WorkoutComponents
 
-data class WorkoutElement (
-    val exercise: Exercise,
-    val numOfSets: Int,
-    val numOfReps: Int,
-    val timer: Int
-)
+import java.io.Serializable
+
+class WorkoutElement: Serializable {
+    var exercise: Exercise? = null
+    var numOfSets: Int? = null
+    var numOfReps: Int? = null
+
+    constructor()
+}

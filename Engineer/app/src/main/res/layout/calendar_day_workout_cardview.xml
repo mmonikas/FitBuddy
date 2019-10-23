@@ -5,7 +5,9 @@
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.CardView"
-        android:layout_margin="@dimen/cardView_margin"
+        android:layout_marginBottom="@dimen/cardView_margin"
+        android:layout_marginStart="@dimen/cardView_margin"
+        android:layout_marginEnd="@dimen/cardView_margin"
         app:cardBackgroundColor="@color/secondaryLightColor"
         app:cardCornerRadius="@dimen/cardView_radius">
 
@@ -41,7 +43,7 @@
                   android:layout_height="wrap_content"
                   android:id="@+id/exerciseName"
                   android:text="@string/exercise_name"
-                  android:textSize="24sp"
+                  android:textSize="18sp"
                   android:textStyle="bold"
                   android:layout_weight="3"
                   android:textColor="@color/primaryTextColor" android:fontFamily="@font/assistant_bold"

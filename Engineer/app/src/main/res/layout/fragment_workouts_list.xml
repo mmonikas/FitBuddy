@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".WorkoutsMainPage.WorkoutsList"
-android:layout_columnSpan="2"
-android:layout_rowSpan="2">
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".WorkoutsMainPage.WorkoutsList"
+            android:layout_marginTop="@dimen/cardView_margin">
 
-    <androidx.cardview.widget.CardView>
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/workoutListRecyclerView"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+    >
 
-    </androidx.cardview.widget.CardView>
+    </androidx.recyclerview.widget.RecyclerView>
 
 
 </GridLayout>

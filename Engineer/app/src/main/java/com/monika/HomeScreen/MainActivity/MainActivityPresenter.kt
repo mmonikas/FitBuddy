@@ -1,4 +1,4 @@
-package com.monika.HomeScreen
+package com.monika.HomeScreen.MainActivity
 
 import com.google.firebase.auth.FirebaseAuth
 
