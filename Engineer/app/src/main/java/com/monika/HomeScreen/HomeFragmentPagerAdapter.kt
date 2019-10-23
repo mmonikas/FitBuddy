@@ -5,20 +5,16 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.monika.Model.WorkoutPlan.Workout
-import com.monika.R
-import java.time.Instant
+import com.monika.Model.WorkoutComponents.Exercise
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class HomeFragmentPagerAdapter(fm: FragmentManager) :
     FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     val ARG_OBJECT = "object"
-    var workouts = ArrayList<Workout>()
+    var exercises = ArrayList<Exercise>()
 
     override fun getCount(): Int {
         return 10
@@ -29,8 +25,8 @@ class HomeFragmentPagerAdapter(fm: FragmentManager) :
         fragment.arguments = Bundle().apply {
             // Our object is just an integer :-P
             putInt(ARG_OBJECT, position + 1)
-            if (workouts.isNotEmpty()) {
-                putString("exerciseName", workouts[0].name)
+            if (exercises.isNotEmpty()) {
+                putSerializable("exercises", exercises)
             }
 
         }

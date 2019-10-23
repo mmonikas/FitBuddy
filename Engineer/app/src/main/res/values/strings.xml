@@ -36,7 +36,7 @@
     <string name="workoutsLabel">Workouts</string>
     <string name="description_hint2">ex. Squeeze your glutes while getting up with the bar</string>
     <string name="equipment_hint2">ex. bar, kettle</string>
-    <string name="addExerciseLabel">New exercise</string>
+    <string name="addExerciseLabel">New exerciseOld</string>
 
 
     <!-- login and register fragment -->

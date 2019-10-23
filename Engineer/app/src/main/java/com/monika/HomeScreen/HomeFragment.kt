@@ -10,24 +10,23 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
-import com.monika.Model.WorkoutPlan.Workout
+import com.monika.Model.WorkoutComponents.Exercise
 import com.monika.R
 import com.monika.SignInAndRegister.LoginFragmentPresenter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.lang.Exception
 
 
 class HomeFragment : Fragment() {
 
     val presenter = LoginFragmentPresenter()
-    private val TAG: String = "dbTag"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-         //   workouts = arguments?.get("workouts") as ArrayList<Workout>
-            val workouts = arguments?.get("workouts") as ArrayList<Workout>
-            presenter.workouts = workouts
+            val exercises = arguments?.get("exercises") as ArrayList<Exercise>
+            presenter.exercises = exercises
         }
     }
 
@@ -45,18 +44,17 @@ class HomeFragment : Fragment() {
         if (FirebaseAuth.getInstance().currentUser == null) {
             findNavController().navigate(R.id.loginFragment)
         } else {
-            presenter.fetchUserWorkouts {
-                    workoutListResult ->
-                if (workoutListResult.isNotEmpty()) {
-                    presenter.workouts = workoutListResult
-                    setTabLayout()
-                    homeFragment_progress.visibility = View.GONE
+            if (arguments == null) {
+                presenter.fetchUserExercises { result ->
+                    if (result.isNotEmpty()) {
+                        presenter.exercises = result
+                        setTabLayout()
 //                    val bundle = bundleOf("workouts" to workoutListResult)
 //                    Navigation.findNavController(view!!).navigate(R.id.homeFragment, bundle, null)
-                }
-                else {
-                    //loginFragment_progress.visibility = View.GONE
-                    //TODO zrob to cos bo nie dziala obviously
+                    } else {
+                        //loginFragment_progress.visibility = View.GONE
+                        //TODO zrob to cos bo nie dziala obviously
+                    }
                 }
             }
         }
@@ -65,6 +63,9 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
+        if (presenter.exercises.isNotEmpty()) {
+            setTabLayout()
+        }
 //        if (FirebaseAuth.getInstance().currentUser != null) {
 //            setTabLayout()
 //        }
@@ -84,9 +85,14 @@ class HomeFragment : Fragment() {
 //        tabLayout?.minimumWidth =
 //        calendarDaysCollectionPagerAdapter = HomeFragmentPagerAdapter(childFragmentManager)
         val adapter = HomeFragmentPagerAdapter(childFragmentManager)
-        adapter.workouts = presenter.workouts
+        adapter.exercises = presenter.exercises
         home_pager.adapter = adapter
+        (activity as MainActivity).hideProgressView()
+    }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        (activity as MainActivity).supportActionBar?.hide()
     }
 }
+

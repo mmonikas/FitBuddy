@@ -2,96 +2,112 @@
 <androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.CardView"
         android:layout_margin="@dimen/cardView_margin"
-        app:cardBackgroundColor="@color/primaryLightColor"
+        app:cardBackgroundColor="@color/secondaryLightColor"
         app:cardCornerRadius="@dimen/cardView_radius">
 
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_margin="@dimen/cardView_margin">
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"
+                                                       android:orientation="horizontal"
+                                                       android:layout_margin="@dimen/cardView_margin"
+                                                       android:id="@+id/relativeLayout">
 
         <TextView android:layout_width="wrap_content"
                   android:layout_height="match_parent"
                   android:id="@+id/exerciseNumberInWorkout"
                   android:text="@string/exercise_number"
                   android:textSize="20sp"
-                  android:layout_marginEnd="10dp"
-                  android:gravity="center_vertical|center_horizontal" android:textColor="@color/mcgpalette0_500"/>
+                  android:gravity="center_vertical|center_horizontal" android:textColor="@color/mcgpalette0_500"
+                  app:layout_constraintTop_toTopOf="parent"
+                  app:layout_constraintBottom_toBottomOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"/>
 
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="vertical"
-        >
+        <!--<LinearLayout android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical"-->
+        <!--&gt;-->
 
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:orientation="horizontal"
-                          android:weightSum="4"
-                          android:layout_marginBottom="@dimen/textView_margin"
-                            android:gravity="center|center_horizontal|center_vertical"
-                            android:layout_gravity="center_vertical|center_horizontal|center">
-                <TextView android:layout_width="1084dp"
-                          android:layout_height="wrap_content"
-                          android:id="@+id/exerciseName"
-                          android:text="@string/exercise_name"
-                          android:textSize="17sp"
-                          android:textStyle="bold"
-                          android:layout_weight="3"
-                          android:textColor="@color/primaryTextColor"/>
+        <!--<LinearLayout android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:weightSum="4"-->
+        <!--android:layout_marginBottom="@dimen/textView_margin"-->
+        <!--android:gravity="center|center_horizontal|center_vertical"-->
+        <!--android:layout_gravity="center_vertical|center_horizontal|center">-->
+        <TextView android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/exerciseName"
+                  android:text="@string/exercise_name"
+                  android:textSize="24sp"
+                  android:textStyle="bold"
+                  android:layout_weight="3"
+                  android:textColor="@color/primaryTextColor" android:fontFamily="@font/assistant_bold"
+                  app:layout_constraintTop_toTopOf="parent"
+                  app:layout_constraintStart_toEndOf="@id/exerciseNumberInWorkout"
+                  app:layout_constraintEnd_toStartOf="@id/exerciseImage" android:layout_marginEnd="4dp"
+                  android:layout_marginStart="8dp" android:layout_marginTop="4dp"/>
 
-                <ImageView android:layout_width="match_parent"
-                           android:layout_height="match_parent"
-                           android:visibility="visible"
-                           android:layout_weight="1"
-                           android:scaleType="centerInside"
-                           android:src="@drawable/icons8triceps100"
-                />
-            </LinearLayout>
+        <ImageView android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:visibility="visible"
+                   android:layout_weight="1"
+                   android:id="@+id/exerciseImage"
+                   android:scaleType="centerInside"
+                   android:src="@drawable/icons8triceps100"
+                   app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+                   app:layout_constraintTop_toTopOf="parent"/>
+        <!--</LinearLayout>-->
 
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:maxLines="3"
-                      android:id="@+id/exerciseDescription"
-                      android:text="To jest przykładowy długi opis To jest przykładowy długi opisTo jest przykładowy długi opisTo jest przykładowy długi opisTo jest przykładowy długi opisTo jest przykładowy długi opis">
-                
-            </TextView>
-                      <!--android:text="@string/exercise_description"-->
+        <TextView android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:maxLines="10"
+                  android:id="@+id/exerciseDescription"
+                  android:text="To jest przykładowy długi opis To jest przykładowy długi opisTo jest przykładowy długi opisTo jest przykładowy długi opisTo jest przykładowy długi opisTo jest przykładowy długi opis"
+                  android:fontFamily="@font/assistant_light"
+                  app:layout_constraintStart_toEndOf="@id/exerciseNumberInWorkout"
+                  app:layout_constraintEnd_toStartOf="@id/exerciseImage" android:layout_marginEnd="8dp"
+                  android:layout_marginStart="8dp"
+                  android:layout_marginTop="4dp" app:layout_constraintTop_toBottomOf="@+id/exerciseName"
+                  app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="4dp">
 
-            <View
-                    android:layout_marginTop="@dimen/textView_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/mainSeparatorColor"
-                    android:layout_marginBottom="@dimen/textView_margin"
-            />
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:maxLines="3"
-                      android:id="@+id/exerciseLevel"
-                      android:text="@string/exercise_level"
-            />
+        </TextView>
+        <!--&lt;!&ndash;android:text="@string/exercise_description"&ndash;&gt;-->
 
-            <!--<View android:layout_height="112dp" android:layout_width="139dp"-->
-                  <!--android:background="@color/mcgpalette0_50" android:visibility="visible">-->
+        <!--<View-->
+        <!--android:layout_marginTop="@dimen/textView_margin"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="@color/mainSeparatorColor"-->
+        <!--android:layout_marginBottom="@dimen/textView_margin"-->
+        <!--app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"-->
+        <!--android:id="@+id/view"/>-->
+        <!--<TextView android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:maxLines="3"-->
+        <!--android:id="@+id/exerciseLevel"-->
+        <!--android:text="@string/exercise_level"-->
+        <!--app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"/>-->
 
-                <!--<TextView android:layout_width="match_parent"-->
-                          <!--android:layout_height="wrap_content"-->
-                          <!--android:id="@+id/exerciseCategory"-->
-                          <!--android:text="@string/exercise_category"-->
-                          <!--android:textSize="17sp"-->
-                          <!--android:textStyle="bold"-->
-                          <!--android:textColor="@color/mcgpalette0_600"-->
-                          <!--android:layout_marginBottom="10dp"/>-->
-            <!--</View>-->
+        <!--<View android:layout_height="112dp" android:layout_width="139dp"-->
+        <!--android:background="@color/mcgpalette0_50" android:visibility="visible">-->
+
+        <!--<TextView android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/exerciseCategory"-->
+        <!--android:text="@string/exercise_category"-->
+        <!--android:textSize="17sp"-->
+        <!--android:textStyle="bold"-->
+        <!--android:textColor="@color/mcgpalette0_600"-->
+        <!--android:layout_marginBottom="10dp"/>-->
+        <!--</View>-->
 
 
-        </LinearLayout>
-    </LinearLayout>
-
+        <!--</LinearLayout>-->
+        <!--</RelativeLayout>-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.cardview.widget.CardView>

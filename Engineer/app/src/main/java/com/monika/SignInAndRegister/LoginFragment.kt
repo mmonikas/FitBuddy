@@ -106,7 +106,7 @@ class LoginFragment : Fragment() {
             presenter.signInUserWith(username, password, activity as MainActivity) {
                 result ->
                 if (result == FirebaseRequestResult.SUCCESS) {
-                    presenter.fetchUserWorkouts { workoutList ->
+                    presenter.fetchUserExercises { workoutList ->
                         val bundle = bundleOf("workouts" to workoutList)
                         val navOptions = NavOptions.Builder()
                             .setPopUpTo(R.id.homeFragment, true)

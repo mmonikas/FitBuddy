@@ -1,16 +1,35 @@
 <!--?xml version="1.0" encoding="UTF-8"?-->
 <resources>
-  <color name="primaryColor">#54E0E0E0</color>
-  <color name="primaryLightColor">#FFFFFF</color>
-  <color name="primaryDarkColor">#b4b6bd</color>
-  <color name="secondaryColor">#b4b6bd</color>
-  <!--<color name="secondaryLightColor">#00BCD4</color>-->
-  <!--<color name="secondaryDarkColor">#3F51B5</color>-->
-  <color name="primaryTextColor">#000000</color>
-  <color name="secondaryTextColor">#000000</color>
+  <!--<color name="primaryColor">#54E0E0E0</color>-->
+  <!--<color name="primaryLightColor">#FFFFFF</color>-->
+  <!--<color name="primaryDarkColor">#b4b6bd</color>-->
+  <!--<color name="secondaryColor">#b4b6bd</color>-->
+  <!--&lt;!&ndash;<color name="secondaryLightColor">#00BCD4</color>&ndash;&gt;-->
+  <!--&lt;!&ndash;<color name="secondaryDarkColor">#3F51B5</color>&ndash;&gt;-->
+  <!--<color name="primaryTextColor">#000000</color>-->
+  <!--<color name="secondaryTextColor">#000000</color>-->
   <color name="mainSeparatorColor">#DAE0E0E0</color>
 
-    <color name="mcgpalette0_50">#e1e2e5</color>
+  <!--<color name="primaryColor">#1a237e</color>-->
+  <!--<color name="primaryLightColor">#534bae</color>-->
+  <!--<color name="primaryDarkColor">#000051</color>-->
+  <!--<color name="secondaryColor">#ab47bc</color>-->
+  <!--<color name="secondaryLightColor">#df78ef</color>-->
+  <!--<color name="secondaryDarkColor">#790e8b</color>-->
+  <!--<color name="primaryTextColor">#ffffff</color>-->
+  <!--<color name="secondaryTextColor">#ffffff</color>-->
+
+  <color name="primaryColor">#000044</color>
+  <color name="primaryLightColor">#ffffff</color>
+  <color name="primaryDarkColor">#00001f</color>
+  <color name="secondaryColor">#00001f</color>
+  <color name="secondaryLightColor">#ffffff</color>
+  <color name="secondaryDarkColor">#c7c7c7</color>
+  <color name="primaryTextColor">#00001f</color>
+  <color name="secondaryTextColor">#000000</color>
+  <!--<color name="mainSeparatorColor">#DAE0E0E0</color>-->
+
+  <color name="mcgpalette0_50">#e1e2e5</color>
     <color name="mcgpalette0_100">#b4b6bd</color>
     <!--<color name="secondaryLightColor">#838592</color>-->
     <!--<color name="secondaryColor">#515466</color>-->

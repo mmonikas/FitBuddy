@@ -1,8 +1,8 @@
 package com.monika.HomeScreen
 
-import com.monika.Model.WorkoutPlan.Workout
+import com.monika.Model.WorkoutComponents.Exercise
 
 class HomeFragmentPresenter {
 
-    var workouts = ArrayList<Workout>()
+    var exercise = ArrayList<Exercise>()
 }

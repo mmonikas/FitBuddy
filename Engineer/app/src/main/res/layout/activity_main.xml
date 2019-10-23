@@ -9,10 +9,29 @@
         android:layout_height="match_parent"
         tools:context=".HomeScreen.MainActivity">
 
+
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+        <LinearLayout
+                android:id="@+id/main_progressView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@color/mainSeparatorColor"
+                android:alpha="0.6"
+                android:visibility="gone">
+            <ProgressBar
+                    android:id="@+id/fragment_progressBar"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:indeterminate="true"
+                    android:layout_gravity="center"
+            />
+        </LinearLayout>
+
 
         <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"

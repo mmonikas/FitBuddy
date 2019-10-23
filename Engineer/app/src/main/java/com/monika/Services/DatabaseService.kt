@@ -2,12 +2,13 @@ package com.monika.Services
 
 import android.util.Log
 import com.google.firebase.auth.UserInfo
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.monika.Enums.UserDataType
-import com.monika.Model.Exercise
 import com.monika.Model.WorkoutComponents.Category
 import com.monika.Model.WorkoutComponents.Equipment
+import com.monika.Model.WorkoutComponents.Exercise
 import com.monika.Model.WorkoutComponents.WorkoutElement
 import com.monika.Model.WorkoutPlan.PlannedWorkout
 import com.monika.Model.WorkoutPlan.Workout
@@ -85,25 +86,20 @@ class DatabaseService {
         return dataList
     }
 
-    fun fetchWorkoutsOfUser(userId: String, completion: (result: ArrayList<Workout>) -> Unit) {
+    fun fetchBaseData(requestedDataType: UserDataType, completion: (result: ArrayList<Any>) -> Unit) {
         val db = FirebaseFirestore.getInstance()
-        val tag = "UserWorkoutsFetching"
-        db.collection("Workouts")
-        .whereEqualTo("userID", userId)
-        .get()
-        .addOnSuccessListener { documents ->
-            val workoutsList = ArrayList<Workout>()
-            for (document in documents) {
-                val workout = document.toObject(Workout::class.java)
-                workoutsList.add(workout)
+        val dbCollectionToQuery = getCollectionForRequestedType(requestedDataType)
+        db.collection(dbCollectionToQuery)
+            .get()
+            .addOnSuccessListener { documents ->
+                val dataList: ArrayList<Any> = getProcessedFetchedData(documents, requestedDataType)
+                Log.w("DATA_FETCHING", "Successfully fetched documents: ${requestedDataType.name}")
+                completion(dataList)
             }
-            Log.w(tag, "User workouts fetched successfully")
-            completion(workoutsList)
-        }
-        .addOnFailureListener { exception ->
-            Log.w(tag, "Error getting documents: ", exception)
-            completion(ArrayList())
-        }
+            .addOnFailureListener { exception ->
+                Log.w("DATA_FETCHING", "Error getting documents: ", exception)
+                completion(ArrayList())
+            }
     }
 
     private fun getCollectionForRequestedType(requestedDataType: UserDataType): String {

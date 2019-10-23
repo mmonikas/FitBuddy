@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import com.monika.HomeScreen.HomeFragment;
 import com.monika.HomeScreen.HomeFragmentPresenter;
+import com.monika.Model.WorkoutComponents.Exercise;
 import com.monika.Model.WorkoutPlan.Workout;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class LoaderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getArguments() != null) {
-            ArrayList<Workout> workoutArrayList = (ArrayList<Workout>) getArguments().get("workouts");
+            ArrayList<Exercise> workoutArrayList = (ArrayList<Exercise>) getArguments().get("exercises");
             Navigation.findNavController(view).navigate(R.id.homeFragment, getArguments());
         }
     }

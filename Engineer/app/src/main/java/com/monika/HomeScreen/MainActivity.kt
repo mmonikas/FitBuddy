@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -17,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.monika.R
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -75,18 +78,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return NavigationUI.navigateUp(navController, drawerLayout)
     }
 
-//    override fun onBackPressed() {
-//
-//        if(backPressedOnce) {
-//            System.exit(0)
-//        }
-//        else if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-//            drawerLayout.closeDrawer(GravityCompat.START)
-//        }
-//        Toast.makeText(this, R.string.closeAgainToExit, Toast.LENGTH_SHORT).show()
-//        backPressedOnce = true
-//
-//    }
+    override fun onBackPressed() {
+        if (main_progressView.visibility == View.VISIBLE) {
+            hideProgressView()
+            return
+        }
+        super.onBackPressed()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -132,6 +130,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.closeDrawer(GravityCompat.START)
 
         return false
+    }
+
+    fun showProgressView() {
+        findViewById<LinearLayout>(R.id.main_progressView).visibility = View.VISIBLE
+    }
+
+    fun hideProgressView() {
+        findViewById<LinearLayout>(R.id.main_progressView).visibility = View.GONE
     }
 
     private fun setUpDatabase() {
