@@ -28,7 +28,7 @@ class HomeFragmentPagerAdapter(fm: FragmentManager) :
             // Our object is just an integer :-P
             putInt(ARG_OBJECT, position + 1)
             if (exercises.isNotEmpty()) {
-                putSerializable("exercises", exercises)
+                putSerializable("workoutElements", exercises)
             }
 
         }

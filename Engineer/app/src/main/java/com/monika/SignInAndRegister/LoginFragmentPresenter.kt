@@ -59,16 +59,18 @@ class LoginFragmentPresenter {
         val currentUser = FirebaseAuth.getInstance().currentUser
         if (currentUser != null) {
             var workoutsList = ArrayList<Workout>()
+            var workoutToAdd = Workout()
+            var currentWorkoutComponentsPath: List<String>
+
             DatabaseService.instance.fetchUserData(UserDataType.WORKOUT, currentUser.uid) {
                     result ->
                 val firebaseWorkoutList = result as ArrayList<FirebaseWorkout>
                 firebaseWorkoutList.forEach { workout ->
-                    val workoutToAdd = Workout()
                     workoutToAdd.userID = currentUser.uid
                     workoutToAdd.initDate = workout.initDate
                     workoutToAdd.name = workout.name
-                    var exercisesToAdd = ArrayList<WorkoutElement>()
-                    val currentWorkoutComponentsPath = workout.exercises
+                    workoutToAdd.exercises = ArrayList()
+                    currentWorkoutComponentsPath = workout.workoutElements!!
                     currentWorkoutComponentsPath?.forEach { path ->
                         fetchWorkoutElement(path) {
                             result ->
@@ -76,21 +78,22 @@ class LoginFragmentPresenter {
                             val workoutElementToAdd = WorkoutElement()
                             workoutElementToAdd.numOfReps = workoutElement.numOfReps
                             workoutElementToAdd.numOfSets = workoutElement.numOfSets
+                            workoutElementToAdd.timer = workoutElement.timer
                             val exerciseId = workoutElement.exercise
                             exerciseId?.let {
                                 fetchExercise(exerciseId) {
                                     result ->
                                     val exercise = result as Exercise
                                     workoutElementToAdd.exercise = exercise
-                                    exercisesToAdd.add(workoutElementToAdd)
+                                    workoutToAdd.exercises?.add(workoutElementToAdd)
+                                    workoutsList.add(workoutToAdd)
+                                    completion(workoutsList)
                                 }
                             }
                         }
                     }
-                    workoutToAdd.exercises = exercisesToAdd
-                    workoutsList.add(workoutToAdd)
                 }
-                completion(workoutsList)
+
             }
         }
     }
@@ -114,18 +117,19 @@ class LoginFragmentPresenter {
         }
     }
 
-    fun fetchWorkout(documentId: String, completion: (result: Any) -> Unit) {
-        DatabaseService.instance.fetchCustomDocument(UserDataType.WORKOUT, documentId) {
-            result ->
-            val workout = result as Workout
-            completion(workout)
-        }
-    }
+//    fun fetchWorkout(documentId: String, completion: (result: Any) -> Unit) {
+//        DatabaseService.instance.fetchCustomDocument(UserDataType.WORKOUT, documentId) {
+//            result ->
+//            val workout = result as Workout
+//            completion(workout)
+//        }
+//    }
 
     fun fetchExercise(documentId: String, completion: (result: Any) -> Unit) {
         DatabaseService.instance.fetchCustomDocument(UserDataType.EXERCISE, documentId) {
                 result ->
-            val exercise = result as Exercise
+            val exercises = result as ArrayList<Exercise>
+            val exercise = exercises.first()
             completion(exercise)
         }
     }
@@ -133,7 +137,8 @@ class LoginFragmentPresenter {
     fun fetchWorkoutElement(documentId: String, completion: (result: Any) -> Unit) {
         DatabaseService.instance.fetchCustomDocument(UserDataType.WORKOUT_ELEMENT, documentId) {
                 result ->
-            val element = result as FirebaseWorkoutElement
+            val elements = result as ArrayList<FirebaseWorkoutElement>
+            val element = elements.first()
             completion(element)
         }
     }

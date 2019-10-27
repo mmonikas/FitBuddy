@@ -9,14 +9,14 @@ class WorkoutsListPresenter {
 
     var workoutsList = ArrayList<Workout>()
 
-    fun fetchUserWorkouts(completion: (result: ArrayList<Workout>) -> Unit) {
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        if (currentUser != null) {
-            DatabaseService.instance.fetchUserData(UserDataType.WORKOUT, currentUser.uid) {
-                    result ->
-                //workoutsList = result as ArrayList<Workout>
-                completion(workoutsList)
-            }
-        }
-    }
+//    fun fetchUserWorkouts(completion: (result: ArrayList<Workout>) -> Unit) {
+//        val currentUser = FirebaseAuth.getInstance().currentUser
+//        if (currentUser != null) {
+//            DatabaseService.instance.fetchUserData(UserDataType.WORKOUT, currentUser.uid) {
+//                    result ->
+//                //workoutsList = result as ArrayList<Workout>
+//                completion(workoutsList)
+//            }
+//        }
+//    }
 }

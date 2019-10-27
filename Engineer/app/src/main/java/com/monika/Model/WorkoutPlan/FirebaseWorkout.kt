@@ -1,14 +1,15 @@
 package com.monika.Model.WorkoutPlan
 
 import java.io.Serializable
+import java.util.Date
 import java.sql.Timestamp
 
 class FirebaseWorkout: Serializable {
 
-    val userID: String? = null
+    val userId: String? = null
     val name: String? = null
-    val initDate: Timestamp? = null
-    val exercises: Array<String>? = null
+    val initDate: Date? = null
+    val workoutElements: List<String>? = null
 
     constructor()
 }

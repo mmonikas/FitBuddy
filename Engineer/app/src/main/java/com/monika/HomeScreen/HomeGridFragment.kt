@@ -72,7 +72,7 @@ class HomeGridFragment : Fragment(), HomeFragmentDelegate {
     override fun gridMenuItemTriggered(atIndex: Int, withId: MenuItemType) {
         (activity as MainActivity).showProgressView()
         when (withId) {
-            kalendarz -> {}
+            kalendarz -> fetchDataAndOpenCalendarFragment()
             treningi -> fetchDataAndOpenWorkoutsFragment()
             ćwiczenia -> fetchDataAndOpenExercisesFragment()
             przyjaciele -> {}
@@ -82,13 +82,21 @@ class HomeGridFragment : Fragment(), HomeFragmentDelegate {
     }
 
     private fun fetchDataAndOpenCalendarFragment() {
+        presenter.fetchBaseExercises { result ->
+            if (result.isNotEmpty()) {
+                presenter.exercises = result
+                val bundle = bundleOf("workoutElements" to result)
+                (activity as MainActivity).showToolbar()
+                Navigation.findNavController(view!!).navigate(R.id.homeFragment, bundle, null)
+            }
+        }
     }
 
     private fun fetchDataAndOpenWorkoutsFragment() {
         presenter.fetchUserWorkouts { result ->
             if (result.isNotEmpty()) {
-                presenter.workouts = result
-                val bundle = bundleOf("workouts" to result)
+                //presenter.workouts = result
+                val bundle = bundleOf("workouts" to presenter.workouts)
                 (activity as MainActivity).showToolbar()
                 Navigation.findNavController(view!!).navigate(R.id.workoutsList, bundle, null)
             }
@@ -99,7 +107,7 @@ class HomeGridFragment : Fragment(), HomeFragmentDelegate {
         presenter.fetchBaseExercises { result ->
             if (result.isNotEmpty()) {
                 presenter.exercises = result
-                val bundle = bundleOf("exercises" to result)
+                val bundle = bundleOf("workoutElements" to result)
                 (activity as MainActivity).showToolbar()
                 Navigation.findNavController(view!!).navigate(R.id.exercisesListFragment, bundle, null)
             }
@@ -120,6 +128,7 @@ class HomeGridFragment : Fragment(), HomeFragmentDelegate {
         home_recyclerView.apply {
             layoutManager = GridLayoutManager(context, 2)
         }
+        (activity as MainActivity).hideProgressView()
     }
 
 }

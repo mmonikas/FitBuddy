@@ -22,7 +22,7 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            val exercises = arguments?.get("exercises") as ArrayList<Exercise>
+            val exercises = arguments?.get("workoutElements") as ArrayList<Exercise>
             presenter.exercises = exercises
         }
     }

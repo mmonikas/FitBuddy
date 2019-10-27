@@ -11,6 +11,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
@@ -70,6 +72,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         NavigationUI.setupWithNavController(navigationView, navController)
 
         navigationView.setNavigationItemSelectedListener(this)
+        hideToolbar()
 
     }
 
@@ -78,11 +81,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
         if (main_progressView.visibility == View.VISIBLE) {
             hideProgressView()
-            return
         }
-        super.onBackPressed()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -92,13 +94,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_logOut -> {
                 presenter.logOutUser()
-                navController.navigate(R.id.loginFragment)
+               // navController.popBackStack(R.id.homeFragment, true)
+                val navBuilder = NavOptions.Builder()
+                val navOptions = navBuilder.setPopExitAnim(R.anim.slide_out_top).setPopUpTo(R.id.loginFragment, true)
+                navController.popBackStack(R.id.loginFragment, true)
+                navController.navigate(R.id.loginFragment, null, navOptions.build(), null)
                 false
             }
             else -> super.onOptionsItemSelected(item)
@@ -143,44 +146,4 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         findViewById<LinearLayout>(R.id.main_progressView).visibility = View.GONE
     }
 
-    private fun setUpDatabase() {
-        val db = FirebaseFirestore.getInstance()
-        // Create a new user with a first and last name
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
-
-        val workout = hashMapOf(
-            "name" to "superButtSquat",
-            "userID" to userId
-        )
-
-        // Add a new document with a generated ID
-        db.collection("Workouts")
-            .add(workout)
-            .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "Workout added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
-            }
-
-        // Create a new user with a first, middle, and last name
-//        val user2 = hashMapOf(
-//            "first" to "Alan",
-//            "middle" to "Mathison",
-//            "last" to "Turing",
-//            "born" to 1912
-//        )
-//
-//        // Add a new document with a generated ID
-//        db.collection("Users")
-//            .add(user2)
-//            .addOnSuccessListener { documentReference ->
-//                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-//            }
-//            .addOnFailureListener { e ->
-//                Log.w(TAG, "Error adding document", e)
-//            }
-
-
-    }
 }

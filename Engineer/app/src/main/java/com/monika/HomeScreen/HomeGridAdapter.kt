@@ -46,7 +46,7 @@ class HomeGridAdapter(private val menuItems: Array<HomeMenuItem>): RecyclerView.
     private fun setImage(homegridmenu_cardImage: ImageView?, name: MenuItemType?) {
         when (name) {
             ćwiczenia ->  homegridmenu_cardImage?.setImageResource(R.drawable.ic_fitness_center_black_24dp)
-            kalendarz ->  homegridmenu_cardImage?.setImageResource(R.drawable.ic_fitness_center_black_24dp)
+            kalendarz ->  homegridmenu_cardImage?.setImageResource(R.drawable.icon_calendar)
             treningi ->  homegridmenu_cardImage?.setImageResource(R.drawable.ic_assignment_black_24dp)
             przyjaciele ->  homegridmenu_cardImage?.setImageResource(R.drawable.ic_people_black_24dp)
             profil ->  homegridmenu_cardImage?.setImageResource(R.drawable.ic_person_black_24dp)

@@ -100,22 +100,22 @@ class LoginFragment : Fragment() {
 
     private fun setLoginButtonListener() {
         loginFragment_nextButton.setOnClickListener {
-            loginFragment_progress.visibility = View.VISIBLE
             val username = loginFragment_loginEditText.text.toString()
             val password = loginFragment_passwordEditText.text.toString()
+            (activity as MainActivity).showProgressView()
             presenter.signInUserWith(username, password, activity as MainActivity) {
                 result ->
                 if (result == FirebaseRequestResult.SUCCESS) {
-                    presenter.fetchUserExercises { workoutList ->
-                        val bundle = bundleOf("workouts" to workoutList)
-                        val navOptions = NavOptions.Builder()
-                            .setPopUpTo(R.id.homeFragment, true)
-                            .build()
-                        findNavController().navigate(R.id.homeFragment, bundle, navOptions)
-                    }
+//                    presenter.fetchUserExercises { workoutList ->
+//                        val bundle = bundleOf("workouts" to workoutList)
+//                        val navOptions = NavOptions.Builder()
+//                            .setEnterAnim(R.anim.nav_default_enter_anim)
+//                            .build()
+                        Navigation.findNavController(view!!).navigate(R.id.homeGridFragment, null)
+
                 }
                 else if (result == FirebaseRequestResult.FAILURE) {
-                    loginFragment_progress.visibility = View.GONE
+                    (activity as MainActivity).hideProgressView()
                     Toast.makeText(context, R.string.errorSignIn, Toast.LENGTH_LONG).show()
                 }
             }

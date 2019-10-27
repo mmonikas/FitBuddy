@@ -5,21 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import com.monika.HomeScreen.CalendarPager.ExercisesListAdapter
 import com.monika.HomeScreen.MainActivity.MainActivity
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
 import kotlinx.android.synthetic.main.fragment_workouts_list.*
 
-
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [WorkoutsList.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [WorkoutsList.newInstance] factory method to
- * create an instance of this fragment.
- */
 class WorkoutsList : Fragment() {
 
     val presenter = WorkoutsListPresenter()
@@ -42,18 +36,18 @@ class WorkoutsList : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        if (FirebaseAuth.getInstance().currentUser != null) {
-            if (arguments == null) {
-                (activity as MainActivity).showProgressView()
-                presenter.fetchUserWorkouts { result ->
-                    if (result.isNotEmpty()) {
-                        setRecyclerView()
-                    } else {
-                        //TODO zrob to cos bo nie dziala obviously
-                    }
-                }
-            }
-        }
+//        if (FirebaseAuth.getInstance().currentUser != null) {
+//            if (arguments == null) {
+//                (activity as MainActivity).showProgressView()
+//                presenter.fetchUserWorkouts { result ->
+//                    if (result.isNotEmpty()) {
+//                        setRecyclerView()
+//                    } else {
+//                        //TODO zrob to cos bo nie dziala obviously
+//                    }
+//                }
+//            }
+//        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,8 +63,14 @@ class WorkoutsList : Fragment() {
     }
 
     private fun setRecyclerView() {
-        val adapter = WorkoutsListAdapter(presenter.workoutsList)
-        workoutListRecyclerView.adapter = adapter
+        var recyclerView = view?.findViewById<RecyclerView>(R.id.workoutListRecyclerView)
+        recyclerView?.apply {
+            setHasFixedSize(true)
+            // use a linear layout manager
+            layoutManager = LinearLayoutManager(context)
+            adapter = WorkoutsListAdapter(presenter.workoutsList)
+        }
+
         (activity as MainActivity).hideProgressView()
     }
 

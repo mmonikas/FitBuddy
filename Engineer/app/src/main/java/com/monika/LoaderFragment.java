@@ -31,7 +31,7 @@ public class LoaderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getArguments() != null) {
-            ArrayList<Exercise> workoutArrayList = (ArrayList<Exercise>) getArguments().get("exercises");
+            ArrayList<Exercise> workoutArrayList = (ArrayList<Exercise>) getArguments().get("workoutElements");
             Navigation.findNavController(view).navigate(R.id.homeFragment, getArguments());
         }
     }

@@ -24,7 +24,8 @@ class DatabaseService {
         val dbCollectionToQuery = getCollectionForRequestedType(requestedDataType)
         val db = FirebaseFirestore.getInstance()
         db.collection(dbCollectionToQuery)
-            .whereEqualTo("userID", userId)
+//            .whereEqualTo("userID", userId)
+            //.whereEqualTo("userID", null)
             .get()
             .addOnSuccessListener { documents ->
                 val dataList: ArrayList<Any> = getProcessedFetchedDataArray(documents, requestedDataType)
@@ -54,20 +55,21 @@ class DatabaseService {
             }
     }
 
-    fun fetchCustomDocument(dataType: UserDataType, documentId: String, completion: (result: Any?) -> Unit) {
+    fun fetchCustomDocument(dataType: UserDataType, documentId: String, completion: (result: ArrayList<Any>) -> Unit) {
         val db = FirebaseFirestore.getInstance()
         val dbCollectionToQuery = getCollectionForRequestedType(dataType)
         db.collection(dbCollectionToQuery)
-            .document(documentId)
             .get()
-            .addOnSuccessListener { document ->
-                val data = getProcessedFetchedDataDocument(document, dataType)
+            .addOnSuccessListener { documents ->
+               // val document = documents.first { queryDocumentSnapshot -> queryDocumentSnapshot.id == documentId }
+                val data = getProcessedFetchedDataArray(documents, dataType)
+                val document = documents.first { queryDocumentSnapshot -> queryDocumentSnapshot.id == documentId }
                 Log.w("DATA_FETCHING", "Successfully fetched documents: ${dataType.name}")
                 completion(data)
             }
             .addOnFailureListener { exception ->
                 Log.w("DATA_FETCHING", "Error getting documents: ", exception)
-                completion(null)
+                completion(ArrayList())
             }
     }
 
@@ -130,7 +132,7 @@ class DatabaseService {
                 return document.toObject(PlannedWorkout::class.java)
             }
             UserDataType.WORKOUT_ELEMENT -> {
-                return document.toObject(WorkoutElement::class.java)
+                return document.toObject(FirebaseWorkoutElement::class.java)
             }
             UserDataType.EXERCISE -> {
                 return document.toObject(Exercise::class.java)
@@ -149,7 +151,7 @@ class DatabaseService {
 
     private fun getCollectionForRequestedType(requestedDataType: UserDataType): String {
         return when (requestedDataType) {
-            UserDataType.WORKOUT -> "Workouts"
+            UserDataType.WORKOUT -> "Workout"
             UserDataType.PLANNED_WORKOUT -> "PlannedWorkout"
             UserDataType.WORKOUT_ELEMENT -> "WorkoutElement"
             UserDataType.EXERCISE -> "Exercise"

@@ -6,6 +6,7 @@ class WorkoutElement: Serializable {
     var exercise: Exercise? = null
     var numOfSets: Int? = null
     var numOfReps: Int? = null
+    var timer: Int? = null
 
     constructor()
 }

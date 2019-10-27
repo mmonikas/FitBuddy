@@ -28,6 +28,15 @@
   <color name="primaryTextColor">#00001f</color>
   <color name="secondaryTextColor">#000000</color>
   <color name="accentOrange">#FFFD754B</color>
+
+  <!--//defaultred Icon-->
+  <!--<color name="accentOrange">#31A5EE</color>-->
+  <!--<color name="accentOrange">#EF3800</color>-->
+  <!--<color name="primaryDarkColor">#53262F</color>-->
+  <!--<color name="secondaryDarkColor">#EFDDD9</color>-->
+  <!--<color name="primaryTextColor">#53262F</color>-->
+  <!--<color name="secondaryColor">#00001f</color>-->
+
   <!--<color name="mainSeparatorColor">#DAE0E0E0</color>-->
 
   <color name="mcgpalette0_50">#e1e2e5</color>

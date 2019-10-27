@@ -24,12 +24,12 @@
                       android:orientation="vertical">
 
             <!--<ImageView-->
-                    <!--android:src="@drawable/fitbuddy_logo1"-->
-                    <!--android:layout_width="@android:dimen/thumbnail_width"-->
-                    <!--android:layout_height="@android:dimen/thumbnail_width"-->
-                    <!--android:id="@+id/loginFragment_logo"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:contentDescription="@string/logoDesc"/>-->
+            <!--android:src="@drawable/fitbuddy_logo1"-->
+            <!--android:layout_width="@android:dimen/thumbnail_width"-->
+            <!--android:layout_height="@android:dimen/thumbnail_width"-->
+            <!--android:id="@+id/loginFragment_logo"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:contentDescription="@string/logoDesc"/>-->
 
             <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"

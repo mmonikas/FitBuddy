@@ -32,10 +32,10 @@ class WorkoutElementItemsAdapter(private val workoutElementItems: ArrayList<Work
         holder.itemView.workoutExerciseRepsNum.text = item.numOfReps.toString()
         holder.itemView.workoutExerciseSetsNum.text = item.numOfSets.toString()
         val category = item.exercise?.category
-        category?.let { setCategoryImage(category, holder.itemView.workoutExerciseCategoryImage) }
+        setCategoryImage(category, holder.itemView.workoutExerciseCategoryImage)
     }
 
-    private fun setCategoryImage(category: String, imageView: ImageView) {
+    private fun setCategoryImage(category: String?, imageView: ImageView) {
         when (category) {
             "Biceps" -> imageView.setImageResource(R.drawable.icons8biceps100)
             "Barki" -> imageView.setImageResource(R.drawable.icons8shoulders100)
@@ -45,6 +45,7 @@ class WorkoutElementItemsAdapter(private val workoutElementItems: ArrayList<Work
             "Brzuch" -> imageView.setImageResource(R.drawable.icons8prelum100)
             "Triceps" -> imageView.setImageResource(R.drawable.icons8triceps100)
             "Klatka piersiowa" -> imageView.setImageResource(R.drawable.icons8chest100)
+            else -> imageView.setImageResource(R.drawable.icons8weightlifting100)
         }
     }
 }

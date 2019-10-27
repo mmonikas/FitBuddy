@@ -3,6 +3,7 @@ package com.monika.WorkoutsMainPage
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
@@ -48,9 +49,10 @@ RecyclerView.Adapter<WorkoutsListAdapter.WorkoutsViewHolder>() {
         exercisesInThisWorkout?.let {
             if (!exercisesInThisWorkout.isNullOrEmpty()) {
                 viewAdapter = WorkoutElementItemsAdapter(workoutElementItems = exercisesInThisWorkout)
-                holder.itemView.workoutListRecyclerView.apply {
+                var recyclerView = holder.itemView.workoutcard_items
+                recyclerView.apply {
                     adapter = viewAdapter
-                    //layoutManager = LinearLayoutManager()
+                    layoutManager = LinearLayoutManager(context)
                 }
             }
         }

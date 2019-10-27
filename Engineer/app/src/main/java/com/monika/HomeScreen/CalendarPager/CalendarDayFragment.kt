@@ -29,8 +29,8 @@ class CalendarDayFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        arguments?.takeIf { it.containsKey("exercises") }?.apply {
-            val exercises = get("exercises") as ArrayList<Exercise>
+        arguments?.takeIf { it.containsKey("workoutElements") }?.apply {
+            val exercises = get("workoutElements") as ArrayList<Exercise>
             exercises.let {
                 viewManager = LinearLayoutManager(context)
                 viewAdapter = ExercisesListAdapter(exercises)
