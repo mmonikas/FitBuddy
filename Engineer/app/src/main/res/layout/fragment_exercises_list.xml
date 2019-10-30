@@ -13,7 +13,8 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/floatingActionButton"
+            android:id="@+id/fab_addExercise"
+
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_alignParentEnd="true"

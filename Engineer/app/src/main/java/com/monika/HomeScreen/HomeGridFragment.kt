@@ -96,7 +96,7 @@ class HomeGridFragment : Fragment(), HomeFragmentDelegate {
         presenter.fetchUserWorkouts { result ->
             if (result.isNotEmpty()) {
                 //presenter.workouts = result
-                val bundle = bundleOf("workouts" to presenter.workouts)
+                val bundle = bundleOf("workouts" to result)
                 (activity as MainActivity).showToolbar()
                 Navigation.findNavController(view!!).navigate(R.id.workoutsList, bundle, null)
             }

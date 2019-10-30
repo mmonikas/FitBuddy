@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.monika.HomeScreen.CalendarPager.ExercisesListAdapter
 import com.monika.HomeScreen.MainActivity.MainActivity
 import com.monika.Model.WorkoutComponents.Exercise
 import com.monika.R
+import kotlinx.android.synthetic.main.fragment_exercises_list.*
 
 class ExercisesListFragment : Fragment() {
 
@@ -45,6 +47,12 @@ class ExercisesListFragment : Fragment() {
             }
             (activity as MainActivity).hideProgressView()
         }
+        setFAB()
+    }
 
+    private fun setFAB() {
+        fab_addExercise.setOnClickListener {
+            findNavController().navigate(R.id.action_exercisesListFragment_to_addExerciseFragment)
+        }
     }
 }

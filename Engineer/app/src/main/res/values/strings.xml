@@ -5,8 +5,8 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Ustawienia</string>
-    <string name="button_signIn">Zaloguj się</string>
+    <string name="action_settings">Settings</string>
+    <string name="button_signIn">Sign in</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -41,38 +41,40 @@
 
     <!-- login and register fragment -->
     <string name="loginUsernameHint">
-        <font size="15">Adres e-mail</font>
+        <font size="15">E-mail address</font>
     </string>
     <string name="loginPasswordHint">
-        <font size="15">Hasło</font>
+        <font size="15">Password</font>
     </string>
     <string name="logoDesc">Logo</string>
-    <string name="registerWithGoogle">Zaloguj przez Google</string>
-    <string name="errorSignIn">Niepoprawny login lub hasło</string>
-    <string name="button_signUp">Zarejestruj się</string>
-    <string name="errorGoogleSignIn">Wystąpił błąd podczas logowania</string>
-    <string name="action_logOut">Wyloguj się</string>
-    <string name="closeAgainToExit">Naciśnij ponownie, aby wyjść z aplikacji</string>
-    <string name="registerFragment_signUpButtonText">Utwórz konto</string>
-    <string name="registerNameHint">Imię</string>
-    <string name="registerPasswordRepeatHint">Powtórz hasło</string>
-    <string name="registerErrorData">Wprowadź prawidłowe dane</string>
-    <string name="registerSuccess">Konto zostało utworzone!</string>
-    <string name="registerFailure">Wystąpił nieoczekiwany błąd. Proszę spróbować ponownie.</string>
+    <string name="registerWithGoogle">Sign in with Google</string>
+    <string name="errorSignIn">Wrong e-mail address or password</string>
+    <string name="button_signUp">Sign up</string>
+    <string name="errorGoogleSignIn">There was an error while signing up</string>
+    <string name="action_logOut">Sign out</string>
+    <string name="closeAgainToExit">Press twice to close the app</string>
+    <string name="registerFragment_signUpButtonText">Create an account</string>
+    <string name="registerNameHint">Name</string>
+    <string name="registerPasswordRepeatHint">Repeat the password</string>
+    <string name="registerErrorData">Please, enter correct data</string>
+    <string name="registerSuccess">Your account was successfully created!</string>
+    <string name="registerFailure">There was an unexpected mistake. Please, try again later.</string>
     <string name="channel_name">fitbuddy_channel</string>
     <string name="channel_description">Channel description</string>
     <string name="default_notification_channel_id">default</string>
-    <string name="workout_not_planned_yet">Nie zaplanowano jeszcze treningów na ten dzień!</string>
-    <string name="exercise_name">Nazwa ćwiczenia</string>
-    <string name="exercise_description">To jest przykładowy opis ćwiczenia.</string>
+    <string name="workout_not_planned_yet">You have not planned any workout for that day yet!</string>
+    <string name="exercise_name">Exercise name</string>
+    <string name="exercise_description">This is an example of exercise description.</string>
     <string name="exercise_number">1.</string>
-    <string name="exercise_category">kategoria</string>
-    <string name="categoryImage">Obrazek kategorii</string>
-    <string name="workout_name">Nazwa treningu</string>
-    <string name="workout_initTime">Data utworzenia</string>
-    <string name="workout_exercisesNumber">Liczba ćwiczeń w treningu</string>
-    <string name="exercise_level">Poziom trudności:</string>
-    <string name="exerciseNumOfSets">Serie:</string>
-    <string name="exerciseNumOfReps">Powtórzenia:</string>
+    <string name="exercise_category">Category</string>
+    <string name="categoryImage">Category image</string>
+    <string name="workout_name">Workout name</string>
+    <string name="workout_initTime">Init date</string>
+    <string name="workout_exercisesNumber">Number of exercises:</string>
+    <string name="exercise_level">Difficulty level:</string>
+    <string name="exerciseNumOfSets">Sets:</string>
+    <string name="exerciseNumOfReps">Reps:</string>
     <string name="FitBuddy">Fit Buddy</string>
+    <string name="choose_category">Choose the category</string>
+    <string name="ok">OK</string>
 </resources>

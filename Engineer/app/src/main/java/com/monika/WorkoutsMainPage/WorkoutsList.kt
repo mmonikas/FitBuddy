@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -12,6 +14,7 @@ import com.monika.HomeScreen.CalendarPager.ExercisesListAdapter
 import com.monika.HomeScreen.MainActivity.MainActivity
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
+import kotlinx.android.synthetic.main.fragment_exercises_list.*
 import kotlinx.android.synthetic.main.fragment_workouts_list.*
 
 class WorkoutsList : Fragment() {
@@ -53,6 +56,7 @@ class WorkoutsList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
+        setFABListener()
         if (presenter.workoutsList.isNotEmpty()) {
             setRecyclerView()
         }
@@ -63,7 +67,8 @@ class WorkoutsList : Fragment() {
     }
 
     private fun setRecyclerView() {
-        var recyclerView = view?.findViewById<RecyclerView>(R.id.workoutListRecyclerView)
+       // var recyclerView = view?.findViewById<RecyclerView>(R.id.workoutListRecyclerView)
+        val recyclerView = workoutListRecyclerView
         recyclerView?.apply {
             setHasFixedSize(true)
             // use a linear layout manager
@@ -72,6 +77,12 @@ class WorkoutsList : Fragment() {
         }
 
         (activity as MainActivity).hideProgressView()
+    }
+
+    private fun setFABListener() {
+//        fab_addExercise.setOnClickListener {
+//            Navigation.findNavController(it).navigate(R.id.add_exercise)
+//        }
     }
 
     override fun onDestroy() {

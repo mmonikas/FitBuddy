@@ -49,7 +49,7 @@ RecyclerView.Adapter<WorkoutsListAdapter.WorkoutsViewHolder>() {
         exercisesInThisWorkout?.let {
             if (!exercisesInThisWorkout.isNullOrEmpty()) {
                 viewAdapter = WorkoutElementItemsAdapter(workoutElementItems = exercisesInThisWorkout)
-                var recyclerView = holder.itemView.workoutcard_items
+                val recyclerView = holder.itemView.workoutcard_items
                 recyclerView.apply {
                     adapter = viewAdapter
                     layoutManager = LinearLayoutManager(context)
