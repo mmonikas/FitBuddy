@@ -1,20 +1,15 @@
 package com.monika.WorkoutsMainPage
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import com.monika.HomeScreen.CalendarPager.ExercisesListAdapter
+import com.monika.AlertDialogs.PlanWorkoutDialog
 import com.monika.HomeScreen.MainActivity.MainActivity
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
-import kotlinx.android.synthetic.main.fragment_exercises_list.*
 import kotlinx.android.synthetic.main.fragment_workouts_list.*
 
 class WorkoutsList : Fragment() {
@@ -73,7 +68,7 @@ class WorkoutsList : Fragment() {
             setHasFixedSize(true)
             // use a linear layout manager
             layoutManager = LinearLayoutManager(context)
-            adapter = WorkoutsListAdapter(presenter.workoutsList)
+            adapter = WorkoutsListAdapter(presenter.workoutsList, context)
         }
 
         (activity as MainActivity).hideProgressView()
@@ -90,4 +85,6 @@ class WorkoutsList : Fragment() {
         (activity as MainActivity).supportActionBar?.hide()
     }
 }
+
+
 

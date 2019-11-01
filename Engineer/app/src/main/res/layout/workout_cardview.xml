@@ -5,11 +5,15 @@
         android:layout_height="wrap_content" xmlns:app="http://schemas.android.com/apk/res-auto"
         android:background="@color/primaryLightColor"
         style="@style/Widget.MaterialComponents.CardView"
+        android:layout_marginBottom="@dimen/cardView_margin"
+        android:layout_marginStart="@dimen/cardView_margin"
+        android:layout_marginEnd="@dimen/cardView_margin"
+        app:cardBackgroundColor="@color/secondaryLightColor"
         app:cardCornerRadius="@dimen/cardView_radius">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-                                                       android:layout_height="match_parent"
+                                                       android:layout_height="wrap_content"
                                                        android:layout_margin="@dimen/cardView_margin"
                                                        android:id="@+id/constraintLayout">
 
@@ -25,11 +29,13 @@
         <!--</ImageView>-->
 
         <androidx.recyclerview.widget.RecyclerView android:layout_width="0dp"
-                  android:id="@+id/workoutcard_items"
-                  android:layout_height="wrap_content" app:layout_constraintTop_toTopOf="@id/view"
-                  app:layout_constraintStart_toStartOf="parent"
-                  android:layout_marginStart="4dp" app:layout_constraintEnd_toEndOf="parent"
-                  android:layout_marginEnd="4dp" android:layout_marginTop="4dp">
+                                                   android:id="@+id/workoutcard_items"
+                                                   android:layout_height="wrap_content"
+                                                   app:layout_constraintTop_toTopOf="@id/view"
+                                                   app:layout_constraintStart_toStartOf="parent"
+                                                   android:layout_marginStart="4dp"
+                                                   app:layout_constraintEnd_toEndOf="parent"
+                                                   android:layout_marginEnd="4dp" android:layout_marginTop="4dp">
 
         </androidx.recyclerview.widget.RecyclerView>
         <TextView
@@ -77,7 +83,7 @@
                 app:layout_constraintBottom_toTopOf="@id/workoutcard_exercisesNumber"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintTop_toBottomOf="@id/workoutcard_items" android:layout_marginTop="12dp"
-                />
+        />
         <TextView
                 android:text="@string/workout_exercisesNumber"
                 android:layout_width="wrap_content"
@@ -87,8 +93,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/workoutcard_exercisesNumber"
                 android:layout_marginEnd="4dp" android:layout_marginStart="8dp"
-                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
-                android:textSize="14sp"/>
+                android:textSize="14sp" app:layout_constraintTop_toBottomOf="@+id/dataUtworzenia"
+                android:layout_marginTop="8dp"/>
 
         <TextView
                 android:text="@string/workout_exercisesNumber"
@@ -98,8 +104,16 @@
                 android:textAlignment="viewStart"
                 android:fontFamily="@font/assistant_semibold"
                 app:layout_constraintStart_toEndOf="@id/liczbaCwiczen" app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="4dp" android:layout_marginStart="8dp"
-                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"/>
+                android:layout_marginEnd="8dp" android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toTopOf="@id/workoutcard_planButton" android:layout_marginBottom="8dp"/>
+        <Button
+                android:text="@string/planButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/workoutcard_planButton"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp" app:icon="@drawable/icon_calendar" app:iconSize="20dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

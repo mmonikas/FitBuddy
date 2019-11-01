@@ -80,4 +80,7 @@
     <string name="invalid_exercise_data">Please, enter correct data. Fill in all fields</string>
     <string name="errorAddingExercise">Sorry, the operation could not be completed. Please, try again later.</string>
     <string name="dataSynchronized">Data synchronized successfully.</string>
+    <string name="planButton">Plan this workout</string>
+    <string name="planWorkout">Workout planning</string>
+    <string name="chooseWhen">Choose date</string>
 </resources>

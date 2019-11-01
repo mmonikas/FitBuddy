@@ -1,10 +1,13 @@
 package com.monika.WorkoutsMainPage
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.monika.AlertDialogs.PlanWorkoutDialog
+import com.monika.ExercisesMainPage.SelectionListener
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
 import kotlinx.android.synthetic.main.fragment_workouts_list.view.*
@@ -12,7 +15,7 @@ import kotlinx.android.synthetic.main.workout_cardview.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class WorkoutsListAdapter(private val workoutsList: ArrayList<Workout>):
+class WorkoutsListAdapter(private val workoutsList: ArrayList<Workout>, private val context: Context):
 RecyclerView.Adapter<WorkoutsListAdapter.WorkoutsViewHolder>() {
 
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -55,6 +58,10 @@ RecyclerView.Adapter<WorkoutsListAdapter.WorkoutsViewHolder>() {
                     layoutManager = LinearLayoutManager(context)
                 }
             }
+        }
+        holder.itemView.workoutcard_planButton.setOnClickListener {
+            val planWorkoutDialog = PlanWorkoutDialog(context, workout)
+            planWorkoutDialog.show()
         }
     }
 }

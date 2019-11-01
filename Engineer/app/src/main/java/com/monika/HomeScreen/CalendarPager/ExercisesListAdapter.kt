@@ -10,7 +10,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.monika.Model.WorkoutComponents.Exercise
 import com.monika.R
-import kotlinx.android.synthetic.main.calendar_day_workout_cardview.view.*
+import kotlinx.android.synthetic.main.exercise_cardview.view.*
 
 class ExercisesListAdapter(@NonNull options: FirestoreRecyclerOptions<Exercise>):
     FirestoreRecyclerAdapter<Exercise, ExercisesListAdapter.ExercisesListViewHolder>(options) {
@@ -39,7 +39,7 @@ class ExercisesListAdapter(@NonNull options: FirestoreRecyclerOptions<Exercise>)
     class ExercisesListViewHolder(cardView: CardView): RecyclerView.ViewHolder(cardView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExercisesListViewHolder {
-        val cardView = LayoutInflater.from(parent.context).inflate(R.layout.calendar_day_workout_cardview, parent, false) as CardView
+        val cardView = LayoutInflater.from(parent.context).inflate(R.layout.exercise_cardview, parent, false) as CardView
         //TODO set view size margins etc
         return ExercisesListViewHolder(cardView)
     }
