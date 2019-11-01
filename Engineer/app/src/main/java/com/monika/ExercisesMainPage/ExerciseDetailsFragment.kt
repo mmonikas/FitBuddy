@@ -1,4 +1,4 @@
-package com.monika.WorkoutsMainPage
+package com.monika.ExercisesMainPage
 
 import android.os.Bundle
 import android.view.LayoutInflater

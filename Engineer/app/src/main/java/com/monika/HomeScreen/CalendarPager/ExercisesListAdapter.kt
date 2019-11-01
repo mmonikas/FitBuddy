@@ -39,8 +39,9 @@ class ExercisesListAdapter(private val exercisesForDay: ArrayList<Exercise>):
 //                holder.itemView.exerciseLevel.visibility = View.VISIBLE
             }
         }
-        exercise.category?.let {
-            setCategoryImage(exercise.category, holder.itemView.exerciseImage)
+        val category = exercise.category
+        category?.let {
+            setCategoryImage(category, holder.itemView.exerciseImage)
         }
     }
 

@@ -33,9 +33,9 @@
     </fragment>
     <fragment android:id="@+id/registerFragment" android:name="com.monika.SignInAndRegister.RegisterFragment"
               tools:layout="@layout/fragment_register"/>
-    <fragment android:id="@+id/exerciseDetails" android:name="com.monika.WorkoutsMainPage.ExerciseDetails"
+    <fragment android:id="@+id/exerciseDetails" android:name="com.monika.ExercisesMainPage.ExerciseDetails"
               android:label="fragment_exercise_details" tools:layout="@layout/fragment_exercise_details"/>
-    <fragment android:id="@+id/exercisesListFragment" android:name="com.monika.WorkoutsMainPage.ExercisesListFragment"
+    <fragment android:id="@+id/exercisesListFragment" android:name="com.monika.ExercisesMainPage.ExercisesListFragment"
               android:label="Exercises" tools:layout="@layout/fragment_exercises_list">
         <action android:id="@+id/action_exercisesListFragment_to_exerciseDetails"
                 app:destination="@id/exerciseDetails" app:popUpTo="@+id/exercisesListFragment"/>
@@ -45,7 +45,7 @@
         <!--<action android:id="@+id/action_exercisesListFragment_to_addExerciseFragment"-->
         <!--app:destination="@id/addExerciseFragment"/>-->
     </fragment>
-    <!--<fragment android:id="@+id/addExerciseFragment" android:name="com.monika.AddExerciseFragment"-->
+    <!--<fragment android:id="@+id/addExerciseFragment" android:name="com.monika.com.monika.ExercisesMainPage.AddExerciseFragment"-->
               <!--android:label="@string/addExerciseLabel" tools:layout="@layout/fragment_add_exercise"/>-->
     <!--<fragment android:id="@+id/workoutsList" android:name="com.monika.WorkoutsMainPage.WorkoutsList"-->
               <!--android:label="fragment_workouts_list" tools:layout="@layout/fragment_workouts_list">-->
@@ -74,6 +74,6 @@
     </fragment>
     <fragment android:id="@+id/workoutsList" android:name="com.monika.WorkoutsMainPage.WorkoutsList"
               android:label="Workouts" tools:layout="@layout/fragment_workouts_list"/>
-    <fragment android:id="@+id/addExerciseFragment" android:name="AddExerciseFragment"
+    <fragment android:id="@+id/addExerciseFragment" android:name="com.monika.ExercisesMainPage.AddExerciseFragment"
               android:label="Add exercise"/>
 </navigation>

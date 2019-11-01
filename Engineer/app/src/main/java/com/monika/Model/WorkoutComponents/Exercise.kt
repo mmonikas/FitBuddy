@@ -4,13 +4,13 @@ import java.io.Serializable
 
 class Exercise : Serializable {
 
-    val name: String? = null
-    val description: String? = null
-    val equipment: Equipment? = null
-    val load: Double? = null
+    var name: String? = null
+    var description: String? = null
+    var equipment: Equipment? = null
+    var load: Double? = null
 //    val level: Int? = null
-    val category: String? = null
-    val userId: String? = null
+    var category: String? = null
+    var userId: String? = null
 
     constructor()
 }

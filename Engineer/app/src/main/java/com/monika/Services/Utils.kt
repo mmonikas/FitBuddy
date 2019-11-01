@@ -1,10 +1,12 @@
 package com.monika.Services
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.util.TypedValue
-
+import android.widget.ImageView
+import com.monika.R
 
 
 object Utils {
@@ -36,5 +38,19 @@ object Utils {
 
     fun getValueInPixel(context: Context, value: Float): Float {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, value, context.resources.displayMetrics)
+    }
+
+    fun getCategoryImage(category: String) : Int {
+        return when (category) {
+            "Biceps" -> (R.drawable.icons8biceps100)
+            "Barki" -> (R.drawable.icons8shoulders100)
+            "Plecy" -> (R.drawable.icons8torso100)
+            "Nogi" -> (R.drawable.icons8leg100)
+            "Pośladki" -> (R.drawable.icons8glutes100)
+            "Brzuch" -> (R.drawable.icons8prelum100)
+            "Triceps" -> (R.drawable.icons8triceps100)
+            "Klatka piersiowa" -> (R.drawable.icons8chest100)
+            else -> (R.drawable.icons8weightlifting100)
+        }
     }
 }

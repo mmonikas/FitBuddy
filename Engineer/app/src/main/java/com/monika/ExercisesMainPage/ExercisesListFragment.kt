@@ -1,10 +1,9 @@
-package com.monika.WorkoutsMainPage
+package com.monika.ExercisesMainPage
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -52,7 +51,7 @@ class ExercisesListFragment : Fragment() {
 
     private fun setFAB() {
         fab_addExercise.setOnClickListener {
-            findNavController().navigate(R.id.action_exercisesListFragment_to_addExerciseFragment)
+            findNavController().navigate(R.id.addExerciseFragment)
         }
     }
 }

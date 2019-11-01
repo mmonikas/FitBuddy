@@ -1,5 +1,7 @@
 package com.monika.HomeScreen.MainActivity
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -10,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
@@ -17,6 +20,7 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.monika.AlertDialogs.CategoryChoiceDialog
 import com.monika.R
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -143,5 +147,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun hideProgressView() {
         findViewById<LinearLayout>(R.id.main_progressView).visibility = View.GONE
     }
+
 
 }
