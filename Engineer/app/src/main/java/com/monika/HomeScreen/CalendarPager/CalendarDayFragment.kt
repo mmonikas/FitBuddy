@@ -16,6 +16,7 @@ class CalendarDayFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private val presenter = CalendarDayFragmentPresenter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                                savedInstanceState: Bundle? ): View? {
@@ -29,11 +30,12 @@ class CalendarDayFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        arguments?.takeIf { it.containsKey("workoutElements") }?.apply {
-            val exercises = get("workoutElements") as ArrayList<Exercise>
-            exercises.let {
+        val options = presenter.getOptionsForDataFetching()
+//        arguments?.takeIf { it.containsKey("workoutElements") }?.apply {
+//            val exercises = get("workoutElements") as ArrayList<Exercise>
+//            exercises.let {
                 viewManager = LinearLayoutManager(context)
-                viewAdapter = ExercisesListAdapter(exercises)
+                viewAdapter = ExercisesListAdapter(options)
                 recyclerView = view.findViewById<RecyclerView>(R.id.calendarDay_recyclerView).apply {
                     // use this setting to improve performance if you know that changes
                     // in content do not change the layout size of the RecyclerView
@@ -46,7 +48,4 @@ class CalendarDayFragment : Fragment() {
                     adapter = viewAdapter
                 }
             }
-        }
-
-    }
 }

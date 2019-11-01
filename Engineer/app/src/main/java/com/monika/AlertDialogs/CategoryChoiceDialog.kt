@@ -5,9 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.Window
+import android.view.*
 import android.widget.Button
 import android.widget.ListView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,9 +24,10 @@ class CategoryChoiceDialog(context: Context, listener: SelectionListener) : Dial
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val layout = LayoutInflater.from(context).inflate(R.layout.dialog_category_choice, null)
         setContentView(layout)
+        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
 
         val okButton = layout.findViewById<Button>(R.id.dialogChoice_buttonOK)
         okButton.setOnClickListener {
@@ -56,6 +55,8 @@ class CategoryChoiceDialog(context: Context, listener: SelectionListener) : Dial
         dialogChoiceList.setOnItemClickListener { parent, view, position, id ->
             listener.onClickCallback(categoriesList[position])
         }
+
+
     }
 
 

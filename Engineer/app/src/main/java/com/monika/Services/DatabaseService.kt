@@ -1,20 +1,26 @@
 package com.monika.Services
 
 import android.util.Log
+import android.widget.Adapter
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthSettings
 import com.google.firebase.auth.UserInfo
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Query
+import com.google.firebase.firestore.*
 import com.monika.Enums.UserDataType
-import com.monika.Model.WorkoutComponents.Category
-import com.monika.Model.WorkoutComponents.Equipment
-import com.monika.Model.WorkoutComponents.Exercise
-import com.monika.Model.WorkoutComponents.WorkoutElement
 import com.monika.Model.WorkoutPlan.FirebaseWorkout
 import com.monika.Model.WorkoutPlan.FirebaseWorkoutElement
 import com.monika.Model.WorkoutPlan.PlannedWorkout
+import com.google.firebase.firestore.FirebaseFirestore
+import com.monika.Model.WorkoutComponents.*
+
 
 class DatabaseService {
+
+    private val db = FirebaseFirestore.getInstance()
+    private val currentUser = FirebaseAuth.getInstance().currentUser
 
     companion object {
         val instance = DatabaseService()
@@ -22,7 +28,6 @@ class DatabaseService {
 
     fun fetchUserData(requestedDataType: UserDataType, userId: String, completion: (result: ArrayList<Any>) -> Unit) {
         val dbCollectionToQuery = getCollectionForRequestedType(requestedDataType)
-        val db = FirebaseFirestore.getInstance()
         db.collection(dbCollectionToQuery)
 //            .whereEqualTo("userID", userId)
             //.whereEqualTo("userID", null)
@@ -40,7 +45,6 @@ class DatabaseService {
     }
 
     fun fetchBaseData(requestedDataType: UserDataType, completion: (result: ArrayList<Any>) -> Unit) {
-        val db = FirebaseFirestore.getInstance()
         val dbCollectionToQuery = getCollectionForRequestedType(requestedDataType)
         db.collection(dbCollectionToQuery)
             .get()
@@ -56,7 +60,6 @@ class DatabaseService {
     }
 
     fun fetchCustomDocument(dataType: UserDataType, documentId: String, completion: (result: ArrayList<Any>) -> Unit) {
-        val db = FirebaseFirestore.getInstance()
         val dbCollectionToQuery = getCollectionForRequestedType(dataType)
         db.collection(dbCollectionToQuery)
             .get()
@@ -70,6 +73,24 @@ class DatabaseService {
             .addOnFailureListener { exception ->
                 Log.w("DATA_FETCHING", "Error getting documents: ", exception)
                 completion(ArrayList())
+            }
+    }
+
+    fun saveNewDocument(document: MyDocument, collectionType: UserDataType) {
+        val dbCollectionForNewDocument = getCollectionForRequestedType(collectionType)
+        val docReference = db.collection(dbCollectionForNewDocument).document()
+        document.docReference = docReference.path
+        document.userId = currentUser?.uid
+        docReference.set(document)
+            .addOnCompleteListener {
+                task ->
+                Log.w("DATA_ADDING_COMPLETED", "New document in: ${collectionType.name}")
+            }
+            .addOnSuccessListener {
+                Log.w("DATA_ADDING_SUCCESS", "Successfully added new document: ${collectionType.name}")
+            }
+            .addOnFailureListener { e ->
+                Log.w("DATA_ADDING_FAILURE", "Error writing document", e)
             }
     }
 
@@ -122,7 +143,6 @@ class DatabaseService {
         return dataList
     }
 
-
     private fun getProcessedFetchedDataDocument(document: DocumentSnapshot, collectionType: UserDataType): Any? {
         when (collectionType) {
             UserDataType.WORKOUT -> {
@@ -158,6 +178,45 @@ class DatabaseService {
             UserDataType.CATEGORY -> "Category"
             UserDataType.EQUIPMENT -> "Equipment"
             UserDataType.USER_INFO -> "User"
+        }
+    }
+
+    fun getQueryForFetching(userDataType: UserDataType): CollectionReference {
+        val collectionToQuery = getCollectionForRequestedType(userDataType)
+        return db.collection(collectionToQuery)
+    }
+
+    fun updateDocument(documentToUpdate: MyDocument, dataType: UserDataType) {
+        documentToUpdate.docReference?.let {
+            db.document(it)
+                .set(documentToUpdate)
+                .addOnCompleteListener {
+                        task ->
+                    Log.w("DATA_EDIT", "Updating document in: ${dataType.name}")
+                }
+                .addOnSuccessListener {
+                    Log.w("DATA_EDIT", "Successfully updated document: ${dataType.name}")
+                }
+                .addOnFailureListener { e ->
+                    Log.w("DATA_EDIT", "Error updating document", e)
+                }
+        }
+    }
+
+    fun removeDocument(documentToRemove: MyDocument, dataType: UserDataType) {
+        documentToRemove.docReference?.let {
+            db.document(it)
+                .delete()
+                .addOnCompleteListener {
+                        task ->
+                    Log.w("DATA_DELETE", "Updating document in: ${dataType.name}")
+                }
+                .addOnSuccessListener {
+                    Log.w("DATA_DELETE", "Successfully updated document: ${dataType.name}")
+                }
+                .addOnFailureListener { e ->
+                    Log.w("DATA_DELETE", "Error updating document", e)
+                }
         }
     }
 

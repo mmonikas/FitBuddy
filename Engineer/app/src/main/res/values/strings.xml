@@ -77,4 +77,7 @@
     <string name="FitBuddy">Fit Buddy</string>
     <string name="choose_category">Choose the category</string>
     <string name="ok">OK</string>
+    <string name="invalid_exercise_data">Please, enter correct data. Fill in all fields</string>
+    <string name="errorAddingExercise">Sorry, the operation could not be completed. Please, try again later.</string>
+    <string name="dataSynchronized">Data synchronized successfully.</string>
 </resources>
