@@ -1,4 +1,4 @@
-package com.monika.HomeScreen.CalendarPager
+package com.monika.ExercisesMainPage
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -34,7 +34,6 @@ class ExercisesListAdapter(@NonNull options: FirestoreRecyclerOptions<Exercise>)
             setCategoryImage(category, holder.itemView.exerciseImage)
         }
     }
-//    RecyclerView.Adapter<ExercisesListAdapter.ExercisesListViewHolder>() {
 
     class ExercisesListViewHolder(cardView: CardView): RecyclerView.ViewHolder(cardView)
 
@@ -43,32 +42,6 @@ class ExercisesListAdapter(@NonNull options: FirestoreRecyclerOptions<Exercise>)
         //TODO set view size margins etc
         return ExercisesListViewHolder(cardView)
     }
-
-    override fun onDataChanged() {
-        super.onDataChanged()
-
-    }
-
-//    override fun onBindViewHolder(holder: ExercisesListViewHolder, position: Int) {
-//        val exercise = exercisesForDay[position]
-//        val numberString = (position + 1).toString()
-//        holder.itemView.exerciseNumberInWorkout.text = "$numberString."
-//        holder.itemView.exerciseName.text = exercise.name
-//        holder.itemView.exerciseDescription.text = exercise.description
-//        //holder.itemView.exercise.visibility = View.GONE
-//        val level = exercise.load
-//        level?.let {
-//            val levelString = level.toString()
-//            if (levelString != "") {
-////                holder.itemView.exerciseLevel.text = "Poziom trudności: $levelString"
-////                holder.itemView.exerciseLevel.visibility = View.VISIBLE
-//            }
-//        }
-//        val category = exercise.category
-//        category?.let {
-//            setCategoryImage(category, holder.itemView.exerciseImage)
-//        }
-//    }
 
     private fun setCategoryImage(category: String, imageView: ImageView) {
         when (category) {

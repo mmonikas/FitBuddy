@@ -7,33 +7,23 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.monika.AlertDialogs.PlanWorkoutDialog
-import com.monika.ExercisesMainPage.SelectionListener
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
-import kotlinx.android.synthetic.main.fragment_workouts_list.view.*
 import kotlinx.android.synthetic.main.workout_cardview.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class WorkoutsListAdapter(private val workoutsList: ArrayList<Workout>, private val context: Context, private val listener: WorkoutsPlannerListener):
-RecyclerView.Adapter<WorkoutsListAdapter.WorkoutsViewHolder>() {
+class WorkoutsListAdapter(private val context: Context, private val workouts: ArrayList<Workout>,
+                          private val listener: WorkoutsPlannerListener):
+    RecyclerView.Adapter<WorkoutsListAdapter.WorkoutsViewHolder>() {
 
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
-    private lateinit var viewManager: RecyclerView.LayoutManager
-
-    class WorkoutsViewHolder(cardView: CardView): RecyclerView.ViewHolder(cardView)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutsViewHolder {
-        val cardView = LayoutInflater.from(parent.context).inflate(R.layout.workout_cardview, parent, false) as CardView
-        return WorkoutsViewHolder(cardView)
-    }
 
     override fun getItemCount(): Int {
-        return workoutsList.size
+        return workouts.size
     }
 
     override fun onBindViewHolder(holder: WorkoutsViewHolder, position: Int) {
-        val workout = workoutsList[position]
+        val workout = workouts[position]
         holder.itemView.workoutcard_name.text = workout.name
         holder.itemView.workoutcard_exercisesNumber.text = workout.exercises?.size.toString()
         workout.initDate?.let {
@@ -64,4 +54,14 @@ RecyclerView.Adapter<WorkoutsListAdapter.WorkoutsViewHolder>() {
             planWorkoutDialog.show()
         }
     }
+
+    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+
+    class WorkoutsViewHolder(cardView: CardView): RecyclerView.ViewHolder(cardView)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutsViewHolder {
+        val cardView = LayoutInflater.from(parent.context).inflate(R.layout.workout_cardview, parent, false) as CardView
+        return WorkoutsViewHolder(cardView)
+    }
+
 }

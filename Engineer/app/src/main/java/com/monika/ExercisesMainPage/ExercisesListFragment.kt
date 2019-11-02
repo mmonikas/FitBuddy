@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.monika.HomeScreen.CalendarPager.ExercisesListAdapter
 import com.monika.HomeScreen.MainActivity.MainActivity
 import com.monika.R
 import kotlinx.android.synthetic.main.fragment_exercises_list.*
@@ -34,10 +33,6 @@ class ExercisesListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        arguments?.takeIf { it.containsKey("workoutElements") }?.apply {
-//            val exercises = get("workoutElements") as ArrayList<Exercise>
-//            exercises.let {
-       // setData()
         setUpRecyclerView()
         setFAB()
     }
@@ -63,6 +58,7 @@ class ExercisesListFragment : Fragment() {
         recyclerView = view!!.findViewById<RecyclerView>(R.id.exercisesListRecyclerView).apply {
             layoutManager = viewManager
             adapter = viewAdapter
+            setHasFixedSize(true)
         }
         val swipeController = SwipeController(object : SwipeControllerActions() {
             override fun onRightClicked(position: Int) {

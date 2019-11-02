@@ -84,4 +84,5 @@
     <string name="planWorkout">Workout planning</string>
     <string name="chooseWhen">Choose date</string>
     <string name="workoutsPlanned">Your workouts have been planned successfully!</string>
+    <string name="workoutsPlanningError">Unexpected error. Please, try again later.</string>
 </resources>

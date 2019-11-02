@@ -31,8 +31,7 @@ class DatabaseService {
     fun fetchUserData(requestedDataType: UserDataType, userId: String, completion: (result: ArrayList<Any>) -> Unit) {
         val dbCollectionToQuery = getCollectionForRequestedType(requestedDataType)
         db.collection(dbCollectionToQuery)
-//            .whereEqualTo("userID", userId)
-            //.whereEqualTo("userID", null)
+//            .whereEqualTo("userId", userId)
             .get()
             .addOnSuccessListener { documents ->
                 val dataList: ArrayList<Any> = getProcessedFetchedDataArray(documents, requestedDataType)

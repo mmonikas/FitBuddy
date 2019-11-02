@@ -1,13 +1,20 @@
 package com.monika.WorkoutsMainPage
 
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.monika.Enums.FirebaseRequestResult
+import com.monika.ExercisesMainPage.SwipeController
+import com.monika.ExercisesMainPage.SwipeControllerActions
 import com.monika.HomeScreen.MainActivity.MainActivity
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
@@ -23,79 +30,90 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener {
 
     val presenter = WorkoutsListPresenter()
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var viewAdapter: WorkoutsListAdapter
+    private lateinit var viewManager: RecyclerView.LayoutManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        val options = presenter.getOptionsForWorkoutsListListener()
+//        viewAdapter = WorkoutsListAdapter(context = context!!, options = options, listener = this)
         if (arguments != null) {
             val workouts = arguments?.get("workouts") as ArrayList<Workout>
             presenter.workoutsList = workouts
+            viewAdapter = WorkoutsListAdapter(context!!, workouts, this)
         }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+        ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_workouts_list, container, false)
     }
 
-    override fun onStart() {
-        super.onStart()
-//        if (FirebaseAuth.getInstance().currentUser != null) {
-//            if (arguments == null) {
-//                (activity as MainActivity).showProgressView()
-//                presenter.fetchUserWorkouts { result ->
-//                    if (result.isNotEmpty()) {
-//                        setRecyclerView()
-//                    } else {
-//                        //TODO zrob to cos bo nie dziala obviously
-//                    }
-//                }
-//            }
-//        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setFABListener()
-        if (presenter.workoutsList.isNotEmpty()) {
-            setRecyclerView()
-        }
+        setFAB()
+        setRecyclerView()
     }
+//
+//    override fun onStart() {
+//        super.onStart()
+//        viewAdapter.startListening()
+//    }
+//
+//    override fun onStop() {
+//        super.onStop()
+//        viewAdapter.stopListening()
+//    }
 
     private fun setRecyclerView() {
-       // var recyclerView = view?.findViewById<RecyclerView>(R.id.workoutListRecyclerView)
-        val recyclerView = workoutListRecyclerView
-        recyclerView?.apply {
-            setHasFixedSize(true)
-            // use a linear layout manager
-            layoutManager = LinearLayoutManager(context)
-            adapter = WorkoutsListAdapter(presenter.workoutsList, context, this@WorkoutsList)
+        viewManager = LinearLayoutManager(context)
+        recyclerView = view!!.findViewById<RecyclerView>(R.id.workoutListRecyclerView).apply {
+            layoutManager = viewManager
+            adapter = viewAdapter
         }
+        val swipeController = SwipeController(object : SwipeControllerActions() {
+            override fun onRightClicked(position: Int) {
+               // presenter.removeItemAt(viewAdapter.getItem(position))
+            }
+
+            override fun onLeftClicked(position: Int) {
+                val bundle = Bundle()
+                bundle.putSerializable("workoutForDetails", presenter.workoutsList[position])
+                findNavController().navigate(R.id.addExerciseFragment, bundle, null)
+                //edit
+            }
+        }, context = context!!)
+
+        val itemTouchHelper = ItemTouchHelper(swipeController)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+
+        recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+                swipeController.onDraw(c)
+            }
+        })
 
         (activity as MainActivity).hideProgressView()
     }
 
-    private fun setFABListener() {
+    private fun setFAB() {
 //        fab_addExercise.setOnClickListener {
 //            Navigation.findNavController(it).navigate(R.id.add_exercise)
 //        }
     }
 
-    override fun datesChoosenFor(workout: Workout, dates: ArrayList<Date>) {
-        (activity as MainActivity).showProgressView()
-        presenter.planWorkoutForDates(workout = workout, dates = dates) {
-            result ->
-            (activity as MainActivity).hideProgressView()
-            when (result) {
-                FirebaseRequestResult.SUCCESS -> showSuccessSnackbar()
-                FirebaseRequestResult.FAILURE -> showErrorSnackbar()
-            }
-        }
-    }
-
     private fun showErrorSnackbar() {
+        val snackbar = Snackbar
+            .make(view!!, R.string.workoutsPlanningError, Snackbar.LENGTH_LONG)
+            .setAction(R.string.ok) {
 
+            }
+        snackbar.view.setBackgroundColor(ContextCompat.getColor(context!!, R.color.accentOrange))
+        snackbar.show()
     }
 
     private fun showSuccessSnackbar() {
@@ -105,6 +123,18 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener {
 
             }
         snackbar.show()
+    }
+
+    override fun datesChoosenFor(workout: Workout, dates: ArrayList<Date>) {
+        (activity as MainActivity).showProgressView()
+        presenter.planWorkoutForDates(workout = workout, dates = dates) {
+                result ->
+            (activity as MainActivity).hideProgressView()
+            when (result) {
+                FirebaseRequestResult.SUCCESS -> showSuccessSnackbar()
+                FirebaseRequestResult.FAILURE -> showErrorSnackbar()
+            }
+        }
     }
 
 }

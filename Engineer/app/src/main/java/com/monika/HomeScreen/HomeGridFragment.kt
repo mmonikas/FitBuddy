@@ -60,7 +60,6 @@ class HomeGridFragment : Fragment(), HomeFragmentDelegate {
     }
 
     override fun gridMenuItemTriggered(atIndex: Int, withId: MenuItemType) {
-        (activity as MainActivity).showProgressView()
         when (withId) {
             kalendarz -> fetchDataAndOpenCalendarFragment()
             treningi -> fetchDataAndOpenWorkoutsFragment()
@@ -72,17 +71,22 @@ class HomeGridFragment : Fragment(), HomeFragmentDelegate {
     }
 
     private fun fetchDataAndOpenCalendarFragment() {
-        presenter.fetchBaseExercises { result ->
-            if (result.isNotEmpty()) {
-                presenter.exercises = result
-                val bundle = bundleOf("workoutElements" to result)
-                (activity as MainActivity).showToolbar()
-                Navigation.findNavController(view!!).navigate(R.id.homeFragment, bundle, null)
-            }
-        }
+        (activity as MainActivity).showToolbar()
+        Navigation.findNavController(view!!).navigate(R.id.homeFragment)
+//        presenter.fetchBaseExercises { result ->
+//            if (result.isNotEmpty()) {
+//                presenter.exercises = result
+//                val bundle = bundleOf("workoutElements" to result)
+//                (activity as MainActivity).showToolbar()
+//                Navigation.findNavController(view!!).navigate(R.id.homeFragment, bundle, null)
+//            }
+//        }
     }
 
     private fun fetchDataAndOpenWorkoutsFragment() {
+//        (activity as MainActivity).showToolbar()
+//        Navigation.findNavController(view!!).navigate(R.id.workoutsList)
+        (activity as MainActivity).showProgressView()
         presenter.fetchUserWorkouts { result ->
             if (result.isNotEmpty()) {
                 //presenter.workouts = result
@@ -94,14 +98,18 @@ class HomeGridFragment : Fragment(), HomeFragmentDelegate {
     }
 
     private fun fetchDataAndOpenExercisesFragment() {
-        presenter.fetchBaseExercises { result ->
-            if (result.isNotEmpty()) {
-                presenter.exercises = result
-                val bundle = bundleOf("workoutElements" to result)
-                (activity as MainActivity).showToolbar()
-                Navigation.findNavController(view!!).navigate(R.id.exercisesListFragment, bundle, null)
-            }
-        }
+        (activity as MainActivity).showProgressView()
+        (activity as MainActivity).showToolbar()
+        Navigation.findNavController(view!!).navigate(R.id.exercisesListFragment, null)
+
+//        presenter.fetchBaseExercises { result ->
+//            if (result.isNotEmpty()) {
+//                presenter.exercises = result
+//                val bundle = bundleOf("workoutElements" to result)
+//                (activity as MainActivity).showToolbar()
+//                Navigation.findNavController(view!!).navigate(R.id.exercisesListFragment, bundle, null)
+//            }
+//        }
     }
 
     private fun setMenuItems() {

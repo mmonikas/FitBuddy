@@ -88,8 +88,10 @@ class LoginFragmentPresenter {
                                     val exercise = result as Exercise
                                     workoutElementToAdd.exercise = exercise
                                     workoutToAdd.exercises?.add(workoutElementToAdd)
-                                    workoutsList.add(workoutToAdd)
-                                    completion(workoutsList)
+                                    if(workoutToAdd.exercises?.size == currentWorkoutComponentsPath.size) {
+                                        workoutsList.add(workoutToAdd)
+                                        completion(workoutsList)
+                                    }
                                 }
                             }
                         }
@@ -118,14 +120,6 @@ class LoginFragmentPresenter {
             completion(exercisesList)
         }
     }
-
-//    fun fetchWorkout(documentId: String, completion: (result: Any) -> Unit) {
-//        DatabaseService.instance.fetchCustomDocument(UserDataType.WORKOUT, documentId) {
-//            result ->
-//            val workout = result as Workout
-//            completion(workout)
-//        }
-//    }
 
     fun fetchExercise(documentId: String, completion: (result: Any) -> Unit) {
         DatabaseService.instance.fetchCustomDocument(UserDataType.EXERCISE, documentId) {

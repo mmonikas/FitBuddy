@@ -60,9 +60,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
-        if (presenter.exercises.isNotEmpty()) {
-            setTabLayout()
-        }
+        setTabLayout()
+//        if (presenter.exercises.isNotEmpty()) {
+//            setTabLayout()
+//        }
     }
 
     private fun setLayout() {
@@ -78,7 +79,7 @@ class HomeFragment : Fragment() {
         val adapter = HomeFragmentPagerAdapter(childFragmentManager)
         adapter.exercises = presenter.exercises
         home_pager.adapter = adapter
-        (activity as MainActivity).hideProgressView()
+        //(activity as MainActivity).hideProgressView()
     }
 
     override fun onDestroy() {
