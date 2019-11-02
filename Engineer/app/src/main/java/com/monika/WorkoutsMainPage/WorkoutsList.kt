@@ -6,13 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.monika.AlertDialogs.PlanWorkoutDialog
+import com.google.android.material.snackbar.Snackbar
+import com.monika.Enums.FirebaseRequestResult
 import com.monika.HomeScreen.MainActivity.MainActivity
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
 import kotlinx.android.synthetic.main.fragment_workouts_list.*
+import java.util.*
 
-class WorkoutsList : Fragment() {
+
+interface  WorkoutsPlannerListener {
+    fun datesChoosenFor(workout: Workout, dates: ArrayList<Date>)
+}
+
+class WorkoutsList : Fragment(), WorkoutsPlannerListener {
 
     val presenter = WorkoutsListPresenter()
 
@@ -50,15 +57,10 @@ class WorkoutsList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setLayout()
         setFABListener()
         if (presenter.workoutsList.isNotEmpty()) {
             setRecyclerView()
         }
-    }
-
-    private fun setLayout() {
-        (activity as MainActivity).supportActionBar?.show()
     }
 
     private fun setRecyclerView() {
@@ -68,7 +70,7 @@ class WorkoutsList : Fragment() {
             setHasFixedSize(true)
             // use a linear layout manager
             layoutManager = LinearLayoutManager(context)
-            adapter = WorkoutsListAdapter(presenter.workoutsList, context)
+            adapter = WorkoutsListAdapter(presenter.workoutsList, context, this@WorkoutsList)
         }
 
         (activity as MainActivity).hideProgressView()
@@ -80,11 +82,30 @@ class WorkoutsList : Fragment() {
 //        }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        (activity as MainActivity).supportActionBar?.hide()
+    override fun datesChoosenFor(workout: Workout, dates: ArrayList<Date>) {
+        (activity as MainActivity).showProgressView()
+        presenter.planWorkoutForDates(workout = workout, dates = dates) {
+            result ->
+            (activity as MainActivity).hideProgressView()
+            when (result) {
+                FirebaseRequestResult.SUCCESS -> showSuccessSnackbar()
+                FirebaseRequestResult.FAILURE -> showErrorSnackbar()
+            }
+        }
     }
+
+    private fun showErrorSnackbar() {
+
+    }
+
+    private fun showSuccessSnackbar() {
+        val snackbar = Snackbar
+            .make(view!!, R.string.workoutsPlanned, Snackbar.LENGTH_LONG)
+            .setAction(R.string.ok) {
+
+            }
+        snackbar.show()
+    }
+
 }
-
-
 

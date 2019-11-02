@@ -7,15 +7,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.monika.AlertDialogs.CategoryChoiceDialog
-import com.monika.HomeScreen.MainActivity.MainActivity
 import com.monika.Model.WorkoutComponents.Category
 import com.monika.Model.WorkoutComponents.Exercise
 import com.monika.R
 import com.monika.Services.Utils
-import kotlinx.android.synthetic.main.dialog_category_choice.*
-import kotlinx.android.synthetic.main.dialog_category_choice.view.*
 import kotlinx.android.synthetic.main.fragment_add_exercise.*
 
 class AddExerciseFragment : Fragment(), SelectionListener {

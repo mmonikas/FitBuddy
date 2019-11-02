@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.workout_cardview.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class WorkoutsListAdapter(private val workoutsList: ArrayList<Workout>, private val context: Context):
+class WorkoutsListAdapter(private val workoutsList: ArrayList<Workout>, private val context: Context, private val listener: WorkoutsPlannerListener):
 RecyclerView.Adapter<WorkoutsListAdapter.WorkoutsViewHolder>() {
 
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -42,7 +42,7 @@ RecyclerView.Adapter<WorkoutsListAdapter.WorkoutsViewHolder>() {
                 val initDate = Date(workoutDate)
                 val formatter = SimpleDateFormat("dd.MM.yyyy")
                 val formattedDate = formatter.format(initDate)
-                val localeFormat = SimpleDateFormat("EEEE", Locale.forLanguageTag("pl-PL"))
+                val localeFormat = SimpleDateFormat("EEEE", Locale.forLanguageTag("en-us"))
                 val dayOfWeek = localeFormat.format(initDate)
                 holder.itemView.workoutcard_inittime.text = "$dayOfWeek, $formattedDate"
             }
@@ -60,7 +60,7 @@ RecyclerView.Adapter<WorkoutsListAdapter.WorkoutsViewHolder>() {
             }
         }
         holder.itemView.workoutcard_planButton.setOnClickListener {
-            val planWorkoutDialog = PlanWorkoutDialog(context, workout)
+            val planWorkoutDialog = PlanWorkoutDialog(context, workout, listener)
             planWorkoutDialog.show()
         }
     }

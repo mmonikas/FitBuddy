@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -50,23 +51,12 @@ class HomeGridFragment : Fragment(), HomeFragmentDelegate {
     override fun onStart() {
         super.onStart()
         if (FirebaseAuth.getInstance().currentUser == null) {
-            findNavController().navigate(R.id.loginFragment)
+            val navBuilder = NavOptions.Builder()
+            val navOptions = navBuilder.setEnterAnim(R.anim.slide_out_top).setPopUpTo(R.id.nav_graph, true)
+            findNavController().navigate(R.id.loginFragment, null, navOptions.build(), null)
+//            findNavController().navigate(R.id.loginFragment)
         }
-//        } else {
-//            presenter.fetchUserWorkouts {
-//                    workoutListResult ->
-//                if (workoutListResult.isNotEmpty()) {
-//                    presenter.workouts = workoutListResult
-//                    homeFragment_progress.visibility = View.GONE
-////                    val bundle = bundleOf("workouts" to workoutListResult)
-////                    Navigation.findNavController(view!!).navigate(R.id.homeFragment, bundle, null)
-//                }
-//                else {
-//                    //loginFragment_progress.visibility = View.GONE
-//                    //TODO zrob to cos bo nie dziala obviously
-//                }
-//            }
-//        }
+        (activity as MainActivity).supportActionBar?.show()
     }
 
     override fun gridMenuItemTriggered(atIndex: Int, withId: MenuItemType) {

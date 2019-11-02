@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var backPressedOnce: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         FirebaseDatabase.getInstance().setPersistenceEnabled(true)
@@ -84,9 +85,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onBackPressed() {
         super.onBackPressed()
-        if (main_progressView.visibility == View.VISIBLE) {
-            hideProgressView()
-        }
+//        if (main_progressView.visibility == View.VISIBLE) {
+//            hideProgressView()
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -101,8 +102,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 presenter.logOutUser()
                // navController.popBackStack(R.id.homeFragment, true)
                 val navBuilder = NavOptions.Builder()
-                val navOptions = navBuilder.setPopExitAnim(R.anim.slide_out_top).setPopUpTo(R.id.loginFragment, true)
-                navController.popBackStack(R.id.loginFragment, true)
+                val navOptions = navBuilder.setEnterAnim(R.anim.slide_out_top).setPopUpTo(R.id.nav_graph, true)
                 navController.navigate(R.id.loginFragment, null, navOptions.build(), null)
                 false
             }

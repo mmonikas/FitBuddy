@@ -4,8 +4,8 @@ import com.google.firebase.Timestamp
 import com.monika.Model.WorkoutComponents.MyDocument
 import java.io.Serializable
 
-class PlannedWorkout: Serializable, MyDocument {
-    var workout: Workout? = null
+class FirebasePlannedWorkout: Serializable, MyDocument {
+    var workout: String? = null
     var date: Timestamp? = null
     var completed: Boolean? = null
 

@@ -66,7 +66,8 @@ class LoginFragmentPresenter {
                     result ->
                 val firebaseWorkoutList = result as ArrayList<FirebaseWorkout>
                 firebaseWorkoutList.forEach { workout ->
-                    workoutToAdd.userID = currentUser.uid
+                    workoutToAdd.docReference = workout.docReference
+                    workoutToAdd.userId = currentUser.uid
                     workoutToAdd.initDate = workout.initDate
                     workoutToAdd.name = workout.name
                     workoutToAdd.exercises = ArrayList()
@@ -76,6 +77,7 @@ class LoginFragmentPresenter {
                             result ->
                             val workoutElement = result as FirebaseWorkoutElement
                             val workoutElementToAdd = WorkoutElement()
+                            workoutElementToAdd.docReference = workoutElement.docReference
                             workoutElementToAdd.numOfReps = workoutElement.numOfReps
                             workoutElementToAdd.numOfSets = workoutElement.numOfSets
                             workoutElementToAdd.timer = workoutElement.timer

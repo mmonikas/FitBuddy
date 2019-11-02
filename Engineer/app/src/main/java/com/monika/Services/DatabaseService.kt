@@ -14,7 +14,9 @@ import com.monika.Model.WorkoutPlan.FirebaseWorkout
 import com.monika.Model.WorkoutPlan.FirebaseWorkoutElement
 import com.monika.Model.WorkoutPlan.PlannedWorkout
 import com.google.firebase.firestore.FirebaseFirestore
+import com.monika.Enums.FirebaseRequestResult
 import com.monika.Model.WorkoutComponents.*
+import com.monika.Model.WorkoutPlan.FirebasePlannedWorkout
 
 
 class DatabaseService {
@@ -92,6 +94,31 @@ class DatabaseService {
             .addOnFailureListener { e ->
                 Log.w("DATA_ADDING_FAILURE", "Error writing document", e)
             }
+    }
+
+    fun savePlannedWorkouts(workoutsToSaveAsPlanned: ArrayList<FirebasePlannedWorkout>, completion: (result: FirebaseRequestResult) -> Unit) {
+        val collectionToWrite = getCollectionForRequestedType(UserDataType.PLANNED_WORKOUT)
+        var newReference: DocumentReference
+        db.runBatch {
+            writeBatch ->
+            for (workout in workoutsToSaveAsPlanned) {
+                newReference = db.collection(collectionToWrite).document()
+                workout.userId = currentUser?.uid
+                workout.docReference = newReference.path
+                writeBatch.set(newReference, workout)
+            }
+        }
+        .addOnCompleteListener { task ->
+            Log.w("DATA_ADDING_COMPLETED", "New document in: $collectionToWrite")
+        }
+        .addOnSuccessListener {
+            Log.w("DATA_ADDING_SUCCESS", "Successfully added new document: $collectionToWrite")
+            completion(FirebaseRequestResult.SUCCESS)
+        }
+        .addOnFailureListener { e ->
+            Log.w("DATA_ADDING_FAILURE", "Error writing document", e)
+            completion(FirebaseRequestResult.FAILURE)
+        }
     }
 
     private fun getProcessedFetchedDataArray(documents: QuerySnapshot, collectionType: UserDataType): ArrayList<Any> {
@@ -219,5 +246,4 @@ class DatabaseService {
                 }
         }
     }
-
 }
