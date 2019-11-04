@@ -58,7 +58,6 @@ class ExercisesListFragment : Fragment() {
         recyclerView = view!!.findViewById<RecyclerView>(R.id.exercisesListRecyclerView).apply {
             layoutManager = viewManager
             adapter = viewAdapter
-            setHasFixedSize(true)
         }
         val swipeController = SwipeController(object : SwipeControllerActions() {
             override fun onRightClicked(position: Int) {
@@ -81,7 +80,6 @@ class ExercisesListFragment : Fragment() {
                 swipeController.onDraw(c)
             }
         })
-
         (activity as MainActivity).hideProgressView()
     }
 }

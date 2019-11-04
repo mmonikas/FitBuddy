@@ -1,13 +1,15 @@
 package com.monika.HomeScreen.CalendarPager
 
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.ServerTimestamp
+import com.monika.Model.CalendarDayTimestamp
 import com.monika.Model.WorkoutComponents.Exercise
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import java.sql.Time
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -17,54 +19,49 @@ class HomeFragmentPagerAdapter(fm: FragmentManager) :
 
     val ARG_OBJECT = "object"
     var exercises = ArrayList<Exercise>()
+    lateinit var date: Date
 
     override fun getCount(): Int {
-        return 40
+        return 30
     }
 
     override fun getItem(position: Int): Fragment {
         val fragment = CalendarDayFragment()
         fragment.arguments = Bundle().apply {
             // Our object is just an integer :-P
-            putInt(ARG_OBJECT, position + 1)
-            if (exercises.isNotEmpty()) {
-                putSerializable("workoutElements", exercises)
-            }
-
+//            putInt(ARG_OBJECT, position + 1)
+//            if (exercises.isNotEmpty()) {
+//                putSerializable("workoutElements", exercises)
+//            }
+            date = getDateFor(position)
+            val timestamp = CalendarDayTimestamp()
+            timestamp.timestamp = (Timestamp(date))
+            putSerializable("timestamp", timestamp)
         }
         return fragment
     }
 
-    override fun getPageTitle(position: Int): CharSequence {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val date =  LocalDate.now().plusDays(position.toLong())
-            var formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-            var formattedDate = date.format(formatter)
-            var localeFormat = DateTimeFormatter.ofPattern("EEEE", Locale.forLanguageTag("pl-PL"))
-            val dayOfWeek = localeFormat.format(date)
-            val difference = 1
-            if (LocalDate.now().atStartOfDay().dayOfMonth == date.dayOfMonth
-                && LocalDate.now().atStartOfDay().month == date.month
-                && LocalDate.now().atStartOfDay().year == date.year) {
-                "Dziś ($formattedDate)"
-            }
-            else if (date.dayOfMonth == LocalDate.now().atStartOfDay().dayOfMonth + 1
-                && LocalDate.now().atStartOfDay().month == date.month
-                && LocalDate.now().atStartOfDay().year == date.year) {
-                "Jutro ($formattedDate)"
-            }
-            else if (LocalDate.now().atStartOfDay().dayOfMonth - 1 == date.dayOfMonth
-                && LocalDate.now().atStartOfDay().month == date.month
-                && LocalDate.now().atStartOfDay().year == date.year) {
-                "Wczoraj ($formattedDate)"
-            }
-            else {
-                "$dayOfWeek ($formattedDate)"
-            }
-        } else {
-            "$position"
-        }
+    private fun getDateFor(position: Int): Date {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DATE, position)
+        return calendar.time
+    }
 
+    override fun getPageTitle(position: Int): CharSequence {
+        val calendar = Calendar.getInstance()
+        val now = calendar.time
+        calendar.add(Calendar.DATE, position)
+        val date = calendar.time
+        val formatter = SimpleDateFormat("dd.MM.yyyy")
+        val formattedDate = formatter.format(date)
+        val localeFormat = SimpleDateFormat("EEEE", Locale.forLanguageTag("en-us"))
+        val dayOfWeek = localeFormat.format(date)
+
+        return when {
+            date.equals(now) -> "Today ($formattedDate)"
+            date.before(now) -> "Yesterday ($formattedDate)"
+            date.after(now) -> "Tomorrow ($formattedDate)"
+            else -> "$dayOfWeek $formattedDate"
+        }
     }
 }
-

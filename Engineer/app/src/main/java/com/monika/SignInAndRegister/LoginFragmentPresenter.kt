@@ -72,6 +72,7 @@ class LoginFragmentPresenter {
                     workoutToAdd.name = workout.name
                     workoutToAdd.exercises = ArrayList()
                     currentWorkoutComponentsPath = workout.workoutElements!!
+
                     currentWorkoutComponentsPath?.forEach { path ->
                         fetchWorkoutElement(path) {
                             result ->
@@ -94,6 +95,7 @@ class LoginFragmentPresenter {
                                     }
                                 }
                             }
+
                         }
                     }
                 }
@@ -124,8 +126,9 @@ class LoginFragmentPresenter {
     fun fetchExercise(documentId: String, completion: (result: Any) -> Unit) {
         DatabaseService.instance.fetchCustomDocument(UserDataType.EXERCISE, documentId) {
                 result ->
-            val exercises = result as ArrayList<Exercise>
-            val exercise = exercises.first()
+//            val exercises = result as ArrayList<Exercise>
+//            val exercise = exercises.first()
+            val exercise = result as Exercise
             completion(exercise)
         }
     }
@@ -133,8 +136,7 @@ class LoginFragmentPresenter {
     fun fetchWorkoutElement(documentId: String, completion: (result: Any) -> Unit) {
         DatabaseService.instance.fetchCustomDocument(UserDataType.WORKOUT_ELEMENT, documentId) {
                 result ->
-            val elements = result as ArrayList<FirebaseWorkoutElement>
-            val element = elements.first()
+            val element = result as FirebaseWorkoutElement
             completion(element)
         }
     }

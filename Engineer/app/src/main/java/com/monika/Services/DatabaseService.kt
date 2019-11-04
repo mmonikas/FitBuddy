@@ -3,6 +3,7 @@ package com.monika.Services
 import android.util.Log
 import android.widget.Adapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthSettings
 import com.google.firebase.auth.UserInfo
@@ -17,6 +18,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.monika.Enums.FirebaseRequestResult
 import com.monika.Model.WorkoutComponents.*
 import com.monika.Model.WorkoutPlan.FirebasePlannedWorkout
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class DatabaseService {
@@ -45,6 +48,22 @@ class DatabaseService {
 
     }
 
+    fun fetchUserPlannedWorkouts(userId: String, timestamp: Date, completion: (result: ArrayList<Any>) -> Unit) {
+        val dbCollectionToQuery = getCollectionForRequestedType(UserDataType.PLANNED_WORKOUT)
+        db.collection(dbCollectionToQuery)
+            .whereLessThan("date", timestamp)
+            .get()
+            .addOnSuccessListener { documents ->
+                val dataList: ArrayList<Any> = getProcessedFetchedDataArray(documents, UserDataType.PLANNED_WORKOUT)
+                Log.w("USER_PlannedWorkouts_FETCHING", "Successfully fetched documents: ${UserDataType.PLANNED_WORKOUT.name}")
+                completion(dataList)
+            }
+            .addOnFailureListener { exception ->
+                Log.w("USER_PlannedWorkouts_FETCHING", "Error getting documents: ", exception)
+                completion(ArrayList())
+            }
+    }
+
     fun fetchBaseData(requestedDataType: UserDataType, completion: (result: ArrayList<Any>) -> Unit) {
         val dbCollectionToQuery = getCollectionForRequestedType(requestedDataType)
         db.collection(dbCollectionToQuery)
@@ -60,20 +79,20 @@ class DatabaseService {
             }
     }
 
-    fun fetchCustomDocument(dataType: UserDataType, documentId: String, completion: (result: ArrayList<Any>) -> Unit) {
+    fun fetchCustomDocument(dataType: UserDataType, documentId: String, completion: (result: Any) -> Unit) {
         val dbCollectionToQuery = getCollectionForRequestedType(dataType)
-        db.collection(dbCollectionToQuery)
+        db.document(documentId)
             .get()
-            .addOnSuccessListener { documents ->
-               // val document = documents.first { queryDocumentSnapshot -> queryDocumentSnapshot.id == documentId }
-                val data = getProcessedFetchedDataArray(documents, dataType)
-                val document = documents.first { queryDocumentSnapshot -> queryDocumentSnapshot.id == documentId }
+            .addOnSuccessListener { document ->
+                val data = getProcessedFetchedDataDocument(document, dataType)
                 Log.w("DATA_FETCHING", "Successfully fetched documents: ${dataType.name}")
-                completion(data)
+                if (data != null) {
+                    completion(data)
+                }
             }
             .addOnFailureListener { exception ->
                 Log.w("DATA_FETCHING", "Error getting documents: ", exception)
-                completion(ArrayList())
+                completion(Exercise())
             }
     }
 
@@ -131,7 +150,7 @@ class DatabaseService {
             }
             UserDataType.PLANNED_WORKOUT -> {
                 for (document in documents) {
-                    val element = document.toObject(PlannedWorkout::class.java)
+                    val element = document.toObject(FirebasePlannedWorkout::class.java)
                     dataList.add(element)
                 }
             }

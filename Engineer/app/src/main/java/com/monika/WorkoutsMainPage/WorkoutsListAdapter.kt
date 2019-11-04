@@ -2,6 +2,7 @@ package com.monika.WorkoutsMainPage
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,9 @@ class WorkoutsListAdapter(private val context: Context, private val workouts: Ar
     }
 
     override fun onBindViewHolder(holder: WorkoutsViewHolder, position: Int) {
+        holder.itemView.cardView_addAnother.visibility = View.GONE
+        holder.itemView.cardView_workout.visibility = View.VISIBLE
+
         val workout = workouts[position]
         holder.itemView.workoutcard_name.text = workout.name
         holder.itemView.workoutcard_exercisesNumber.text = workout.exercises?.size.toString()
@@ -49,10 +53,13 @@ class WorkoutsListAdapter(private val context: Context, private val workouts: Ar
                 }
             }
         }
+
         holder.itemView.workoutcard_planButton.setOnClickListener {
             val planWorkoutDialog = PlanWorkoutDialog(context, workout, listener)
             planWorkoutDialog.show()
         }
+        holder.itemView.workoutcard_planButton.visibility = View.VISIBLE
+        holder.itemView.workoutcard_logworkout_button.visibility = View.GONE
     }
 
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -63,5 +70,4 @@ class WorkoutsListAdapter(private val context: Context, private val workouts: Ar
         val cardView = LayoutInflater.from(parent.context).inflate(R.layout.workout_cardview, parent, false) as CardView
         return WorkoutsViewHolder(cardView)
     }
-
 }

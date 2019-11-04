@@ -24,10 +24,10 @@ class CategoryChoiceDialog(context: Context, listener: SelectionListener) : Dial
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
+       // window?.setLayout(300, WindowManager.LayoutParams.WRAP_CONTENT)
         val layout = LayoutInflater.from(context).inflate(R.layout.dialog_category_choice, null)
         setContentView(layout)
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
 
         val okButton = layout.findViewById<Button>(R.id.dialogChoice_buttonOK)
         okButton.setOnClickListener {

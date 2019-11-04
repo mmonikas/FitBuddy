@@ -85,4 +85,7 @@
     <string name="chooseWhen">Choose date</string>
     <string name="workoutsPlanned">Your workouts have been planned successfully!</string>
     <string name="workoutsPlanningError">Unexpected error. Please, try again later.</string>
+    <string name="addWorkoutToDay">Add workout</string>
+    <string name="log_as_completed">LOG COMPLETED</string>
+    <string name="logWorkoutCompleted">LOG AS COMPLETED</string>
 </resources>
