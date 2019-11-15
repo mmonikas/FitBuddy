@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph"
-            app:startDestination="@id/homeGridFragment">
+            app:startDestination="@id/homeFragment">
 
     <fragment android:id="@+id/loginFragment" android:name="com.monika.SignInAndRegister.LoginFragment"
               tools:layout="@layout/fragment_login">

@@ -50,7 +50,7 @@
     <string name="registerWithGoogle">Sign in with Google</string>
     <string name="errorSignIn">Wrong e-mail address or password</string>
     <string name="button_signUp">Sign up</string>
-    <string name="errorGoogleSignIn">There was an error while signing up</string>
+    <string name="errorGoogleSignIn">There was an error. Please check your Internet connection.</string>
     <string name="action_logOut">Sign out</string>
     <string name="closeAgainToExit">Press twice to close the app</string>
     <string name="registerFragment_signUpButtonText">Create an account</string>

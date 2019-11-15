@@ -9,11 +9,8 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -69,7 +66,7 @@ class LoginFragment : Fragment() {
             presenter.signInUserWithGoogle(data) {
                 result ->
                 if (result == FirebaseRequestResult.SUCCESS) {
-                    Navigation.findNavController(view!!).navigate(R.id.homeGridFragment)
+                    Navigation.findNavController(view!!).navigate(R.id.homeFragment)
                 }
                 else if (result == FirebaseRequestResult.FAILURE) {
                     Toast.makeText(context, R.string.errorGoogleSignIn, Toast.LENGTH_LONG).show()

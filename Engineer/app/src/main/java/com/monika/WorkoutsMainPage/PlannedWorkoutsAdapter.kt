@@ -94,7 +94,9 @@ class PlannedWorkoutsAdapter(private val context: Context, private val plannedWo
     private fun checkIfIsWorkoutForToday() {
         if (plannedWorkouts.size > 0) {
             plannedWorkouts.forEach { plannedWorkout ->
-                val plannedDate = plannedWorkout.date?.toDate()
+                val formatter = SimpleDateFormat("dd.MM.yyyy")
+                val formattedDate = formatter.parse(plannedWorkout.date)
+                val plannedDate = formattedDate
                 if (plannedDate == pageDate) {
                     plannedWorkout.workout?.let {
                         workoutsForToday.add(it)

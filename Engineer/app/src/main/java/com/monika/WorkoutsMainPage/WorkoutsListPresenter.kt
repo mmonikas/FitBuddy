@@ -3,6 +3,7 @@ package com.monika.WorkoutsMainPage
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.firebase.ui.firestore.SnapshotParser
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.Query
 import com.monika.Enums.FirebaseRequestResult
 import com.monika.Enums.UserDataType
@@ -22,19 +23,18 @@ import kotlin.coroutines.resumeWithException
 
 class WorkoutsListPresenter {
 
-    var workoutsList = ArrayList<Workout>()
+    var workouts = ArrayList<Workout>()
     var workoutsToSaveAsPlanned = ArrayList<FirebasePlannedWorkout>()
 
 
     fun planWorkoutForDates(
         workout: Workout,
-        dates: ArrayList<Date>,
-        completion: (result: FirebaseRequestResult) -> Unit
-    ) {
+        dates: ArrayList<String>,
+        completion: (result: FirebaseRequestResult) -> Unit) {
         val workoutToPlan = FirebasePlannedWorkout()
-        for (date in dates) {
+        dates.forEach {
             workoutToPlan.workout = workout.docReference
-            workoutToPlan.date = getTimestampFrom(date)
+            workoutToPlan.date = it
             workoutToPlan.completed = false
             workoutsToSaveAsPlanned.add(workoutToPlan)
         }
@@ -47,6 +47,57 @@ class WorkoutsListPresenter {
     private fun getTimestampFrom(date: Date): Timestamp {
         return Timestamp(date)
     }
+
+    fun fetchUserWorkouts(completion: (result: ArrayList<Workout>) -> Unit) {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser != null) {
+            var workoutsList = ArrayList<Workout>()
+            var workoutToAdd = Workout()
+            var currentWorkoutComponentsPath: List<String>
+
+            DatabaseService.instance.fetchUserData(UserDataType.WORKOUT, currentUser.uid) {
+                    result ->
+                val firebaseWorkoutList = result as ArrayList<FirebaseWorkout>
+                firebaseWorkoutList.forEach { workout ->
+                    workoutToAdd.docReference = workout.docReference
+                    workoutToAdd.userId = currentUser.uid
+                    workoutToAdd.initDate = workout.initDate
+                    workoutToAdd.name = workout.name
+                    workoutToAdd.exercises = ArrayList()
+                    currentWorkoutComponentsPath = workout.workoutElements!!
+
+                    currentWorkoutComponentsPath?.forEach { path ->
+                        fetchWorkoutElement(path) {
+                                result ->
+                            val workoutElement = result as FirebaseWorkoutElement
+                            val workoutElementToAdd = WorkoutElement()
+                            workoutElementToAdd.docReference = workoutElement.docReference
+                            workoutElementToAdd.numOfReps = workoutElement.numOfReps
+                            workoutElementToAdd.numOfSets = workoutElement.numOfSets
+                            workoutElementToAdd.timer = workoutElement.timer
+                            val exerciseId = workoutElement.exercise
+                            exerciseId?.let {
+                                fetchExercise(exerciseId) {
+                                        result ->
+                                    val exercise = result as Exercise
+                                    workoutElementToAdd.exercise = exercise
+                                    workoutToAdd.exercises?.add(workoutElementToAdd)
+                                    if(workoutToAdd.exercises?.size == currentWorkoutComponentsPath.size) {
+                                        workoutsList.add(workoutToAdd)
+                                        completion(workoutsList)
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+
 
 //    fun getOptionsForWorkoutsListListener(): FirestoreRecyclerOptions<Workout> {
 //        val query: Query = DatabaseService.instance.getQueryForFetching(UserDataType.WORKOUT)
@@ -92,18 +143,21 @@ class WorkoutsListPresenter {
 //        return options
 //    }
 
-    private fun fetchExercise(documentId: String, completion: (result: Any) -> Unit) {
-        DatabaseService.instance.fetchCustomDocument(UserDataType.EXERCISE, documentId) { result ->
-            val exercises = result as ArrayList<Exercise>
-            val exercise = exercises.first()
+
+    fun fetchExercise(documentId: String, completion: (result: Any) -> Unit) {
+        DatabaseService.instance.fetchCustomDocument(UserDataType.EXERCISE, documentId) {
+                result ->
+//                        val exercises = result as ArrayList<Exercise>
+//            val exercise = exercises.first()
+            val exercise = result as Exercise
             completion(exercise)
         }
     }
 
-    private fun fetchWorkoutElement(documentId: String, completion: (result: Any) -> Unit) {
-        DatabaseService.instance.fetchCustomDocument(UserDataType.WORKOUT_ELEMENT, documentId) { result ->
-            val elements = result as ArrayList<FirebaseWorkoutElement>
-            val element = elements.first()
+    fun fetchWorkoutElement(documentId: String, completion: (result: Any) -> Unit) {
+        DatabaseService.instance.fetchCustomDocument(UserDataType.WORKOUT_ELEMENT, documentId) {
+                result ->
+            val element = result as FirebaseWorkoutElement
             completion(element)
         }
     }

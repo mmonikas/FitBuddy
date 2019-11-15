@@ -43,13 +43,14 @@ object Utils {
     fun getCategoryImage(category: String) : Int {
         return when (category) {
             "Biceps" -> (R.drawable.icons8biceps100)
-            "Barki" -> (R.drawable.icons8shoulders100)
-            "Plecy" -> (R.drawable.icons8torso100)
-            "Nogi" -> (R.drawable.icons8leg100)
-            "Pośladki" -> (R.drawable.icons8glutes100)
-            "Brzuch" -> (R.drawable.icons8prelum100)
+            "Arms" -> (R.drawable.icons8shoulders100)
+            "Back" -> (R.drawable.icons8torso100)
+            "Quads" -> (R.drawable.icons8leg100)
+            "Glutes" -> (R.drawable.icons8glutes100)
+            "ABS" -> (R.drawable.icons8prelum100)
             "Triceps" -> (R.drawable.icons8triceps100)
-            "Klatka piersiowa" -> (R.drawable.icons8chest100)
+            "Chest" -> (R.drawable.icons8chest100)
+            "Cardio" -> (R.drawable.icons8weightlifting100)
             else -> (R.drawable.icons8weightlifting100)
         }
     }

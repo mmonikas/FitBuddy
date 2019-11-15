@@ -14,6 +14,7 @@ import com.monika.R
 import com.monika.WorkoutsMainPage.PlannedWorkoutsAdapter
 import com.monika.WorkoutsMainPage.WorkoutsPlannerListener
 import kotlinx.android.synthetic.main.fragment_collection_calendar_day.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -43,7 +44,9 @@ class CalendarDayFragment : Fragment(), WorkoutsPlannerListener {
             presenter.fetchPlannedWorkouts(timestamp) {
                 plannedWorkouts ->
                 viewManager = LinearLayoutManager(context)
-                viewAdapter = PlannedWorkoutsAdapter(view.context, plannedWorkouts, this, timestamp.toDate())
+                val formatter = SimpleDateFormat("dd.MM.yyyy")
+                val formattedDate = formatter.parse(timestamp)
+                viewAdapter = PlannedWorkoutsAdapter(view.context, plannedWorkouts, this, formattedDate)
                 recyclerView = view.findViewById<RecyclerView>(R.id.calendarDay_recyclerView).apply {
                     // use this setting to improve performance if you know that changes
                     // in content do not change the layout size of the RecyclerView
@@ -62,7 +65,7 @@ class CalendarDayFragment : Fragment(), WorkoutsPlannerListener {
 //            exercises.let {
     }
 
-    override fun datesChoosenFor(workout: Workout, dates: ArrayList<Date>) {
+    override fun datesChoosenFor(workout: Workout, dates: ArrayList<String>) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

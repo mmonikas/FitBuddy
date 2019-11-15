@@ -7,6 +7,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.monika.Model.WorkoutComponents.WorkoutElement
 import com.monika.R
+import com.monika.Services.Utils
 import kotlinx.android.synthetic.main.workoutcard_exercise_item.view.*
 
 
@@ -36,21 +37,23 @@ class WorkoutElementItemsAdapter(private val workoutElementItems: ArrayList<Work
     }
 
     private fun setCategoryImage(category: String?, imageView: ImageView) {
-        if (category == null) {
-            imageView.setImageResource(R.drawable.icons8weightlifting100)
-        }
-        else {
-            when (category) {
-                "Biceps" -> imageView.setImageResource(R.drawable.icons8biceps100)
-                "Barki" -> imageView.setImageResource(R.drawable.icons8shoulders100)
-                "Plecy" -> imageView.setImageResource(R.drawable.icons8torso100)
-                "Nogi" -> imageView.setImageResource(R.drawable.icons8leg100)
-                "Pośladki" -> imageView.setImageResource(R.drawable.icons8glutes100)
-                "Brzuch" -> imageView.setImageResource(R.drawable.icons8prelum100)
-                "Triceps" -> imageView.setImageResource(R.drawable.icons8triceps100)
-                "Klatka piersiowa" -> imageView.setImageResource(R.drawable.icons8chest100)
-                else -> imageView.setImageResource(R.drawable.icons8weightlifting100)
-            }
-        }
+        category?.let {
+            imageView.setImageResource(Utils.getCategoryImage(it)) }
+//        if (category == null) {
+//            imageView.setImageResource(R.drawable.icons8weightlifting100)
+//        }
+//        else {
+//            when (category) {
+//                "Biceps" -> imageView.setImageResource(R.drawable.icons8biceps100)
+//                "Barki" -> imageView.setImageResource(R.drawable.icons8shoulders100)
+//                "Plecy" -> imageView.setImageResource(R.drawable.icons8torso100)
+//                "Nogi" -> imageView.setImageResource(R.drawable.icons8leg100)
+//                "Pośladki" -> imageView.setImageResource(R.drawable.icons8glutes100)
+//                "Brzuch" -> imageView.setImageResource(R.drawable.icons8prelum100)
+//                "Triceps" -> imageView.setImageResource(R.drawable.icons8triceps100)
+//                "Klatka piersiowa" -> imageView.setImageResource(R.drawable.icons8chest100)
+//                else -> imageView.setImageResource(R.drawable.icons8weightlifting100)
+//            }
+//        }
     }
 }

@@ -11,7 +11,8 @@ import com.monika.Services.Utils
 import kotlinx.android.synthetic.main.category_list_item.view.*
 
 class CategoryListAdapter(private val context: Context, private val categories: ArrayList<Category>,
-                          private val listener: SelectionListener): BaseAdapter() {
+                          private val listener: SelectionListener
+): BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = LayoutInflater.from(context).inflate(R.layout.category_list_item, parent, false)

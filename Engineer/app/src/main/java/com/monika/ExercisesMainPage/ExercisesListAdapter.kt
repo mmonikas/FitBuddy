@@ -1,6 +1,7 @@
 package com.monika.ExercisesMainPage
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.NonNull
@@ -10,6 +11,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.monika.Model.WorkoutComponents.Exercise
 import com.monika.R
+import com.monika.Services.Utils
 import kotlinx.android.synthetic.main.exercise_cardview.view.*
 
 class ExercisesListAdapter(@NonNull options: FirestoreRecyclerOptions<Exercise>):
@@ -17,7 +19,11 @@ class ExercisesListAdapter(@NonNull options: FirestoreRecyclerOptions<Exercise>)
 
     override fun onBindViewHolder(holder: ExercisesListViewHolder, position: Int, exercise: Exercise) {
         val numberString = (position + 1).toString()
-        holder.itemView.exerciseNumberInWorkout.text = "$numberString."
+        if (exercise.userId == null) {
+            holder.itemView.exerciseNumberInWorkout.visibility = View.GONE
+        } else {
+            holder.itemView.exerciseNumberInWorkout.visibility = View.VISIBLE
+        }
         holder.itemView.exerciseName.text = exercise.name
         holder.itemView.exerciseDescription.text = exercise.description
         //holder.itemView.exercise.visibility = View.GONE
@@ -44,15 +50,17 @@ class ExercisesListAdapter(@NonNull options: FirestoreRecyclerOptions<Exercise>)
     }
 
     private fun setCategoryImage(category: String, imageView: ImageView) {
-        when (category) {
-           "Biceps" -> imageView.setImageResource(R.drawable.icons8biceps100)
-           "Barki" -> imageView.setImageResource(R.drawable.icons8shoulders100)
-            "Plecy" -> imageView.setImageResource(R.drawable.icons8torso100)
-            "Nogi" -> imageView.setImageResource(R.drawable.icons8leg100)
-            "Pośladki" -> imageView.setImageResource(R.drawable.icons8glutes100)
-            "Brzuch" -> imageView.setImageResource(R.drawable.icons8prelum100)
-            "Triceps" -> imageView.setImageResource(R.drawable.icons8triceps100)
-            "Klatka piersiowa" -> imageView.setImageResource(R.drawable.icons8chest100)
-        }
+        imageView.setImageResource(Utils.getCategoryImage(category))
+//        when (category) {
+//
+//           "Biceps" -> imageView.setImageResource(R.drawable.icons8biceps100)
+//           "Barki" -> imageView.setImageResource(R.drawable.icons8shoulders100)
+//            "Plecy" -> imageView.setImageResource(R.drawable.icons8torso100)
+//            "Nogi" -> imageView.setImageResource(R.drawable.icons8leg100)
+//            "Pośladki" -> imageView.setImageResource(R.drawable.icons8glutes100)
+//            "Brzuch" -> imageView.setImageResource(R.drawable.icons8prelum100)
+//            "Triceps" -> imageView.setImageResource(R.drawable.icons8triceps100)
+//            "Klatka piersiowa" -> imageView.setImageResource(R.drawable.icons8chest100)
+//        }
     }
 }

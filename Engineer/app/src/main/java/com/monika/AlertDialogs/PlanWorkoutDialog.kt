@@ -25,7 +25,7 @@ import kotlin.collections.ArrayList
 class PlanWorkoutDialog(context: Context, private val workout: Workout, private val listener: WorkoutsPlannerListener) : Dialog(context), DatePickerDialog.OnDateSetListener {
 
     private var stringDates = ArrayList<String>()
-    private var selectedDates = ArrayList<Date>()
+    private var selectedDates = ArrayList<String>()
     private lateinit var adapter: ArrayAdapter<String>
     private val formatter = SimpleDateFormat("dd.MM.yyyy")
     private val calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())
@@ -36,13 +36,14 @@ class PlanWorkoutDialog(context: Context, private val workout: Workout, private 
         val layout = LayoutInflater.from(context).inflate(R.layout.dialog_plan_workout, null)
         setContentView(layout)
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        window?.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
 
         planWorkoutName.text = workout.name
 
         val okButton = layout.findViewById<Button>(R.id.planWorkout_confirmButton)
         okButton.setOnClickListener {
             listener.datesChoosenFor(workout = workout, dates = selectedDates)
+            selectedDates.clear()
             dismiss()
         }
 
@@ -55,9 +56,11 @@ class PlanWorkoutDialog(context: Context, private val workout: Workout, private 
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        val chosenDate: Date = formatter.parse("$dayOfMonth.$month.$year") as Date
-        if (!selectedDates.contains(chosenDate)) {
-            selectedDates.add(chosenDate)
+        val realMonth = month + 1
+        val chosenDate: Date = formatter.parse("$dayOfMonth.$realMonth.$year") as Date
+        val formattedDate = getSimpleStringDate(chosenDate)
+        if (!selectedDates.contains(formattedDate)) {
+            selectedDates.add(formattedDate)
             stringDates.add(getStringOfDate(chosenDate))
         }
         adapter.notifyDataSetChanged()
@@ -78,6 +81,12 @@ class PlanWorkoutDialog(context: Context, private val workout: Workout, private 
         val localeFormat = SimpleDateFormat("EEEE", Locale.forLanguageTag("en-us"))
         val dayOfWeek = localeFormat.format(date)
         return "$dayOfWeek, $formattedDate"
+    }
+
+    private fun getSimpleStringDate(date: Date): String {
+        val formatter = SimpleDateFormat("dd.MM.yyyy")
+        val formattedDate = formatter.format(date)
+        return formattedDate
     }
 
 

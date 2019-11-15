@@ -55,54 +55,6 @@ class LoginFragmentPresenter {
         }
     }
 
-    fun fetchUserWorkouts(completion: (result: ArrayList<Workout>) -> Unit) {
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        if (currentUser != null) {
-            var workoutsList = ArrayList<Workout>()
-            var workoutToAdd = Workout()
-            var currentWorkoutComponentsPath: List<String>
-
-            DatabaseService.instance.fetchUserData(UserDataType.WORKOUT, currentUser.uid) {
-                    result ->
-                val firebaseWorkoutList = result as ArrayList<FirebaseWorkout>
-                firebaseWorkoutList.forEach { workout ->
-                    workoutToAdd.docReference = workout.docReference
-                    workoutToAdd.userId = currentUser.uid
-                    workoutToAdd.initDate = workout.initDate
-                    workoutToAdd.name = workout.name
-                    workoutToAdd.exercises = ArrayList()
-                    currentWorkoutComponentsPath = workout.workoutElements!!
-
-                    currentWorkoutComponentsPath?.forEach { path ->
-                        fetchWorkoutElement(path) {
-                            result ->
-                            val workoutElement = result as FirebaseWorkoutElement
-                            val workoutElementToAdd = WorkoutElement()
-                            workoutElementToAdd.docReference = workoutElement.docReference
-                            workoutElementToAdd.numOfReps = workoutElement.numOfReps
-                            workoutElementToAdd.numOfSets = workoutElement.numOfSets
-                            workoutElementToAdd.timer = workoutElement.timer
-                            val exerciseId = workoutElement.exercise
-                            exerciseId?.let {
-                                fetchExercise(exerciseId) {
-                                    result ->
-                                    val exercise = result as Exercise
-                                    workoutElementToAdd.exercise = exercise
-                                    workoutToAdd.exercises?.add(workoutElementToAdd)
-                                    if(workoutToAdd.exercises?.size == currentWorkoutComponentsPath.size) {
-                                        workoutsList.add(workoutToAdd)
-                                        completion(workoutsList)
-                                    }
-                                }
-                            }
-
-                        }
-                    }
-                }
-
-            }
-        }
-    }
 
     fun fetchUserExercises(completion: (result: ArrayList<Exercise>) -> Unit) {
         val currentUser = FirebaseAuth.getInstance().currentUser

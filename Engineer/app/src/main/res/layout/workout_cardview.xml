@@ -5,20 +5,25 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:layout_marginTop="@dimen/cardView_margin"
+        app:layout_constraintCircleRadius="@dimen/cardView_radius"
+        android:background="@color/mainSeparatorColor"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_marginBottom="@dimen/cardView_margin"
+        android:layout_marginStart="@dimen/cardView_margin"
+        android:translationZ="@dimen/cardView_radiusSmall"
+        android:layout_marginEnd="@dimen/cardView_margin"
+        app:cardBackgroundColor="@color/secondaryLightColor"
+        app:cardCornerRadius="@dimen/cardView_radius">
 
     <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:id="@+id/cardView_workout"
             android:layout_height="wrap_content"
-            android:background="@color/primaryLightColor"
+            android:background="@color/mainSeparatorColor"
             style="@style/Widget.MaterialComponents.CardView"
-            android:layout_marginBottom="@dimen/cardView_margin"
-            android:layout_marginStart="@dimen/cardView_margin"
-            android:layout_marginEnd="@dimen/cardView_margin"
             app:cardBackgroundColor="@color/secondaryLightColor"
-            app:cardCornerRadius="@dimen/cardView_radius">
+            >
 
 
     <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
@@ -146,11 +151,8 @@
             android:layout_height="wrap_content"
             android:background="@color/primaryLightColor"
             style="@style/Widget.MaterialComponents.CardView"
-            android:layout_marginBottom="@dimen/cardView_margin"
-            android:layout_marginStart="@dimen/cardView_margin"
-            android:layout_marginEnd="@dimen/cardView_margin"
             app:cardBackgroundColor="@color/secondaryLightColor"
-            app:cardCornerRadius="@dimen/cardView_radius">
+            >
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -159,12 +161,12 @@
             <Button
                     android:text="@string/addWorkoutToDay"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content" android:id="@+id/workoutCard_addAnother" android:layout_marginEnd="8dp"
+                    android:layout_height="match_parent" android:id="@+id/workoutCard_addAnother" android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="8dp" app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginBottom="8dp" app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="8dp" app:icon="@drawable/add_circle" app:iconGravity="start"
-                    app:iconPadding="4dp" style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_marginTop="0dp" app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="0dp" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="0dp" app:icon="@drawable/add_circle" app:iconGravity="start"
+                    app:iconPadding="4dp" style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:textSize="20sp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

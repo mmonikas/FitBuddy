@@ -137,17 +137,19 @@ class CalendarDayFragmentPresenter {
         }
     }
 
-    fun fetchPlannedWorkouts(timestamp: Timestamp, completion: (result: ArrayList<PlannedWorkout>) -> Unit) {
+    fun fetchPlannedWorkouts(timestamp: String, completion: (result: ArrayList<PlannedWorkout>) -> Unit) {
+        val singlePlannedWorkout = PlannedWorkout()
+        val plannedWorkouts = ArrayList<PlannedWorkout>()
+        var firebasePlannedWorkouts: ArrayList<FirebasePlannedWorkout>
         if (currentUser != null) {
-            DatabaseService.instance.fetchUserPlannedWorkouts(timestamp = timestamp.toDate(), userId = currentUser.uid) {
+            DatabaseService.instance.fetchUserPlannedWorkouts(timestamp = timestamp, userId = currentUser.uid) {
                 documents ->
                 if (documents.size > 0) {
-                    val firebasePlannedWorkouts = documents as ArrayList<FirebasePlannedWorkout>
-                    val plannedWorkouts = ArrayList<PlannedWorkout>()
-                    val singlePlannedWorkout = PlannedWorkout()
+                    firebasePlannedWorkouts = documents as ArrayList<FirebasePlannedWorkout>
                     firebasePlannedWorkouts.forEach { firebasePlannedWorkout ->
                         singlePlannedWorkout.date = firebasePlannedWorkout.date
                         singlePlannedWorkout.completed = firebasePlannedWorkout.completed
+                        singlePlannedWorkout.docReference = firebasePlannedWorkout.docReference
                         firebasePlannedWorkout.workout?.let { reference ->
                             fetchWorkout(reference) { workout ->
                                 singlePlannedWorkout.workout = workout as Workout

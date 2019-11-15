@@ -7,9 +7,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
-import android.widget.ListView
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.monika.Model.WorkoutComponents.Category
 import com.monika.R
 import com.monika.ExercisesMainPage.CategoryListAdapter
@@ -24,8 +21,8 @@ class CategoryChoiceDialog(context: Context, listener: SelectionListener) : Dial
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-       // window?.setLayout(300, WindowManager.LayoutParams.WRAP_CONTENT)
         val layout = LayoutInflater.from(context).inflate(R.layout.dialog_category_choice, null)
+        window?.setLayout(300, WindowManager.LayoutParams.WRAP_CONTENT)
         setContentView(layout)
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
@@ -36,14 +33,16 @@ class CategoryChoiceDialog(context: Context, listener: SelectionListener) : Dial
         }
 
         if (categoriesList.isEmpty()) {
-            categoriesList.add(Category(name = "Barki"))
+            categoriesList.add(Category(name = "Arms"))
             categoriesList.add(Category(name = "Biceps"))
-            categoriesList.add(Category(name = "Plecy"))
-            categoriesList.add(Category(name = "Nogi"))
-            categoriesList.add(Category(name = "Pośladki"))
-            categoriesList.add(Category(name = "Brzuch"))
+            categoriesList.add(Category(name = "Back"))
+            categoriesList.add(Category(name = "Quads"))
+            categoriesList.add(Category(name = "Glutes"))
+            categoriesList.add(Category(name = "ABS"))
             categoriesList.add(Category(name = "Triceps"))
-            categoriesList.add(Category(name = "Klatka piersiowa"))
+            categoriesList.add(Category(name = "Chest"))
+            categoriesList.add(Category(name = "Cardio"))
+            categoriesList.add(Category(name = "Bodyweight"))
         }
 
         dialogChoiceList.adapter = CategoryListAdapter(

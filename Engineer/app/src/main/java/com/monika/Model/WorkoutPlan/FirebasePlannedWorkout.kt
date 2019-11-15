@@ -6,7 +6,7 @@ import java.io.Serializable
 
 class FirebasePlannedWorkout: Serializable, MyDocument {
     var workout: String? = null
-    var date: Timestamp? = null
+    var date: String? = null
     var completed: Boolean? = null
 
     constructor()

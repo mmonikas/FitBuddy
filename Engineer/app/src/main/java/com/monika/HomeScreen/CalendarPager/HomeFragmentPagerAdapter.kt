@@ -1,6 +1,7 @@
 package com.monika.HomeScreen.CalendarPager
 
 import android.os.Bundle
+import android.text.format.DateUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -34,8 +35,10 @@ class HomeFragmentPagerAdapter(fm: FragmentManager) :
 //                putSerializable("workoutElements", exercises)
 //            }
             date = getDateFor(position)
+            val formatter = SimpleDateFormat("dd.MM.yyyy")
+            val formattedDate = formatter.format(date)
             val timestamp = CalendarDayTimestamp()
-            timestamp.timestamp = (Timestamp(date))
+            timestamp.timestamp = formattedDate
             putSerializable("timestamp", timestamp)
         }
         return fragment
@@ -56,11 +59,10 @@ class HomeFragmentPagerAdapter(fm: FragmentManager) :
         val formattedDate = formatter.format(date)
         val localeFormat = SimpleDateFormat("EEEE", Locale.forLanguageTag("en-us"))
         val dayOfWeek = localeFormat.format(date)
-
         return when {
             date.equals(now) -> "Today ($formattedDate)"
             date.before(now) -> "Yesterday ($formattedDate)"
-            date.after(now) -> "Tomorrow ($formattedDate)"
+             //-> "Tomorrow ($formattedDate)"
             else -> "$dayOfWeek $formattedDate"
         }
     }

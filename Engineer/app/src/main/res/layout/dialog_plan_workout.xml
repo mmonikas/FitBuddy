@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <TextView android:layout_width="0dp"
+        <TextView android:layout_width="350dp"
                   android:id="@+id/planWorkout_planHint"
                   android:layout_height="wrap_content"
                   android:text="@string/planWorkout"

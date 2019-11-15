@@ -60,8 +60,7 @@
                         android:id="@+id/loginFragment_loginEditText"
                         android:inputType="text"
                         android:layout_marginVertical="@dimen/activity_vertical_margin"
-                        android:fontFamily="@font/assistant_light"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:drawableStart="@drawable/ic_person_black_24dp" android:textAlignment="viewStart"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -83,7 +82,7 @@
                         android:inputType="textPassword"
                         android:layout_marginVertical="@dimen/activity_vertical_margin"
                         android:fontFamily="@font/assistant_light"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:drawableStart="@drawable/ic_lock_black_24dp"
                         android:textAlignment="viewStart"/>
             </com.google.android.material.textfield.TextInputLayout>

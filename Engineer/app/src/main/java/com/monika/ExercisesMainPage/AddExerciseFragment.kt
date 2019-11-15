@@ -46,6 +46,7 @@ class AddExerciseFragment : Fragment(), SelectionListener {
             showCategoryDialog()
         }
         setSaveButtonListener()
+        setCategoryButtonListener()
     }
 
     private fun showCategoryDialog() {
@@ -101,6 +102,12 @@ class AddExerciseFragment : Fragment(), SelectionListener {
             add_exercise_chosenCategory.text = it.toUpperCase()
         }
         isEditingMode = true
+    }
+
+    private fun setCategoryButtonListener() {
+        add_exercise_chosenCategory.setOnClickListener {
+            showCategoryDialog()
+        }
     }
 
 }

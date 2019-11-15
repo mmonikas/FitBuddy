@@ -48,10 +48,10 @@ class DatabaseService {
 
     }
 
-    fun fetchUserPlannedWorkouts(userId: String, timestamp: Date, completion: (result: ArrayList<Any>) -> Unit) {
+    fun fetchUserPlannedWorkouts(userId: String, timestamp: String, completion: (result: ArrayList<Any>) -> Unit) {
         val dbCollectionToQuery = getCollectionForRequestedType(UserDataType.PLANNED_WORKOUT)
         db.collection(dbCollectionToQuery)
-            .whereLessThan("date", timestamp)
+            .whereEqualTo("date", timestamp)
             .get()
             .addOnSuccessListener { documents ->
                 val dataList: ArrayList<Any> = getProcessedFetchedDataArray(documents, UserDataType.PLANNED_WORKOUT)

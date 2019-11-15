@@ -81,10 +81,5 @@ class HomeFragment : Fragment() {
         home_pager.adapter = adapter
         //(activity as MainActivity).hideProgressView()
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        (activity as MainActivity).supportActionBar?.hide()
-    }
 }
 

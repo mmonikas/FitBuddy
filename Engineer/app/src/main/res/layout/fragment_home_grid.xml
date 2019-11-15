@@ -13,6 +13,8 @@
                 android:layout_height="match_parent"
                 app:columnCount="2"
                 app:rowCount="4"
+                android:backgroundTint="@color/mainSeparatorColor"
+                android:background="@color/mainSeparatorColor"
                 app:alignmentMode="alignMargins"
                 android:padding="14dp"
                 android:id="@+id/home_recyclerView"

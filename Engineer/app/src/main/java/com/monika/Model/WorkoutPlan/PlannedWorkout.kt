@@ -6,7 +6,7 @@ import java.io.Serializable
 
 class PlannedWorkout: Serializable, MyDocument {
     var workout: Workout? = null
-    var date: Timestamp? = null
+    var date: String? = null
     var completed: Boolean? = null
 
     constructor()

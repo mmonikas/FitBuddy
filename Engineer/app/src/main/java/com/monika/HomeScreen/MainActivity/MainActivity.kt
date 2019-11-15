@@ -1,7 +1,5 @@
 package com.monika.HomeScreen.MainActivity
 
-import android.app.Activity
-import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -10,22 +8,19 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.monika.AlertDialogs.CategoryChoiceDialog
 import com.monika.R
-import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var toolbar: Toolbar
     private lateinit var drawerLayout: DrawerLayout
@@ -35,6 +30,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private val mAuth = FirebaseAuth.getInstance()
     private val presenter = MainActivityPresenter()
     private var backPressedOnce: Boolean = false
+    private lateinit var bottomNavigationView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -60,28 +56,54 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun setUpNavigation() {
 
 
-        toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        toolbar.setTitleTextColor(getColor(R.color.primaryTextColor))
-        supportActionBar?.title = getString(R.string.nothing)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        toolbar = findViewById(R.id.toolbar)
+//        setSupportActionBar(toolbar)
+//        toolbar.setTitleTextColor(getColor(R.color.primaryTextColor))
+//        supportActionBar?.title = getString(R.string.nothing)
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
       //  supportActionBar!!.setDisplayShowHomeEnabled(false)
 
-        drawerLayout = findViewById(R.id.drawer_layout)
-        navigationView = findViewById(R.id.navigationView)
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+//        drawerLayout = findViewById(R.id.drawer_layout)
+//        navigationView = findViewById(R.id.navigationView)
+//        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        bottomNavigationView = findViewById(R.id.bttm_nav)
 
-        NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
-        NavigationUI.setupWithNavController(navigationView, navController)
-
-        navigationView.setNavigationItemSelectedListener(this)
-        hideToolbar()
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
+        navController = navHostFragment!!.navController
+            NavigationUI.setupWithNavController(
+            bottomNavigationView,
+            navController)
+//        )
+//
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.registerFragment -> hideBottomNavigation()
+                R.id.loginFragment -> hideBottomNavigation()
+                else -> showBottomNavigation()
+            }
+        }
+//        NavigationUI.setupActionBarWithNavController(this, navController)
+//        NavigationUI.setupWithNavController(navigationView, navController)
+//
+//        navigationView.setNavigationItemSelectedListener(this)
+//        hideBottomNavigation()
 
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(navController, drawerLayout) || super.onSupportNavigateUp()
-    }
+//    fun setUpNavigation() {
+//        bottomNavigationView = findViewById<View>(R.id.bttm_nav)
+//        val navHostFragment = supportFragmentManager
+//            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
+//        NavigationUI.setupWithNavController(
+//            bottomNavigationView,
+//            navHostFragment!!.navController
+//        )
+//    }
+
+//    override fun onSupportNavigateUp(): Boolean {
+//        return NavigationUI.navigateUp(navController, drawerLayout) || super.onSupportNavigateUp()
+//    }
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -96,48 +118,48 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_logOut -> {
-                presenter.logOutUser()
-               // navController.popBackStack(R.id.homeFragment, true)
-                val navBuilder = NavOptions.Builder()
-                val navOptions = navBuilder.setEnterAnim(R.anim.slide_out_top).setPopUpTo(R.id.nav_graph, true)
-                navController.navigate(R.id.loginFragment, null, navOptions.build(), null)
-                false
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        return when (item.itemId) {
+//            R.id.action_logOut -> {
+//                presenter.logOutUser()
+//               // navController.popBackStack(R.id.homeFragment, true)
+//                val navBuilder = NavOptions.Builder()
+//                val navOptions = navBuilder.setEnterAnim(R.anim.slide_out_top).setPopUpTo(R.id.nav_graph, true)
+//                navController.navigate(R.id.loginFragment, null, navOptions.build(), null)
+//                false
+//            }
+//            else -> super.onOptionsItemSelected(item)
+//        }
+//    }
+
+//    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+//        // Handle navigation view item clicks here.
+//
+//        drawerLayout.closeDrawers()
+//
+//        when (item.itemId) {
+//            R.id.nav_exercises -> {
+//                navController.navigate(R.id.exercisesListFragment)
+//            }
+//            R.id.nav_add_exercise -> {
+//               // navController.navigate(R.id.addExerciseFragment)
+//            }
+//            R.id.nav_share -> {
+//
+//            }
+//        }
+//
+//        drawerLayout.closeDrawer(GravityCompat.START)
+//
+//        return false
+//    }
+
+    fun showBottomNavigation() {
+        bottomNavigationView?.visibility = View.VISIBLE
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-
-        drawerLayout.closeDrawers()
-
-        when (item.itemId) {
-            R.id.nav_exercises -> {
-                navController.navigate(R.id.exercisesListFragment)
-            }
-            R.id.nav_add_exercise -> {
-               // navController.navigate(R.id.addExerciseFragment)
-            }
-            R.id.nav_share -> {
-
-            }
-        }
-
-        drawerLayout.closeDrawer(GravityCompat.START)
-
-        return false
-    }
-
-    fun showToolbar() {
-        supportActionBar?.show()
-    }
-
-    fun hideToolbar() {
-        supportActionBar?.hide()
+    fun hideBottomNavigation() {
+        bottomNavigationView?.visibility = View.GONE
     }
 
     fun showProgressView() {

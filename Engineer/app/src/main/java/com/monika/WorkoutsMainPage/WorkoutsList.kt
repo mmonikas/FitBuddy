@@ -1,12 +1,15 @@
 package com.monika.WorkoutsMainPage
 
 import android.graphics.Canvas
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +26,7 @@ import java.util.*
 
 
 interface  WorkoutsPlannerListener {
-    fun datesChoosenFor(workout: Workout, dates: ArrayList<Date>)
+    fun datesChoosenFor(workout: Workout, dates: ArrayList<String>)
 }
 
 class WorkoutsList : Fragment(), WorkoutsPlannerListener {
@@ -38,11 +41,13 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener {
         super.onCreate(savedInstanceState)
 //        val options = presenter.getOptionsForWorkoutsListListener()
 //        viewAdapter = WorkoutsListAdapter(context = context!!, options = options, listener = this)
-        if (arguments != null) {
-            val workouts = arguments?.get("workouts") as ArrayList<Workout>
-            presenter.workoutsList = workouts
-            viewAdapter = WorkoutsListAdapter(context!!, workouts, this)
-        }
+//        if (arguments != null) {
+//            val workouts = arguments?.get("workouts") as ArrayList<Workout>
+//            presenter.workoutsList = workouts
+//
+//            viewAdapter = WorkoutsListAdapter(context!!, workouts, this)
+//        }
+        getContent()
     }
 
     override fun onCreateView(
@@ -56,7 +61,6 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setFAB()
-        setRecyclerView()
     }
 //
 //    override fun onStart() {
@@ -68,6 +72,20 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener {
 //        super.onStop()
 //        viewAdapter.stopListening()
 //    }
+
+    private fun getContent() {
+        (activity as MainActivity).showProgressView()
+        presenter.fetchUserWorkouts { result ->
+            if (result.isNotEmpty()) {
+                presenter.workouts = result
+                viewAdapter = WorkoutsListAdapter(context!!, presenter.workouts, this)
+            }
+            viewAdapter = WorkoutsListAdapter(context!!, presenter.workouts, this)
+            setRecyclerView()
+        }
+
+
+    }
 
     private fun setRecyclerView() {
         viewManager = LinearLayoutManager(context)
@@ -82,8 +100,8 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener {
 
             override fun onLeftClicked(position: Int) {
                 val bundle = Bundle()
-                bundle.putSerializable("workoutForDetails", presenter.workoutsList[position])
-                findNavController().navigate(R.id.addExerciseFragment, bundle, null)
+                bundle.putSerializable("workoutForDetails", presenter.workouts[position])
+                findNavController().navigate(R.id.workoutAdd, bundle, null)
                 //edit
             }
         }, context = context!!)
@@ -125,7 +143,7 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener {
         snackbar.show()
     }
 
-    override fun datesChoosenFor(workout: Workout, dates: ArrayList<Date>) {
+    override fun datesChoosenFor(workout: Workout, dates: ArrayList<String>) {
         (activity as MainActivity).showProgressView()
         presenter.planWorkoutForDates(workout = workout, dates = dates) {
                 result ->
