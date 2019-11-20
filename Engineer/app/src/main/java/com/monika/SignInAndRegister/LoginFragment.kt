@@ -16,7 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.monika.Enums.FirebaseRequestResult
-import com.monika.HomeScreen.MainActivity.MainActivity
+import com.monika.MainActivity.MainActivity
 import com.monika.R
 import com.monika.Services.Utils
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -46,7 +46,7 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         if (FirebaseAuth.getInstance().currentUser != null) {
-            Navigation.findNavController(view!!).navigate(R.id.homeGridFragment)
+            Navigation.findNavController(view!!).navigate(R.id.homeFragment)
         }
     }
 
@@ -108,7 +108,7 @@ class LoginFragment : Fragment() {
 //                        val navOptions = NavOptions.Builder()
 //                            .setEnterAnim(R.anim.nav_default_enter_anim)
 //                            .build()
-                        Navigation.findNavController(view!!).navigate(R.id.homeGridFragment, null)
+                        Navigation.findNavController(view!!).navigate(R.id.homeFragment, null)
 
                 }
                 else if (result == FirebaseRequestResult.FAILURE) {

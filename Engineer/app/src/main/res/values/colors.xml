@@ -21,7 +21,7 @@
 
   <color name="primaryColor">#000044</color>
   <color name="primaryLightColor">#ffffff</color>
-  <color name="primaryDarkColor">#00001f</color>
+  <color name="primaryDarkColor">#00001F</color>
   <color name="secondaryColor">#00001f</color>
   <color name="secondaryLightColor">#ffffff</color>
   <color name="secondaryDarkColor">#c7c7c7</color>

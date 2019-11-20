@@ -1,5 +1,5 @@
 package com.monika.Enums
 
 enum class FirebaseRequestResult {
-    SUCCESS, FAILURE
+    SUCCESS, FAILURE, COMPLETED
 }

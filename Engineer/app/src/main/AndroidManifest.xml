@@ -10,7 +10,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name=".HomeScreen.MainActivity.MainActivity"
+                android:name="com.monika.MainActivity.MainActivity"
                 android:label="@string/FitBuddy"
                 android:theme="@style/AppTheme">
             <intent-filter>

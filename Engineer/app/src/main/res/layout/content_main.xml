@@ -8,7 +8,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/app_bar_main"
         android:orientation="vertical"
-        tools:context=".HomeScreen.MainActivity.MainActivity">
+        tools:context=".MainActivity.MainActivity">
 
     <TextView
             android:layout_width="wrap_content"

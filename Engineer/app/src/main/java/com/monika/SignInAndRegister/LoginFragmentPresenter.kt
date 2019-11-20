@@ -7,10 +7,8 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.monika.Enums.FirebaseRequestResult
 import com.monika.Enums.UserDataType
-import com.monika.HomeScreen.MainActivity.MainActivity
+import com.monika.MainActivity.MainActivity
 import com.monika.Model.WorkoutComponents.Exercise
-import com.monika.Model.WorkoutComponents.WorkoutElement
-import com.monika.Model.WorkoutPlan.FirebaseWorkout
 import com.monika.Model.WorkoutPlan.FirebaseWorkoutElement
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.Services.AuthenticationService

@@ -6,11 +6,22 @@
              tools:context=".ExercisesMainPage.ExercisesListFragment"
 android:layout_marginBottom = "?actionBarSize">
 
+    <TextView
+            android:text="@string/exercisesLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView3" android:layout_marginTop="0dp"
+            android:layout_alignParentTop="true" android:textSize="28sp" android:textStyle="bold"
+            android:fontFamily="@font/assistant_bold" android:textColor="#FFFFFF"
+            android:paddingTop="8dp"
+            android:paddingLeft="12dp" android:paddingBottom="8dp" android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp" android:layout_alignParentEnd="true" android:layout_marginEnd="0dp"
+            android:elevation="8dp" android:translationZ="8dp" android:backgroundTintMode="add"
+            android:background="@color/primaryDarkColor"/>
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/exercisesListRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/cardView_margin"/>
+            android:layout_marginTop="8dp" android:layout_below="@+id/textView3"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_addExercise"
@@ -26,6 +37,6 @@ android:layout_marginBottom = "?actionBarSize">
             android:elevation="8dp"
             android:focusable="true"
             android:foregroundGravity="center"
-            android:src="@drawable/round_add_circle_white_18dp" />
+            android:src="@drawable/fab_plus_icon" />
 
 </RelativeLayout>

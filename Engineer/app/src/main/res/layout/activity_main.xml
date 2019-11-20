@@ -7,7 +7,7 @@
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".HomeScreen.MainActivity.MainActivity">
+        tools:context=".MainActivity.MainActivity">
 
 
     <LinearLayout
@@ -25,7 +25,7 @@
                 android:layout_height="64dp"
                 android:indeterminate="true"
                 android:layout_gravity="center"
-                android:progressTint="@color/accentOrange"
+                android:progressTint="@color/primaryDarkColor"
         />
     </LinearLayout>
 
@@ -62,6 +62,7 @@
             android:layout_height="wrap_content"
             app:menu="@menu/bottom_menu_nav"
             android:layout_gravity="bottom"
+            app:labelVisibilityMode="labeled"
            >
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>

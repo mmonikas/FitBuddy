@@ -9,13 +9,26 @@
                                                    android:layout_marginBottom="?actionBarSize"
                                                    android:weightSum="10" android:id="@+id/relativeLayout3">
 
+    <TextView
+            android:text="@string/addExerciseLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/titleLabel"
+            android:layout_alignParentTop="true" android:textSize="28sp" android:textStyle="bold"
+            android:fontFamily="@font/assistant_bold" android:textColor="#FFFFFF"
+            android:paddingTop="8dp"
+            android:paddingLeft="12dp" android:paddingBottom="8dp" android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:elevation="8dp" android:translationZ="8dp" android:backgroundTintMode="add"
+            android:background="@color/primaryDarkColor"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
     <ScrollView
             android:layout_width="0dp"
             android:id="@+id/scrollView"
             android:layout_height="0dp"
             android:background="@color/primaryLightColor" tools:layout_conversion_absoluteHeight="889dp"
             tools:layout_conversion_absoluteWidth="900dp" app:layout_constraintBottom_toTopOf="@+id/saveButton"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleLabel" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginBottom="24dp"
             app:layout_constraintHorizontal_bias="0" app:layout_constraintVertical_bias="0.0"
             android:paddingBottom="24dp">

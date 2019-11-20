@@ -52,7 +52,7 @@
                   app:layout_constraintTop_toTopOf="parent"
                   app:layout_constraintStart_toEndOf="@id/exerciseNumberInWorkout"
                   app:layout_constraintEnd_toStartOf="@id/exerciseImage" android:layout_marginEnd="4dp"
-                  android:layout_marginStart="4dp" android:layout_marginTop="6dp"/>
+                  android:layout_marginStart="4dp"/>
 
         <ImageView android:layout_width="wrap_content"
                    android:layout_height="wrap_content"

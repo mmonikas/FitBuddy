@@ -1,15 +1,13 @@
 package com.monika.WorkoutsMainPage
 
 import android.graphics.Canvas
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,10 +16,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.monika.Enums.FirebaseRequestResult
 import com.monika.ExercisesMainPage.SwipeController
 import com.monika.ExercisesMainPage.SwipeControllerActions
-import com.monika.HomeScreen.MainActivity.MainActivity
+import com.monika.MainActivity.MainActivity
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
-import kotlinx.android.synthetic.main.fragment_workouts_list.*
 import java.util.*
 
 
@@ -47,6 +44,7 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener {
 //
 //            viewAdapter = WorkoutsListAdapter(context!!, workouts, this)
 //        }
+        (activity as MainActivity).disableBottomNavigation()
         getContent()
     }
 
@@ -54,6 +52,7 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
         ): View? {
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_workouts_list, container, false)
     }
@@ -61,37 +60,44 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setFAB()
+        setRecyclerView()
     }
-//
-//    override fun onStart() {
-//        super.onStart()
-//        viewAdapter.startListening()
-//    }
-//
-//    override fun onStop() {
-//        super.onStop()
-//        viewAdapter.stopListening()
-//    }
 
     private fun getContent() {
         (activity as MainActivity).showProgressView()
+        (activity as MainActivity).disableBottomNavigation()
         presenter.fetchUserWorkouts { result ->
             if (result.isNotEmpty()) {
                 presenter.workouts = result
-                viewAdapter = WorkoutsListAdapter(context!!, presenter.workouts, this)
+                if (viewAdapter != null && recyclerView != null && context != null) {
+                    viewAdapter = WorkoutsListAdapter(context!!, presenter.workouts, this)
+                    recyclerView.adapter = viewAdapter
+                    (activity as MainActivity).enableBottomNavigation()
+                }
+//                viewAdapter = WorkoutsListAdapter(context!!, presenter.workouts, this)
             }
-            viewAdapter = WorkoutsListAdapter(context!!, presenter.workouts, this)
-            setRecyclerView()
+//            viewAdapter = WorkoutsListAdapter(context!!, presenter.workouts, this)
+//            setRecyclerView()
+            activity?.let {
+                (it as MainActivity).hideProgressView()
+            }
         }
 
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        getContent()
+    }
+
     private fun setRecyclerView() {
         viewManager = LinearLayoutManager(context)
+        viewAdapter = WorkoutsListAdapter(context!!, presenter.workouts, this)
         recyclerView = view!!.findViewById<RecyclerView>(R.id.workoutListRecyclerView).apply {
             layoutManager = viewManager
             adapter = viewAdapter
+            (activity as MainActivity).enableBottomNavigation()
         }
         val swipeController = SwipeController(object : SwipeControllerActions() {
             override fun onRightClicked(position: Int) {
@@ -115,7 +121,7 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener {
             }
         })
 
-        (activity as MainActivity).hideProgressView()
+        //(activity as MainActivity).hideProgressView()
     }
 
     private fun setFAB() {
@@ -125,22 +131,24 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener {
     }
 
     private fun showErrorSnackbar() {
-        val snackbar = Snackbar
-            .make(view!!, R.string.workoutsPlanningError, Snackbar.LENGTH_LONG)
-            .setAction(R.string.ok) {
-
-            }
-        snackbar.view.setBackgroundColor(ContextCompat.getColor(context!!, R.color.accentOrange))
-        snackbar.show()
+        Toast.makeText(context, R.string.workoutsPlanningError, Toast.LENGTH_LONG).show()
+//        val snackbar = Snackbar
+//            .make(view!!, R.string.workoutsPlanningError, Snackbar.LENGTH_LONG)
+//            .setAction(R.string.ok) {
+//
+//            }
+//        snackbar.view.setBackgroundColor(ContextCompat.getColor(context!!, R.color.accentOrange))
+//        snackbar.show()
     }
 
     private fun showSuccessSnackbar() {
-        val snackbar = Snackbar
-            .make(view!!, R.string.workoutsPlanned, Snackbar.LENGTH_LONG)
-            .setAction(R.string.ok) {
-
-            }
-        snackbar.show()
+        Toast.makeText(context, R.string.workoutsPlanned, Toast.LENGTH_LONG).show()
+//        val snackbar = Snackbar
+//            .make(view!!, R.string.workoutsPlanned, Snackbar.LENGTH_LONG)
+//            .setAction(R.string.ok) {
+//
+//            }
+//        snackbar.show()
     }
 
     override fun datesChoosenFor(workout: Workout, dates: ArrayList<String>) {

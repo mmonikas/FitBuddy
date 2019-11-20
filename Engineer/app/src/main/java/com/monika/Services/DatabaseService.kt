@@ -1,25 +1,21 @@
 package com.monika.Services
 
+import android.net.Uri
 import android.util.Log
-import android.widget.Adapter
-import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthSettings
 import com.google.firebase.auth.UserInfo
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.Query
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.*
+import com.monika.Enums.FirebaseRequestResult
 import com.monika.Enums.UserDataType
+import com.monika.Model.WorkoutComponents.Category
+import com.monika.Model.WorkoutComponents.Equipment
+import com.monika.Model.WorkoutComponents.Exercise
+import com.monika.Model.WorkoutComponents.MyDocument
+import com.monika.Model.WorkoutPlan.FirebasePlannedWorkout
 import com.monika.Model.WorkoutPlan.FirebaseWorkout
 import com.monika.Model.WorkoutPlan.FirebaseWorkoutElement
 import com.monika.Model.WorkoutPlan.PlannedWorkout
-import com.google.firebase.firestore.FirebaseFirestore
-import com.monika.Enums.FirebaseRequestResult
-import com.monika.Model.WorkoutComponents.*
-import com.monika.Model.WorkoutPlan.FirebasePlannedWorkout
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class DatabaseService {
@@ -34,12 +30,23 @@ class DatabaseService {
     fun fetchUserData(requestedDataType: UserDataType, userId: String, completion: (result: ArrayList<Any>) -> Unit) {
         val dbCollectionToQuery = getCollectionForRequestedType(requestedDataType)
         db.collection(dbCollectionToQuery)
-//            .whereEqualTo("userId", userId)
+            .whereEqualTo("userId", null)
             .get()
             .addOnSuccessListener { documents ->
                 val dataList: ArrayList<Any> = getProcessedFetchedDataArray(documents, requestedDataType)
                 Log.w("USER_DATA_FETCHING", "Successfully fetched documents: ${requestedDataType.name}")
-                completion(dataList)
+                db.collection(dbCollectionToQuery)
+                    .whereEqualTo("userId", userId)
+                    .get()
+                    .addOnSuccessListener { userDocuments ->
+                        val userData = getProcessedFetchedDataArray(userDocuments, requestedDataType)
+                        dataList.addAll(userData)
+                        completion(dataList)
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.w("USER_DATA_FETCHING", "Error getting documents: ", exception)
+                        completion(dataList)
+                    }
             }
             .addOnFailureListener { exception ->
                 Log.w("USER_DATA_FETCHING", "Error getting documents: ", exception)
@@ -48,7 +55,7 @@ class DatabaseService {
 
     }
 
-    fun fetchUserPlannedWorkouts(userId: String, timestamp: String, completion: (result: ArrayList<Any>) -> Unit) {
+    fun fetchUserPlannedWorkouts(userId: String, timestamp: String, completion: (result: ArrayList<FirebasePlannedWorkout>) -> Unit) {
         val dbCollectionToQuery = getCollectionForRequestedType(UserDataType.PLANNED_WORKOUT)
         db.collection(dbCollectionToQuery)
             .whereEqualTo("date", timestamp)
@@ -56,7 +63,13 @@ class DatabaseService {
             .addOnSuccessListener { documents ->
                 val dataList: ArrayList<Any> = getProcessedFetchedDataArray(documents, UserDataType.PLANNED_WORKOUT)
                 Log.w("USER_PlannedWorkouts_FETCHING", "Successfully fetched documents: ${UserDataType.PLANNED_WORKOUT.name}")
-                completion(dataList)
+                val userData = ArrayList<FirebasePlannedWorkout>()
+                (dataList as ArrayList<FirebasePlannedWorkout>).forEach { element ->
+                    if (element.userId == userId) {
+                        userData.add(element)
+                    }
+                }
+                completion(userData)
             }
             .addOnFailureListener { exception ->
                 Log.w("USER_PlannedWorkouts_FETCHING", "Error getting documents: ", exception)
@@ -64,19 +77,34 @@ class DatabaseService {
             }
     }
 
-    fun fetchBaseData(requestedDataType: UserDataType, completion: (result: ArrayList<Any>) -> Unit) {
+    fun fetchBaseData(requestedDataType: UserDataType, sortByField: String? = null, sortOrder: Query.Direction = Query.Direction.ASCENDING, completion: (result: ArrayList<Any>) -> Unit) {
         val dbCollectionToQuery = getCollectionForRequestedType(requestedDataType)
-        db.collection(dbCollectionToQuery)
-            .get()
-            .addOnSuccessListener { documents ->
-                val dataList: ArrayList<Any> = getProcessedFetchedDataArray(documents, requestedDataType)
-                Log.w("DATA_FETCHING", "Successfully fetched documents: ${requestedDataType.name}")
-                completion(dataList)
-            }
-            .addOnFailureListener { exception ->
-                Log.w("DATA_FETCHING", "Error getting documents: ", exception)
-                completion(ArrayList())
-            }
+        if (sortByField != null) {
+            db.collection(dbCollectionToQuery)
+                .orderBy(sortByField, Query.Direction.ASCENDING)
+                .get()
+                .addOnSuccessListener { documents ->
+                    val dataList: ArrayList<Any> = getProcessedFetchedDataArray(documents, requestedDataType)
+                    Log.w("DATA_FETCHING", "Successfully fetched documents: ${requestedDataType.name}")
+                    completion(dataList)
+                }
+                .addOnFailureListener { exception ->
+                    Log.w("DATA_FETCHING", "Error getting documents: ", exception)
+                    completion(ArrayList())
+                }
+        } else {
+            db.collection(dbCollectionToQuery)
+                .get()
+                .addOnSuccessListener { documents ->
+                    val dataList: ArrayList<Any> = getProcessedFetchedDataArray(documents, requestedDataType)
+                    Log.w("DATA_FETCHING", "Successfully fetched documents: ${requestedDataType.name}")
+                    completion(dataList)
+                }
+                .addOnFailureListener { exception ->
+                    Log.w("DATA_FETCHING", "Error getting documents: ", exception)
+                    completion(ArrayList())
+                }
+        }
     }
 
     fun fetchCustomDocument(dataType: UserDataType, documentId: String, completion: (result: Any) -> Unit) {
@@ -96,21 +124,24 @@ class DatabaseService {
             }
     }
 
-    fun saveNewDocument(document: MyDocument, collectionType: UserDataType) {
+    fun saveNewDocument(document: MyDocument, collectionType: UserDataType, completion: (result: FirebaseRequestResult) -> Unit) {
         val dbCollectionForNewDocument = getCollectionForRequestedType(collectionType)
         val docReference = db.collection(dbCollectionForNewDocument).document()
         document.docReference = docReference.path
-        document.userId = currentUser?.uid
+        document.userId = FirebaseAuth.getInstance().currentUser?.uid
         docReference.set(document)
             .addOnCompleteListener {
                 task ->
                 Log.w("DATA_ADDING_COMPLETED", "New document in: ${collectionType.name}")
+                completion(FirebaseRequestResult.COMPLETED)
             }
             .addOnSuccessListener {
                 Log.w("DATA_ADDING_SUCCESS", "Successfully added new document: ${collectionType.name}")
+                completion(FirebaseRequestResult.SUCCESS)
             }
             .addOnFailureListener { e ->
                 Log.w("DATA_ADDING_FAILURE", "Error writing document", e)
+                completion(FirebaseRequestResult.FAILURE)
             }
     }
 
@@ -231,37 +262,61 @@ class DatabaseService {
         return db.collection(collectionToQuery)
     }
 
-    fun updateDocument(documentToUpdate: MyDocument, dataType: UserDataType) {
+    fun updateDocument(documentToUpdate: MyDocument, dataType: UserDataType, completion: (result: FirebaseRequestResult) -> Unit) {
         documentToUpdate.docReference?.let {
             db.document(it)
                 .set(documentToUpdate)
                 .addOnCompleteListener {
                         task ->
                     Log.w("DATA_EDIT", "Updating document in: ${dataType.name}")
+                    completion(FirebaseRequestResult.COMPLETED)
                 }
                 .addOnSuccessListener {
                     Log.w("DATA_EDIT", "Successfully updated document: ${dataType.name}")
+                    completion(FirebaseRequestResult.SUCCESS)
                 }
                 .addOnFailureListener { e ->
                     Log.w("DATA_EDIT", "Error updating document", e)
+                    completion(FirebaseRequestResult.FAILURE)
                 }
         }
     }
 
-    fun removeDocument(documentToRemove: MyDocument, dataType: UserDataType) {
+    fun removeDocument(documentToRemove: MyDocument, dataType: UserDataType, completion: (result: FirebaseRequestResult) -> Unit) {
         documentToRemove.docReference?.let {
             db.document(it)
                 .delete()
                 .addOnCompleteListener {
                         task ->
                     Log.w("DATA_DELETE", "Updating document in: ${dataType.name}")
+                    completion(FirebaseRequestResult.COMPLETED)
                 }
                 .addOnSuccessListener {
                     Log.w("DATA_DELETE", "Successfully updated document: ${dataType.name}")
+                    completion(FirebaseRequestResult.SUCCESS)
                 }
                 .addOnFailureListener { e ->
                     Log.w("DATA_DELETE", "Error updating document", e)
+                    completion(FirebaseRequestResult.FAILURE)
                 }
         }
+    }
+
+    fun setUserInfo(name: String, completion: (result: FirebaseRequestResult) -> Unit) {
+        val user = FirebaseAuth.getInstance().currentUser
+        val profileUpdates = UserProfileChangeRequest.Builder()
+            .setDisplayName(name)
+            .build()
+
+        user?.updateProfile(profileUpdates)
+            ?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    completion(FirebaseRequestResult.SUCCESS)
+                    Log.d("USER INFO UPDATE", "User profile updated.")
+                }
+                else {
+                    completion(FirebaseRequestResult.FAILURE)
+                }
+            }
     }
 }

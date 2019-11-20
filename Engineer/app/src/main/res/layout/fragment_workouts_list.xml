@@ -1,19 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".WorkoutsMainPage.WorkoutsList"
-            android:background="@color/mainSeparatorColor">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   tools:context=".WorkoutsMainPage.WorkoutsList"
+                                                   android:background="@color/mainSeparatorColor"
+                                                   android:layout_marginBottom = "?actionBarSize"
+                                                   android:id="@+id/gridLayout">
 
+    <TextView
+            android:text="@string/workoutsLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:id="@+id/textView4"
+            android:textSize="28sp" android:textStyle="bold"
+            android:fontFamily="@font/assistant_bold" android:textColor="#FFFFFF"
+            android:paddingTop="8dp"
+            android:paddingLeft="12dp" android:paddingBottom="8dp"
+            android:elevation="8dp" android:translationZ="8dp" android:backgroundTintMode="add"
+            android:background="@color/primaryDarkColor"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/workoutListRecyclerView"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_width="0dp"
             android:paddingBottom="@dimen/cardView_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
     >
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_addWorkout"
 
-</GridLayout>
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/primaryDarkColor"
+            android:clickable="true"
+            android:elevation="8dp"
+            android:focusable="true"
+            android:foregroundGravity="center"
+            android:src="@drawable/fab_plus_icon" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

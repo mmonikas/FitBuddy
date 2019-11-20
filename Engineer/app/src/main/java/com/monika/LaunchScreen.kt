@@ -8,7 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
-import com.monika.HomeScreen.MainActivity.MainActivity
+import com.monika.MainActivity.MainActivity
 import com.monika.WorkoutsMainPage.LaunchScreenPresenter
 
 class LaunchScreen : Fragment() {

@@ -5,10 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
-import com.monika.HomeScreen.MainActivity.MainActivity
+import com.monika.MainActivity.MainActivity
 import com.monika.Model.WorkoutComponents.Exercise
 import com.monika.R
 import com.monika.SignInAndRegister.LoginFragmentPresenter
@@ -39,7 +40,10 @@ class HomeFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         if (FirebaseAuth.getInstance().currentUser == null) {
-            findNavController().navigate(R.id.loginFragment)
+            val navBuilder = NavOptions.Builder()
+            val navOptions = navBuilder.setEnterAnim(R.anim.slide_out_top).setPopUpTo(R.id.nav_graph, true)
+            findNavController().navigate(R.id.loginFragment, null, navOptions.build(), null)
+//            findNavController().navigate(R.id.loginFragment)
         } else {
             if (arguments == null) {
                 presenter.fetchUserExercises { result ->
@@ -78,7 +82,7 @@ class HomeFragment : Fragment() {
 //        calendarDaysCollectionPagerAdapter = HomeFragmentPagerAdapter(childFragmentManager)
         val adapter = HomeFragmentPagerAdapter(childFragmentManager)
         adapter.exercises = presenter.exercises
-        home_pager.adapter = adapter
+        home_pager?.adapter = adapter
         //(activity as MainActivity).hideProgressView()
     }
 }

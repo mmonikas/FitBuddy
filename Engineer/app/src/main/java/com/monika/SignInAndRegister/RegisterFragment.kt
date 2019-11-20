@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.monika.Enums.FirebaseRequestResult
-import com.monika.HomeScreen.MainActivity.MainActivity
+import com.monika.MainActivity.MainActivity
 import com.monika.Model.User.User
 import com.monika.R
 import kotlinx.android.synthetic.main.fragment_register.*

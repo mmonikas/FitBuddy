@@ -49,18 +49,20 @@ class PlannedWorkoutsAdapter(private val context: Context, private val plannedWo
             val workout = workoutsForToday[position]
             holder.itemView.workoutcard_name.text = workout.name
             holder.itemView.workoutcard_exercisesNumber.text = workout.exercises?.size.toString()
-            workout.initDate?.let {
-                val workoutDate = workout.initDate?.time
-                workoutDate?.let {
-                    val initDate = Date(workoutDate)
-                    val formatter = SimpleDateFormat("dd.MM.yyyy")
-                    val formattedDate = formatter.format(initDate)
-                    val localeFormat = SimpleDateFormat("EEEE", Locale.forLanguageTag("en-us"))
-                    val dayOfWeek = localeFormat.format(initDate)
-                    holder.itemView.workoutcard_inittime.text = "$dayOfWeek, $formattedDate"
-                }
-
-            }
+//            workout.initDate?.let {
+//                val workoutDate = workout.initDate?.time
+//                workoutDate?.let {
+//                    val initDate = Date(workoutDate)
+//                    val formatter = SimpleDateFormat("dd.MM.yyyy")
+//                    val formattedDate = formatter.format(initDate)
+//                    val localeFormat = SimpleDateFormat("EEEE", Locale.forLanguageTag("en-us"))
+//                    val dayOfWeek = localeFormat.format(initDate)
+//                    holder.itemView.workoutcard_inittime.text = "$dayOfWeek, $formattedDate"
+//                }
+//
+//            }
+            holder.itemView.workoutcard_inittime.visibility = View.GONE
+            holder.itemView.initTimeLabel.visibility = View.GONE
             val exercisesInThisWorkout = workout.exercises
             exercisesInThisWorkout?.let {
                 if (!exercisesInThisWorkout.isNullOrEmpty()) {

@@ -12,6 +12,7 @@ import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.DatePicker
+import android.widget.Toast
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
 import com.monika.WorkoutsMainPage.WorkoutsPlannerListener
@@ -42,7 +43,16 @@ class PlanWorkoutDialog(context: Context, private val workout: Workout, private 
 
         val okButton = layout.findViewById<Button>(R.id.planWorkout_confirmButton)
         okButton.setOnClickListener {
-            listener.datesChoosenFor(workout = workout, dates = selectedDates)
+            if (selectedDates.isNotEmpty()) {
+                listener.datesChoosenFor(workout = workout, dates = selectedDates)
+                selectedDates.clear()
+                dismiss()
+            } else {
+                Toast.makeText(context, R.string.noDatesChosen, Toast.LENGTH_LONG).show()
+            }
+
+        }
+        planWorkout_cancelButton.setOnClickListener {
             selectedDates.clear()
             dismiss()
         }

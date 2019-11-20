@@ -36,7 +36,8 @@
     <string name="workoutsLabel">Workouts</string>
     <string name="description_hint2">ex. Squeeze your glutes while getting up with the bar</string>
     <string name="equipment_hint2">ex. bar, kettle</string>
-    <string name="addExerciseLabel">New exerciseOld</string>
+    <string name="addExerciseLabel">Add exercise</string>\
+    <string name="editExerciseLabel">Edit exercise</string>
 
 
     <!-- login and register fragment -->
@@ -88,4 +89,15 @@
     <string name="addWorkoutToDay">Add workout</string>
     <string name="log_as_completed">LOG COMPLETED</string>
     <string name="logWorkoutCompleted">LOG AS COMPLETED</string>
+    <string name="calendarLabel">Calendar</string>
+    <string name="myActivityLabel">Me</string>
+    <string name="my_workouts_history">My workouts history</string>
+    <string name="operationError">Sorry, there was a problem. Please, try again later.</string>
+    <string name="updateSuccess">Exercise is updated!</string>
+    <string name="saveSuccess">Exercise added successfully!</string>
+    <string name="removeSuccess">Exercise was removed successfully.</string>
+    <string name="noDatesChosen">At least one planned date for workout has to be chosen.</string>
+    <string name="cancel">CANCEL</string>
+    <string name="chooseExercise">Choose the exercise</string>
+    <string name="addWorkoutLabel">Add workout</string>
 </resources>

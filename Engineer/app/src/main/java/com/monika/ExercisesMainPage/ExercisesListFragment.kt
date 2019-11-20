@@ -5,13 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.monika.HomeScreen.MainActivity.MainActivity
+import com.monika.Enums.FirebaseRequestResult
+import com.monika.MainActivity.MainActivity
 import com.monika.R
+import com.monika.Services.Utils
 import kotlinx.android.synthetic.main.fragment_exercises_list.*
 
 
@@ -40,6 +43,11 @@ class ExercisesListFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         viewAdapter.startListening()
+        context?.let { it ->
+            view?.let { view ->
+                Utils.hideSoftKeyBoard(it, view)
+            }
+        }
     }
 
     override fun onStop() {
@@ -61,7 +69,15 @@ class ExercisesListFragment : Fragment() {
         }
         val swipeController = SwipeController(object : SwipeControllerActions() {
             override fun onRightClicked(position: Int) {
-                presenter.removeItemAt(viewAdapter.getItem(position))
+                presenter.removeItemAt(viewAdapter.getItem(position)) {
+                        result ->
+                    if (result == FirebaseRequestResult.SUCCESS) {
+                        Toast.makeText(context, R.string.removeSuccess, Toast.LENGTH_LONG).show()
+                    }
+                    else if (result == FirebaseRequestResult.FAILURE) {
+                        Toast.makeText(context, R.string.operationError, Toast.LENGTH_LONG).show()
+                    }
+                }
             }
 
             override fun onLeftClicked(position: Int) {

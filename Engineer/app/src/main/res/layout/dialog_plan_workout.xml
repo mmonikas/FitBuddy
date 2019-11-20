@@ -59,8 +59,15 @@
                 android:text="@string/ok"
                 android:id="@+id/planWorkout_confirmButton"
                 android:layout_height="wrap_content" android:layout_marginBottom="8dp"
-                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                 android:layout_marginStart="8dp"
                 app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"/>
+        <Button android:layout_width="0dp"
+                android:text="@string/cancel"
+                android:id="@+id/planWorkout_cancelButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                android:layout_height="wrap_content" android:layout_marginBottom="8dp"
+                app:layout_constraintEnd_toStartOf="@id/planWorkout_confirmButton"
+                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginEnd="24dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

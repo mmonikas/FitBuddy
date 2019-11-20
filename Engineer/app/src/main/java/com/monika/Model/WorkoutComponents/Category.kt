@@ -1,6 +1,10 @@
 package com.monika.Model.WorkoutComponents
 
-data class Category (
-    val name: String? = null,
-    val userId: String? = null
-)
+import java.io.Serializable
+
+class Category : Serializable, MyDocument {
+    var name: String? = null
+
+    constructor()
+
+}

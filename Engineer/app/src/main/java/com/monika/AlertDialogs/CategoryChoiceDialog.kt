@@ -11,6 +11,7 @@ import com.monika.Model.WorkoutComponents.Category
 import com.monika.R
 import com.monika.ExercisesMainPage.CategoryListAdapter
 import com.monika.ExercisesMainPage.SelectionListener
+import com.monika.Model.ModelSingletons.Categories
 import kotlinx.android.synthetic.main.dialog_category_choice.*
 
 class CategoryChoiceDialog(context: Context, listener: SelectionListener) : Dialog(context) {
@@ -25,24 +26,27 @@ class CategoryChoiceDialog(context: Context, listener: SelectionListener) : Dial
         window?.setLayout(300, WindowManager.LayoutParams.WRAP_CONTENT)
         setContentView(layout)
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
         val okButton = layout.findViewById<Button>(R.id.dialogChoice_buttonOK)
-        okButton.setOnClickListener {
-            listener.onConfirmCallback()
-            dismiss()
-        }
+        okButton.visibility = View.GONE
+//        okButton.setOnClickListener {
+//            listener.onConfirmCallback()
+//            dismiss()
+//        }
 
         if (categoriesList.isEmpty()) {
-            categoriesList.add(Category(name = "Arms"))
-            categoriesList.add(Category(name = "Biceps"))
-            categoriesList.add(Category(name = "Back"))
-            categoriesList.add(Category(name = "Quads"))
-            categoriesList.add(Category(name = "Glutes"))
-            categoriesList.add(Category(name = "ABS"))
-            categoriesList.add(Category(name = "Triceps"))
-            categoriesList.add(Category(name = "Chest"))
-            categoriesList.add(Category(name = "Cardio"))
-            categoriesList.add(Category(name = "Bodyweight"))
+            categoriesList.addAll(Categories.instance.getItems())
+            categoriesList.sortBy { element -> element.name }
+            categoriesList.map { element -> element.name?.capitalize() }
+//            categoriesList.add(Category(name = "Arms"))
+//            categoriesList.add(Category(name = "Biceps"))
+//            categoriesList.add(Category(name = "Back"))
+//            categoriesList.add(Category(name = "Quads"))
+//            categoriesList.add(Category(name = "Glutes"))
+//            categoriesList.add(Category(name = "ABS"))
+//            categoriesList.add(Category(name = "Triceps"))
+//            categoriesList.add(Category(name = "Chest"))
+//            categoriesList.add(Category(name = "Cardio"))
+//            categoriesList.add(Category(name = "Bodyweight"))
         }
 
         dialogChoiceList.adapter = CategoryListAdapter(
@@ -53,6 +57,7 @@ class CategoryChoiceDialog(context: Context, listener: SelectionListener) : Dial
 
         dialogChoiceList.setOnItemClickListener { parent, view, position, id ->
             listener.onClickCallback(categoriesList[position])
+           // listener.onConfirmCallback()
         }
 
 

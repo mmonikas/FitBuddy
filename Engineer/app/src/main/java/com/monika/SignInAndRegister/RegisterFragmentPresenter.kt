@@ -1,10 +1,13 @@
 package com.monika.SignInAndRegister
 
 import android.app.Activity
+import com.google.firebase.auth.FirebaseAuth
 import com.monika.Enums.FirebaseRequestResult
+import com.monika.Enums.UserDataType
 import com.monika.Model.User.User
 import com.monika.Services.AuthenticationService
 import com.monika.Services.DataValidator
+import com.monika.Services.DatabaseService
 
 class RegisterFragmentPresenter {
 
@@ -21,7 +24,15 @@ class RegisterFragmentPresenter {
         if (email != null && password != null) {
             AuthenticationService.instance.signUpUserWithUserdata(activity, email, password) {
                 result ->
-                completionHandler(result)
+                if (result == FirebaseRequestResult.SUCCESS) {
+                    completionHandler(result)
+                    user.name?.let {
+                        DatabaseService.instance.setUserInfo(it) { result ->
+
+                        }
+                    }
+
+                }
             }
         }
     }

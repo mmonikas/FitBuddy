@@ -1,6 +1,9 @@
 package com.monika.Model.WorkoutComponents
 
-data class Equipment (
-    val name: String? = null,
-    val userId: String? = null
-)
+import java.io.Serializable
+
+class Equipment : Serializable, MyDocument {
+    var name: String? = null
+
+    constructor()
+}

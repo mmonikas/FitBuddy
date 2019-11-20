@@ -76,4 +76,6 @@
               android:label="Workouts" tools:layout="@layout/fragment_workouts_list"/>
     <fragment android:id="@+id/addExerciseFragment" android:name="com.monika.ExercisesMainPage.AddExerciseFragment"
               android:label="Add exercise"/>
+    <fragment android:id="@+id/myActivity" android:name="com.monika.MyActivity" android:label="fragment_my_activity"
+              tools:layout="@layout/fragment_my_activity"/>
 </navigation>
