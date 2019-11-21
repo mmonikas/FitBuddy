@@ -16,6 +16,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.monika.ExercisesMainPage.ExerciseSelectionListener
+import com.monika.ExercisesMainPage.ExercisesChoiceListAdapter
 import com.monika.Model.WorkoutComponents.Exercise
 import com.monika.R
 import kotlinx.android.synthetic.main.dialog_category_choice.*
@@ -37,18 +38,16 @@ class ExerciseChoiceDialog(private val exercises: ArrayList<Exercise>, context: 
         val okButton = layout.findViewById<Button>(R.id.dialogChoice_buttonOK)
         okButton.visibility = View.GONE
 
-
-
 //        okButton.setOnClickListener {
 //            listener.onConfirmCallback()
 //            dismiss()
 //        }
 
-//        dialogChoiceList.adapter = ArrayAdapter(
-//            context = context,
-//            exercises = exercises,
-//            listener = listener
-//        )
+        dialogChoiceList.adapter = ExercisesChoiceListAdapter(
+            context = context,
+            exercises = exercises,
+            listener = listener
+        )
 
         dialogChoiceList.setOnItemClickListener { parent, view, position, id ->
             listener.onClickCallback(exercises[position])

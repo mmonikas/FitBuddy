@@ -57,9 +57,12 @@ class WorkoutAdd : Fragment(), AddAnotherListener, ExerciseSelectionListener, Wo
         }
         val swipeController = SwipeController(object : SwipeControllerActions() {
             override fun onRightClicked(position: Int) {
-                presenter.workoutElements.remove(viewAdapter.getItemAt(position))
+                presenter.workoutElements.removeAt(position - 1)
+               // presenter.workoutElements.remove(viewAdapter.getItemAt(position))
+                refreshAdapter()
+
             }
-        }, context = context!!)
+        }, context = context!!, isEditPossible = false)
 
         val itemTouchHelper = ItemTouchHelper(swipeController)
         itemTouchHelper.attachToRecyclerView(recyclerView)
@@ -79,6 +82,7 @@ class WorkoutAdd : Fragment(), AddAnotherListener, ExerciseSelectionListener, Wo
         if (exercises.isNotEmpty()) {
             chooseExerciseDialog = ExerciseChoiceDialog(exercises, context!!, this)
             chooseExerciseDialog.show()
+
         }
         else {
             (activity as MainActivity).showProgressView()
@@ -86,6 +90,7 @@ class WorkoutAdd : Fragment(), AddAnotherListener, ExerciseSelectionListener, Wo
                 result ->
                 chooseExerciseDialog = ExerciseChoiceDialog(result, context!!, this)
                 chooseExerciseDialog.show()
+                (activity as MainActivity).hideProgressView()
             }
         }
     }
@@ -93,15 +98,20 @@ class WorkoutAdd : Fragment(), AddAnotherListener, ExerciseSelectionListener, Wo
     override fun onClickCallback(exercise: Exercise) {
         presenter.exercises.add(exercise)
         workoutElementCreatingDialog = WorkoutElementAddingDialog(exercise, context!!, this)
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        workoutElementCreatingDialog.show()
     }
 
     override fun onConfirmCallback() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onWorkoutElementDefined(workoutElement: WorkoutElement) {
         presenter.workoutElements.add(workoutElement)
+        refreshAdapter()
+        workoutElementCreatingDialog.dismiss()
+        chooseExerciseDialog.dismiss()
+    }
+
+    private fun refreshAdapter() {
         viewAdapter = WorkoutElementItemsAdapter(this, true, presenter.workoutElements)
         recyclerView.adapter = viewAdapter
     }

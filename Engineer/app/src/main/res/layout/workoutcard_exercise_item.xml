@@ -6,11 +6,13 @@
                                    android:id="@+id/cardView2"
                                    android:layout_width="match_parent"
                                    android:layout_height="wrap_content"
-                                   android:layout_marginTop="@dimen/cardView_margin"
+                                   android:layout_marginTop="@dimen/cardView_marginSmall"
                                    android:background="@color/mainSeparatorColor"
                                    android:layout_marginBottom="@dimen/cardView_margin"
                                    android:layout_marginStart="@dimen/cardView_margin"
                                    android:translationZ="0dp"
+                                   android:elevation="0dp"
+                                   app:cardElevation="0dp"
                                    android:outlineAmbientShadowColor="@color/secondaryLightColor"
                                    android:layout_marginEnd="@dimen/cardView_margin"
                                    app:cardBackgroundColor="@color/secondaryLightColor">
@@ -18,97 +20,103 @@
     <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:id="@+id/workoutElement_Element"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:cardCornerRadius="0dp"
+            android:translationZ="0dp"
+            android:elevation="0dp"
             android:background="@color/mainSeparatorColor"
             style="@style/Widget.MaterialComponents.CardView"
             app:cardBackgroundColor="@color/secondaryLightColor"
     >
-    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-                                                       android:layout_height="match_parent"
-                                                       android:layout_gravity="start">
+        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                           android:layout_height="match_parent"
+                                                           android:layout_gravity="start">
 
-        <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp" app:srcCompat="@drawable/icons8weightlifting100"
-                android:id="@+id/workoutExerciseCategoryImage"
-                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-                app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
-                android:scaleType="fitXY"/>
-        <TextView
-                android:text="@string/exercise_name"
-                android:layout_width="0dp"
-                android:fontFamily="@font/assistant_semibold"
-                android:layout_height="wrap_content" android:id="@+id/workoutExerciseItemName"
-                app:layout_constraintStart_toEndOf="@id/workoutExerciseCategoryImage" android:layout_marginStart="8dp"
-                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-                app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp" android:textSize="12sp"
-                android:maxLines="2"/>
-
-
-        <TextView
-                android:text="@string/exerciseNumOfSets"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/setsNum"
-                app:layout_constraintStart_toEndOf="@id/workoutExerciseCategoryImage"
-                android:layout_marginStart="8dp" android:textSize="12sp"
-                app:layout_constraintTop_toBottomOf="@+id/workoutExerciseItemName" android:layout_marginTop="2dp"/>
-        <TextView
-                android:text="TextView"
-                android:layout_width="0dp"
-                android:fontFamily="@font/assistant_semibold"
-                android:layout_height="wrap_content" android:id="@+id/workoutExerciseSetsNum"
-                app:layout_constraintTop_toBottomOf="@id/workoutExerciseItemName" android:layout_marginTop="2dp"
-                android:textSize="12sp" app:layout_constraintStart_toEndOf="@+id/setsNum"
-                android:layout_marginStart="8dp"/>
+            <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp" app:srcCompat="@drawable/icons8weightlifting100"
+                    android:id="@+id/workoutExerciseCategoryImage"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                    app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
+                    android:scaleType="fitXY"/>
+            <TextView
+                    android:text="@string/exercise_name"
+                    android:layout_width="0dp"
+                    android:fontFamily="@font/assistant_semibold"
+                    android:layout_height="wrap_content" android:id="@+id/workoutExerciseItemName"
+                    app:layout_constraintStart_toEndOf="@id/workoutExerciseCategoryImage"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                    app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp" android:textSize="12sp"
+                    android:maxLines="2"/>
 
 
-        <TextView
-                android:text="@string/exerciseNumOfReps"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/repsNum"
-                android:textSize="12sp"
-                android:layout_marginStart="16dp"
-                app:layout_constraintStart_toEndOf="@id/workoutExerciseSetsNum"
-                app:layout_constraintTop_toBottomOf="@id/workoutExerciseItemName" android:layout_marginTop="2dp"/>
-        <TextView
-                android:text="TextView"
-                android:layout_width="0dp"
-                android:fontFamily="@font/assistant_semibold"
-                android:layout_height="wrap_content" android:id="@+id/workoutExerciseRepsNum"
-                android:textSize="12sp"
-                android:layout_marginStart="8dp" app:layout_constraintStart_toEndOf="@id/repsNum"
-                app:layout_constraintTop_toBottomOf="@id/workoutExerciseItemName" android:layout_marginTop="2dp"
-                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+            <TextView
+                    android:text="@string/exerciseNumOfSets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/setsNum"
+                    app:layout_constraintStart_toEndOf="@id/workoutExerciseCategoryImage"
+                    android:layout_marginStart="8dp" android:textSize="12sp"
+                    app:layout_constraintTop_toBottomOf="@+id/workoutExerciseItemName" android:layout_marginTop="2dp"/>
+            <TextView
+                    android:text="TextView"
+                    android:layout_width="0dp"
+                    android:fontFamily="@font/assistant_semibold"
+                    android:layout_height="wrap_content" android:id="@+id/workoutExerciseSetsNum"
+                    app:layout_constraintTop_toBottomOf="@id/workoutExerciseItemName" android:layout_marginTop="2dp"
+                    android:textSize="12sp" app:layout_constraintStart_toEndOf="@+id/setsNum"
+                    android:layout_marginStart="8dp"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                    android:text="@string/exerciseNumOfReps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/repsNum"
+                    android:textSize="12sp"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintStart_toEndOf="@id/workoutExerciseSetsNum"
+                    app:layout_constraintTop_toBottomOf="@id/workoutExerciseItemName" android:layout_marginTop="2dp"/>
+            <TextView
+                    android:text="TextView"
+                    android:layout_width="0dp"
+                    android:fontFamily="@font/assistant_semibold"
+                    android:layout_height="wrap_content" android:id="@+id/workoutExerciseRepsNum"
+                    android:textSize="12sp"
+                    android:layout_marginStart="8dp" app:layout_constraintStart_toEndOf="@id/repsNum"
+                    app:layout_constraintTop_toBottomOf="@id/workoutExerciseItemName" android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:id="@+id/cardView_addAnother"
+            android:id="@+id/workoutElementcardView_addAnother"
             android:layout_height="wrap_content"
-            android:background="@color/primaryLightColor"
+            app:cardElevation="0dp"
+            android:translationZ="0dp"
+            android:paddingTop="4dp"
+            android:background="@color/mainSeparatorColor"
             style="@style/Widget.MaterialComponents.CardView"
-            app:cardBackgroundColor="@color/secondaryLightColor"
-            android:visibility="visible">
+            app:cardBackgroundColor="@color/mainSeparatorColor"
+            android:visibility="gone">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp">
+                android:layout_margin="2dp">
             <Button
                     android:text="@string/addElement"
                     android:layout_width="0dp"
                     android:layout_height="match_parent" android:id="@+id/workoutElement_addAnother"
                     android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="0dp" app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginBottom="0dp" app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="0dp" app:icon="@drawable/add_circle" app:iconGravity="start"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:icon="@drawable/add_circle" app:iconGravity="start"
                     app:iconPadding="4dp" style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:textSize="20sp"/>
+                    android:textSize="16sp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

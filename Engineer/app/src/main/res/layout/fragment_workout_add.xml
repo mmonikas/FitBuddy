@@ -6,6 +6,7 @@
                                                    android:layout_height="match_parent"
                                                    android:layout_marginBottom="?actionBarSize"
                                                    tools:context=".WorkoutsMainPage.WorkoutAdd"
+                                                   android:background="@color/mainSeparatorColor"
                                                    android:id="@+id/layout">
 
     <!-- TODO: Update blank fragment layout -->

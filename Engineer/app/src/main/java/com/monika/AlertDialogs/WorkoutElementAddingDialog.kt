@@ -27,11 +27,13 @@ class WorkoutElementAddingDialog(private val exercise: Exercise, context: Contex
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         val layout = LayoutInflater.from(context).inflate(R.layout.dialog_workout_element, null)
-        val titleLabel = layout.findViewById<TextView>(R.id.titleLabel)
-        titleLabel.text = Resources.getSystem().getString(R.string.chooseExercise)
         window?.setLayout(500, WindowManager.LayoutParams.WRAP_CONTENT)
         setContentView(layout)
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val titleLabel = layout.findViewById<TextView>(R.id.addexerciseToWorkoutLabel)
+        titleLabel?.text = context.resources.getString(R.string.addExerciseToWorkout)
+        val exerciseName = layout.findViewById<TextView>(R.id.workoutExerciseItemAddName)
+        exerciseName.text = exercise.name
 
         val okButton = layout.findViewById<Button>(R.id.workoutElement_confirmButton)
         val cancelButton = layout.findViewById<Button>(R.id.cancelWorkoutElement)

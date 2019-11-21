@@ -12,7 +12,8 @@ import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
 import com.monika.R
 
-class SwipeController(private var buttonsActions: SwipeControllerActions, private val context: Context): ItemTouchHelper.Callback() {
+class SwipeController(private var buttonsActions: SwipeControllerActions,
+                      private val context: Context, private val isEditPossible: Boolean): ItemTouchHelper.Callback() {
 
     private var swipeBack = false
 
@@ -88,7 +89,10 @@ class SwipeController(private var buttonsActions: SwipeControllerActions, privat
             if (swipeBack) {
                 if (dX < -buttonWidth)
                     buttonShowedState = ButtonsState.RIGHT_VISIBLE
-                else if (dX > buttonWidth) buttonShowedState = ButtonsState.LEFT_VISIBLE
+                else if (dX > buttonWidth) {
+                    if (isEditPossible)
+                        buttonShowedState = ButtonsState.LEFT_VISIBLE
+                }
 
                 if (buttonShowedState !== ButtonsState.GONE) {
                     setTouchDownListener(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
@@ -164,9 +168,11 @@ class SwipeController(private var buttonsActions: SwipeControllerActions, privat
             itemView.left + buttonWidthWithoutPadding,
             itemView.bottom.toFloat()
         )
-        p.color = ContextCompat.getColor(context, R.color.primaryColor)
-        c.drawRoundRect(leftButton, corners, corners, p)
-        drawText("Edit", c, leftButton, p)
+        if (isEditPossible) {
+            p.color = ContextCompat.getColor(context, R.color.primaryColor)
+            c.drawRoundRect(leftButton, corners, corners, p)
+            drawText("Edit", c, leftButton, p)
+        }
 
         val rightButton = RectF(
             itemView.right - buttonWidthWithoutPadding,
@@ -180,7 +186,9 @@ class SwipeController(private var buttonsActions: SwipeControllerActions, privat
 
         buttonInstance = null
         if (buttonShowedState === ButtonsState.LEFT_VISIBLE) {
-            buttonInstance = leftButton
+            if (isEditPossible) {
+                buttonInstance = leftButton
+            }
         } else if (buttonShowedState === ButtonsState.RIGHT_VISIBLE) {
             buttonInstance = rightButton
         }

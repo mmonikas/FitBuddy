@@ -45,6 +45,8 @@ class WorkoutElementItemsAdapter(private val listener: AddAnotherListener?, priv
                 holder.itemView.workoutExerciseItemName.visibility = View.GONE
                 holder.itemView.workoutExerciseRepsNum.visibility = View.GONE
                 holder.itemView.workoutExerciseSetsNum.visibility = View.GONE
+                holder.itemView.workoutElement_Element.visibility = View.GONE
+                holder.itemView.workoutElementcardView_addAnother.visibility = View.VISIBLE
                 holder.itemView.workoutElement_addAnother.visibility = View.VISIBLE
                 holder.itemView.workoutElement_addAnother.setOnClickListener {
                     //nowy element alert dialog
@@ -55,6 +57,8 @@ class WorkoutElementItemsAdapter(private val listener: AddAnotherListener?, priv
                 holder.itemView.workoutExerciseItemName.visibility = View.VISIBLE
                 holder.itemView.workoutExerciseRepsNum.visibility = View.VISIBLE
                 holder.itemView.workoutExerciseSetsNum.visibility = View.VISIBLE
+                holder.itemView.workoutElement_Element.visibility = View.VISIBLE
+                holder.itemView.workoutElementcardView_addAnother.visibility = View.GONE
                 holder.itemView.workoutElement_addAnother.visibility = View.GONE
                 val item = workoutElementItems[position - 1]
                 holder.itemView.workoutExerciseItemName.text = item.exercise?.name

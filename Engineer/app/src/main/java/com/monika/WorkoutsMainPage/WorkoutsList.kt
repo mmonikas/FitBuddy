@@ -37,14 +37,7 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        val options = presenter.getOptionsForWorkoutsListListener()
-//        viewAdapter = WorkoutsListAdapter(context = context!!, options = options, listener = this)
-//        if (arguments != null) {
-//            val workouts = arguments?.get("workouts") as ArrayList<Workout>
-//            presenter.workoutsList = workouts
-//
-//            viewAdapter = WorkoutsListAdapter(context!!, workouts, this)
-//        }
+        viewAdapter = WorkoutsListAdapter(context!!, presenter.workouts, this)
         (activity as MainActivity).disableBottomNavigation()
         getContent()
     }
@@ -70,7 +63,7 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener {
         presenter.fetchUserWorkouts { result ->
             if (result.isNotEmpty()) {
                 presenter.workouts = result
-                if (viewAdapter != null && recyclerView != null && context != null) {
+                if (context != null) {
                     viewAdapter = WorkoutsListAdapter(context!!, presenter.workouts, this)
                     recyclerView.adapter = viewAdapter
                     (activity as MainActivity).enableBottomNavigation()
@@ -111,7 +104,7 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener {
                 findNavController().navigate(R.id.workoutAdd, bundle, null)
                 //edit
             }
-        }, context = context!!)
+        }, context = context!!, isEditPossible = true)
 
         val itemTouchHelper = ItemTouchHelper(swipeController)
         itemTouchHelper.attachToRecyclerView(recyclerView)

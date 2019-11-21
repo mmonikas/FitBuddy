@@ -86,7 +86,7 @@ class ExercisesListFragment : Fragment() {
                 findNavController().navigate(R.id.addExerciseFragment, bundle, null)
                 //edit
             }
-        }, context = context!!)
+        }, context = context!!, isEditPossible = true)
 
         val itemTouchHelper = ItemTouchHelper(swipeController)
         itemTouchHelper.attachToRecyclerView(recyclerView)

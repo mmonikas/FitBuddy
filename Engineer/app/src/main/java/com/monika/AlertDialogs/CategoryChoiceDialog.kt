@@ -37,16 +37,6 @@ class CategoryChoiceDialog(context: Context, listener: SelectionListener) : Dial
             categoriesList.addAll(Categories.instance.getItems())
             categoriesList.sortBy { element -> element.name }
             categoriesList.map { element -> element.name?.capitalize() }
-//            categoriesList.add(Category(name = "Arms"))
-//            categoriesList.add(Category(name = "Biceps"))
-//            categoriesList.add(Category(name = "Back"))
-//            categoriesList.add(Category(name = "Quads"))
-//            categoriesList.add(Category(name = "Glutes"))
-//            categoriesList.add(Category(name = "ABS"))
-//            categoriesList.add(Category(name = "Triceps"))
-//            categoriesList.add(Category(name = "Chest"))
-//            categoriesList.add(Category(name = "Cardio"))
-//            categoriesList.add(Category(name = "Bodyweight"))
         }
 
         dialogChoiceList.adapter = CategoryListAdapter(
