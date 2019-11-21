@@ -19,7 +19,7 @@ class CalendarDayFragmentPresenter {
             var workoutToAdd = Workout()
             var currentWorkoutComponentsPaths: List<String>
 
-            DatabaseService.instance.fetchUserData(UserDataType.WORKOUT, currentUser.uid) {
+            DatabaseService.instance.fetchUserData(UserDataType.WORKOUT) {
                     result ->
                 val firebaseWorkoutList = result as ArrayList<FirebaseWorkout>
                 firebaseWorkoutList.forEach { workout ->
@@ -64,7 +64,7 @@ class CalendarDayFragmentPresenter {
     fun fetchUserExercises(completion: (result: ArrayList<Exercise>) -> Unit) {
         val currentUser = FirebaseAuth.getInstance().currentUser
         if (currentUser != null) {
-            DatabaseService.instance.fetchUserData(UserDataType.EXERCISE, currentUser.uid) {
+            DatabaseService.instance.fetchUserData(UserDataType.EXERCISE) {
                     result ->
                 val exercisesList = result as ArrayList<Exercise>
                 completion(exercisesList)

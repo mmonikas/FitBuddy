@@ -55,7 +55,7 @@ class WorkoutsListPresenter {
             var workoutToAdd = Workout()
             var currentWorkoutComponentsPath: List<String>
 
-            DatabaseService.instance.fetchUserData(UserDataType.WORKOUT, currentUser.uid) {
+            DatabaseService.instance.fetchUserData(UserDataType.WORKOUT) {
                     result ->
                 val firebaseWorkoutList = result as ArrayList<FirebaseWorkout>
                 firebaseWorkoutList.forEach { workout ->

@@ -27,7 +27,8 @@ class DatabaseService {
         val instance = DatabaseService()
     }
 
-    fun fetchUserData(requestedDataType: UserDataType, userId: String, completion: (result: ArrayList<Any>) -> Unit) {
+    fun fetchUserData(requestedDataType: UserDataType, completion: (result: ArrayList<Any>) -> Unit) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
         val dbCollectionToQuery = getCollectionForRequestedType(requestedDataType)
         db.collection(dbCollectionToQuery)
             .whereEqualTo("userId", null)

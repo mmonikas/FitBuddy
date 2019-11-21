@@ -25,7 +25,7 @@ class WorkoutsListAdapter(private val context: Context, private val workouts: Ar
 
     override fun onBindViewHolder(holder: WorkoutsViewHolder, position: Int) {
         holder.itemView.cardView_addAnother.visibility = View.GONE
-        holder.itemView.cardView_workout.visibility = View.VISIBLE
+        holder.itemView.cardView_workoutElement.visibility = View.VISIBLE
 
         val workout = workouts[position]
         holder.itemView.workoutcard_name.text = workout.name
@@ -45,7 +45,7 @@ class WorkoutsListAdapter(private val context: Context, private val workouts: Ar
         val exercisesInThisWorkout = workout.exercises
         exercisesInThisWorkout?.let {
             if (!exercisesInThisWorkout.isNullOrEmpty()) {
-                viewAdapter = WorkoutElementItemsAdapter(workoutElementItems = exercisesInThisWorkout)
+                viewAdapter = WorkoutElementItemsAdapter(workoutElementItems = exercisesInThisWorkout, isAddingMode = false, listener = null)
                 val recyclerView = holder.itemView.workoutcard_items
                 recyclerView.apply {
                     adapter = viewAdapter

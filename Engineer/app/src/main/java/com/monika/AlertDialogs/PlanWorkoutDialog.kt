@@ -18,7 +18,6 @@ import com.monika.R
 import com.monika.WorkoutsMainPage.WorkoutsPlannerListener
 import kotlinx.android.synthetic.main.dialog_plan_workout.*
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -41,7 +40,7 @@ class PlanWorkoutDialog(context: Context, private val workout: Workout, private 
 
         planWorkoutName.text = workout.name
 
-        val okButton = layout.findViewById<Button>(R.id.planWorkout_confirmButton)
+        val okButton = layout.findViewById<Button>(R.id.workoutElement_confirmButton)
         okButton.setOnClickListener {
             if (selectedDates.isNotEmpty()) {
                 listener.datesChoosenFor(workout = workout, dates = selectedDates)

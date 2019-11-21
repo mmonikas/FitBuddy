@@ -19,6 +19,7 @@ import com.monika.ExercisesMainPage.SwipeControllerActions
 import com.monika.MainActivity.MainActivity
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
+import kotlinx.android.synthetic.main.fragment_workouts_list.*
 import java.util.*
 
 
@@ -125,6 +126,9 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener {
     }
 
     private fun setFAB() {
+        fab_addWorkout.setOnClickListener {
+            findNavController().navigate(R.id.workoutAdd)
+        }
 //        fab_addExercise.setOnClickListener {
 //            Navigation.findNavController(it).navigate(R.id.add_exercise)
 //        }

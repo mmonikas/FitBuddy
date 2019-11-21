@@ -18,7 +18,7 @@
 
     <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:id="@+id/cardView_workout"
+            android:id="@+id/cardView_workoutElement"
             android:layout_height="wrap_content"
             android:background="@color/mainSeparatorColor"
             style="@style/Widget.MaterialComponents.CardView"

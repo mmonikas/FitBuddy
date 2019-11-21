@@ -13,6 +13,7 @@ import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.monika.ExercisesMainPage.ExerciseSelectionListener
 import com.monika.Model.WorkoutComponents.Exercise
@@ -28,7 +29,7 @@ class ExerciseChoiceDialog(private val exercises: ArrayList<Exercise>, context: 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         val layout = LayoutInflater.from(context).inflate(R.layout.dialog_category_choice, null)
         val titleLabel = layout.findViewById<TextView>(R.id.titleLabel)
-        titleLabel.text = Resources.getSystem().getString(R.string.chooseExercise)
+        titleLabel.text = context.resources.getString(R.string.chooseExercise)
         window?.setLayout(500, WindowManager.LayoutParams.WRAP_CONTENT)
         setContentView(layout)
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

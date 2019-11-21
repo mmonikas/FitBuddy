@@ -10,7 +10,7 @@ class LaunchScreenPresenter {
     fun fetchUserWorkouts(completion: (result: ArrayList<Workout>) -> Unit) {
         val currentUser = FirebaseAuth.getInstance().currentUser
         if (currentUser != null) {
-            DatabaseService.instance.fetchUserData(UserDataType.WORKOUT, currentUser.uid) {
+            DatabaseService.instance.fetchUserData(UserDataType.WORKOUT) {
                 result ->
                 val workoutList = result as ArrayList<Workout>
                 completion(workoutList)

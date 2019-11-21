@@ -6,12 +6,14 @@ import com.monika.Model.ModelSingletons.Categories
 import com.monika.Model.ModelSingletons.EquipmentItems
 import com.monika.Model.WorkoutComponents.Category
 import com.monika.Model.WorkoutComponents.Equipment
+import com.monika.Model.WorkoutComponents.Exercise
 import com.monika.Services.DatabaseService
 
 class MainActivityPresenter {
 
     var categoriesList = ArrayList<Category>()
     var equipmentList = ArrayList<Equipment>()
+    var exercisesList = ArrayList<Exercise>()
 
     fun getAllCategories(completion: (result: Any) -> Unit) {
         DatabaseService.instance.fetchBaseData(UserDataType.CATEGORY, sortByField = "name") {
@@ -39,6 +41,16 @@ class MainActivityPresenter {
             else {
                 completion
             }
+        }
+    }
+
+    fun getAllExercises(completion: (result: Any) -> Unit) {
+        DatabaseService.instance.fetchUserData(UserDataType.EXERCISE) {
+            result ->
+            if(result.isNotEmpty()) {
+                exercisesList = result as ArrayList<Exercise>
+            }
+            completion
         }
     }
 }

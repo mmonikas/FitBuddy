@@ -15,7 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.monika.Enums.FirebaseRequestResult
+import com.monika.Model.WorkoutComponents.Exercise
 import com.monika.R
 
 
@@ -31,13 +31,15 @@ class MainActivity : AppCompatActivity() {
     private var backPressedOnce: Boolean = false
     private lateinit var bottomNavigationView: BottomNavigationView
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         FirebaseDatabase.getInstance().setPersistenceEnabled(true)
         setUpNavigation()
-        fetchAllCategoriesAndEquipmentLists()
+        fetchAllBaseData()
+
        // createUser()
 
 
@@ -46,13 +48,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun fetchAllCategoriesAndEquipmentLists() {
+    private fun fetchAllBaseData() {
       //  showProgressView()
-        presenter.getAllCategories {
-            presenter.getAllEquipment {
-                //hideProgressView()
-            }
-        }
+        presenter.getAllCategories { }
+        presenter.getAllEquipment {  }
 
     }
 
@@ -113,4 +112,17 @@ class MainActivity : AppCompatActivity() {
     fun hideProgressView() {
         findViewById<LinearLayout>(R.id.main_progressView).visibility = View.GONE
     }
+
+//    fun getExercises() : ArrayList<Exercise> {
+//        if (presenter.exercisesList.isEmpty()) {
+//            presenter.getAllExercises {
+//                //
+//            }
+//        }
+//        return presenter.exercisesList
+//    }
+//
+//    fun setExercises(exercises: ArrayList<Exercise>) {
+//        presenter.exercisesList = exercises
+//    }
 }

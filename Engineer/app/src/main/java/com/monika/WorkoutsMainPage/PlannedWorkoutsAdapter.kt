@@ -38,14 +38,14 @@ class PlannedWorkoutsAdapter(private val context: Context, private val plannedWo
             checkIfIsWorkoutForToday()
         }
         if (workoutsForToday.size == 0) {
-            holder.itemView.cardView_workout.visibility = View.GONE
+            holder.itemView.cardView_workoutElement.visibility = View.GONE
             holder.itemView.cardView_addAnother.visibility = View.VISIBLE
             holder.itemView.workoutCard_addAnother.setOnClickListener {
                 //przeniesc do dodawania treningu do dnia
             }
         } else {
             holder.itemView.cardView_addAnother.visibility = View.GONE
-            holder.itemView.cardView_workout.visibility = View.VISIBLE
+            holder.itemView.cardView_workoutElement.visibility = View.VISIBLE
             val workout = workoutsForToday[position]
             holder.itemView.workoutcard_name.text = workout.name
             holder.itemView.workoutcard_exercisesNumber.text = workout.exercises?.size.toString()
@@ -66,7 +66,7 @@ class PlannedWorkoutsAdapter(private val context: Context, private val plannedWo
             val exercisesInThisWorkout = workout.exercises
             exercisesInThisWorkout?.let {
                 if (!exercisesInThisWorkout.isNullOrEmpty()) {
-                    viewAdapter = WorkoutElementItemsAdapter(workoutElementItems = exercisesInThisWorkout)
+                    viewAdapter = WorkoutElementItemsAdapter(workoutElementItems = exercisesInThisWorkout, isAddingMode = false, listener = null)
                     val recyclerView = holder.itemView.workoutcard_items
                     recyclerView.apply {
                         adapter = viewAdapter

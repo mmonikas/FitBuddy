@@ -100,4 +100,9 @@
     <string name="cancel">CANCEL</string>
     <string name="chooseExercise">Choose the exercise</string>
     <string name="addWorkoutLabel">Add workout</string>
+    <string name="addExerciseToWorkout">Add exercise to workout</string>
+    <string name="setsNumHint">Number of sets</string>
+    <string name="repsNumHint">Number of reps</string>
+    <string name="fillAlltheData">Number of sets and reps has to be defined.</string>
+    <string name="addElement">Add element</string>
 </resources>
