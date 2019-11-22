@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.monika.ExercisesMainPage.WorkoutsPlannerListener
 import com.monika.Model.WorkoutPlan.PlannedWorkout
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
@@ -23,21 +24,15 @@ class PlannedWorkoutsAdapter(private val context: Context, private val plannedWo
     private var isWorkoutForToday: Boolean? = null
 
     override fun getItemCount(): Int {
-        if (isWorkoutForToday == null) {
-            checkIfIsWorkoutForToday()
-        }
-        return if (isWorkoutForToday == true) {
-            workoutsForToday.size
+        return if (!plannedWorkouts.isEmpty()) {
+            plannedWorkouts.size
         } else {
             1
         }
     }
 
     override fun onBindViewHolder(holder: PlannedWorkoutsViewHolder, position: Int) {
-        if (isWorkoutForToday == null) {
-            checkIfIsWorkoutForToday()
-        }
-        if (workoutsForToday.size == 0) {
+        if (plannedWorkouts.isEmpty()) {
             holder.itemView.cardView_workoutElement.visibility = View.GONE
             holder.itemView.cardView_addAnother.visibility = View.VISIBLE
             holder.itemView.workoutCard_addAnother.setOnClickListener {
@@ -46,9 +41,9 @@ class PlannedWorkoutsAdapter(private val context: Context, private val plannedWo
         } else {
             holder.itemView.cardView_addAnother.visibility = View.GONE
             holder.itemView.cardView_workoutElement.visibility = View.VISIBLE
-            val workout = workoutsForToday[position]
-            holder.itemView.workoutcard_name.text = workout.name
-            holder.itemView.workoutcard_exercisesNumber.text = workout.exercises?.size.toString()
+            val workout = plannedWorkouts[position].workout
+            holder.itemView.workoutcard_name.text = workout?.name
+            holder.itemView.workoutcard_exercisesNumber.text = workout?.exercises?.size.toString()
 //            workout.initDate?.let {
 //                val workoutDate = workout.initDate?.time
 //                workoutDate?.let {
@@ -63,7 +58,7 @@ class PlannedWorkoutsAdapter(private val context: Context, private val plannedWo
 //            }
             holder.itemView.workoutcard_inittime.visibility = View.GONE
             holder.itemView.initTimeLabel.visibility = View.GONE
-            val exercisesInThisWorkout = workout.exercises
+            val exercisesInThisWorkout = workout?.exercises
             exercisesInThisWorkout?.let {
                 if (!exercisesInThisWorkout.isNullOrEmpty()) {
                     viewAdapter = WorkoutElementItemsAdapter(workoutElementItems = exercisesInThisWorkout, isAddingMode = false, listener = null)
@@ -89,26 +84,9 @@ class PlannedWorkoutsAdapter(private val context: Context, private val plannedWo
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlannedWorkoutsViewHolder {
         val cardView = LayoutInflater.from(parent.context).inflate(R.layout.workout_cardview, parent, false) as CardView
-        checkIfIsWorkoutForToday()
         return PlannedWorkoutsViewHolder(cardView)
     }
 
-    private fun checkIfIsWorkoutForToday() {
-        if (plannedWorkouts.size > 0) {
-            plannedWorkouts.forEach { plannedWorkout ->
-                val formatter = SimpleDateFormat("dd.MM.yyyy")
-                val formattedDate = formatter.parse(plannedWorkout.date)
-                val plannedDate = formattedDate
-                if (plannedDate == pageDate) {
-                    plannedWorkout.workout?.let {
-                        workoutsForToday.add(it)
-                    }
-                }
-            }
-        }
-        else {
-            isWorkoutForToday = false
-        }
-    }
+
 
 }

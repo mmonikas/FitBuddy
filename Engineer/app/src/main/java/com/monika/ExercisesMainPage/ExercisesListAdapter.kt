@@ -14,11 +14,16 @@ import com.monika.R
 import com.monika.Services.Utils
 import kotlinx.android.synthetic.main.exercise_cardview.view.*
 
-class ExercisesListAdapter(@NonNull options: FirestoreRecyclerOptions<Exercise>):
-    FirestoreRecyclerAdapter<Exercise, ExercisesListAdapter.ExercisesListViewHolder>(options) {
+class ExercisesListAdapter(private val exercises: ArrayList<Exercise>):
+    RecyclerView.Adapter<ExercisesListAdapter.ExercisesListViewHolder>() {
 
-    override fun onBindViewHolder(holder: ExercisesListViewHolder, position: Int, exercise: Exercise) {
+    override fun getItemCount(): Int {
+        return exercises.size
+    }
+
+    override fun onBindViewHolder(holder: ExercisesListViewHolder, position: Int) {
         val numberString = (position + 1).toString()
+        val exercise = exercises[position]
         if (exercise.userId == null) {
             holder.itemView.exerciseNumberInWorkout.visibility = View.GONE
         } else {
@@ -35,9 +40,11 @@ class ExercisesListAdapter(@NonNull options: FirestoreRecyclerOptions<Exercise>)
 //                holder.itemView.exerciseLevel.visibility = View.VISIBLE
             }
         }
-        val category = exercise.category
-        category?.let {
-            setCategoryImage(category, holder.itemView.exerciseImage)
+        exercise.category?.let {
+            setCategoryImage(it, holder.itemView.exerciseImage)
+        }
+        exercise.equipment?.let {
+            holder.itemView.exerciseEquipment.text = it
         }
     }
 

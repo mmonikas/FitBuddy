@@ -21,7 +21,9 @@ android:layout_marginBottom = "?actionBarSize">
             android:id="@+id/exercisesListRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" android:layout_below="@+id/textView3"/>
+            android:layout_marginTop="8dp" android:layout_below="@+id/textView3" android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp" android:layout_alignParentEnd="true" android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_addExercise"

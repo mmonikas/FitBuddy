@@ -1,24 +1,27 @@
 package com.monika.WorkoutsMainPage
 
-import android.content.Context
 import android.graphics.Canvas
-import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.monika.AlertDialogs.ExerciseChoiceDialog
 import com.monika.AlertDialogs.WorkoutElementAddingDialog
+import com.monika.Enums.FirebaseRequestResult
 import com.monika.ExercisesMainPage.*
 import com.monika.MainActivity.MainActivity
 import com.monika.Model.WorkoutComponents.Exercise
 import com.monika.Model.WorkoutComponents.WorkoutElement
+import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
+import com.monika.Services.DataValidator
+import kotlinx.android.synthetic.main.fragment_workout_add.*
+import java.util.*
 
 class WorkoutAdd : Fragment(), AddAnotherListener, ExerciseSelectionListener, WorkoutElementAddListener {
 
@@ -45,6 +48,7 @@ class WorkoutAdd : Fragment(), AddAnotherListener, ExerciseSelectionListener, Wo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setRecyclerView()
+        setSaveButtonListener()
     }
 
     private fun setRecyclerView() {
@@ -58,7 +62,6 @@ class WorkoutAdd : Fragment(), AddAnotherListener, ExerciseSelectionListener, Wo
         val swipeController = SwipeController(object : SwipeControllerActions() {
             override fun onRightClicked(position: Int) {
                 presenter.workoutElements.removeAt(position - 1)
-               // presenter.workoutElements.remove(viewAdapter.getItemAt(position))
                 refreshAdapter()
 
             }
@@ -72,8 +75,6 @@ class WorkoutAdd : Fragment(), AddAnotherListener, ExerciseSelectionListener, Wo
                 swipeController.onDraw(c)
             }
         })
-
-        //(activity as MainActivity).hideProgressView()
 
     }
 
@@ -101,9 +102,6 @@ class WorkoutAdd : Fragment(), AddAnotherListener, ExerciseSelectionListener, Wo
         workoutElementCreatingDialog.show()
     }
 
-    override fun onConfirmCallback() {
-    }
-
     override fun onWorkoutElementDefined(workoutElement: WorkoutElement) {
         presenter.workoutElements.add(workoutElement)
         refreshAdapter()
@@ -116,5 +114,39 @@ class WorkoutAdd : Fragment(), AddAnotherListener, ExerciseSelectionListener, Wo
         recyclerView.adapter = viewAdapter
     }
 
+    private fun setSaveButtonListener() {
+        saveButton.setOnClickListener {
+            val workoutToSave = getCollectedData()
+            val isDataValid = DataValidator.instance.isDataForNewWorkoutValid(workoutToSave)
+            if (isDataValid) {
+                presenter.saveNewWorkout(workoutToSave) {
+                    result ->
+                    if (result == FirebaseRequestResult.SUCCESS) {
+                        //(activity as MainActivity).showToast(R.string.workoutAdded)
+                        //findNavController().popBackStack()
+                    }
+                    else {
+                        //(activity as MainActivity).showToast(R.string.errorOccured)
+                       // findNavController().popBackStack()
+                    }
+                }
+            }
+            else {
+                showInvalidDataInfo()
+            }
+        }
+    }
+
+    private fun getCollectedData() : Workout {
+        val workout = Workout()
+        workout.name = workoutNameEditText.text.toString()
+        workout.exercises = presenter.workoutElements
+        workout.initDate = Date()
+        return workout
+    }
+
+    private fun showInvalidDataInfo() {
+        (activity as MainActivity).showToast(R.string.workoutAddInvalidData)
+    }
 
 }// Required empty public constructor

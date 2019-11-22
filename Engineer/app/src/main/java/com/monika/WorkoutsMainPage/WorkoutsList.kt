@@ -6,47 +6,40 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
+import com.monika.AlertDialogs.ConfirmationDialog
 import com.monika.Enums.FirebaseRequestResult
+import com.monika.ExercisesMainPage.ConfirmationListener
 import com.monika.ExercisesMainPage.SwipeController
 import com.monika.ExercisesMainPage.SwipeControllerActions
+import com.monika.ExercisesMainPage.WorkoutsPlannerListener
 import com.monika.MainActivity.MainActivity
+import com.monika.Model.WorkoutComponents.MyDocument
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
 import kotlinx.android.synthetic.main.fragment_workouts_list.*
 import java.util.*
 
 
-interface  WorkoutsPlannerListener {
-    fun datesChoosenFor(workout: Workout, dates: ArrayList<String>)
-}
 
-class WorkoutsList : Fragment(), WorkoutsPlannerListener {
+class WorkoutsList : Fragment(), WorkoutsPlannerListener, ConfirmationListener {
 
     val presenter = WorkoutsListPresenter()
-
+    private lateinit var confirmationDialog: ConfirmationDialog
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: WorkoutsListAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewAdapter = WorkoutsListAdapter(context!!, presenter.workouts, this)
-        (activity as MainActivity).disableBottomNavigation()
-        getContent()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
         ): View? {
-
+        viewAdapter = WorkoutsListAdapter(context!!, presenter.workouts, this)
+        (activity as MainActivity).disableBottomNavigation()
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_workouts_list, container, false)
     }
@@ -95,13 +88,36 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener {
         }
         val swipeController = SwipeController(object : SwipeControllerActions() {
             override fun onRightClicked(position: Int) {
-               // presenter.removeItemAt(viewAdapter.getItem(position))
+                if (presenter.workouts[position].userId == null) {
+                    showCantEditNorDeleteInfo()
+                }
+                else {
+                    presenter.checkIfWorkoutCanBeDeleted(position) {
+                        existsSomewhere ->
+                        when (existsSomewhere) {
+                            null -> {
+                                showErrorInfo()
+                            }
+                            true -> {
+                                showCantDeleteInfo()
+                            }
+                            else -> {
+                                showDeleteConfirmationDialog(position)
+                            }
+                        }
+                    }
+                }
             }
 
             override fun onLeftClicked(position: Int) {
-                val bundle = Bundle()
-                bundle.putSerializable("workoutForDetails", presenter.workouts[position])
-                findNavController().navigate(R.id.workoutAdd, bundle, null)
+                if (presenter.workouts[position].userId == null) {
+                    showCantEditNorDeleteInfo()
+                }
+                else {
+                    val bundle = Bundle()
+                    bundle.putSerializable("workoutForDetails", presenter.workouts[position])
+                    findNavController().navigate(R.id.workoutAdd, bundle, null)
+                }
                 //edit
             }
         }, context = context!!, isEditPossible = true)
@@ -122,30 +138,40 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener {
         fab_addWorkout.setOnClickListener {
             findNavController().navigate(R.id.workoutAdd)
         }
-//        fab_addExercise.setOnClickListener {
-//            Navigation.findNavController(it).navigate(R.id.add_exercise)
-//        }
     }
 
     private fun showErrorSnackbar() {
-        Toast.makeText(context, R.string.workoutsPlanningError, Toast.LENGTH_LONG).show()
-//        val snackbar = Snackbar
-//            .make(view!!, R.string.workoutsPlanningError, Snackbar.LENGTH_LONG)
-//            .setAction(R.string.ok) {
-//
-//            }
-//        snackbar.view.setBackgroundColor(ContextCompat.getColor(context!!, R.color.accentOrange))
-//        snackbar.show()
+        (activity as MainActivity).showToast(R.string.workoutsPlanningError)
     }
 
     private fun showSuccessSnackbar() {
-        Toast.makeText(context, R.string.workoutsPlanned, Toast.LENGTH_LONG).show()
-//        val snackbar = Snackbar
-//            .make(view!!, R.string.workoutsPlanned, Snackbar.LENGTH_LONG)
-//            .setAction(R.string.ok) {
-//
-//            }
-//        snackbar.show()
+        (activity as MainActivity).showToast(R.string.workoutsPlanned)
+    }
+
+    private fun showCantEditNorDeleteInfo() {
+        (activity as MainActivity).showToast(R.string.cantEditNorDelete)
+    }
+
+    private fun showCantDeleteInfo() {
+        val title = resources.getString(R.string.deleteWorkoutLabel)
+        val contentText = resources.getString(R.string.deleteWorkoutContentCant)
+        context?.let {
+            confirmationDialog = ConfirmationDialog(it, title, contentText, this, null, false)
+            confirmationDialog.show()
+        }
+    }
+
+    private fun showDeleteConfirmationDialog(onPosition: Int) {
+        val title = resources.getString(R.string.deleteWorkoutLabel)
+        val contentText = resources.getString(R.string.deleteWorkoutContent)
+        context?.let {
+            confirmationDialog = ConfirmationDialog(it, title, contentText, this, onPosition, true)
+            confirmationDialog.show()
+        }
+    }
+
+    private fun showErrorInfo() {
+        (activity as MainActivity).showToast(R.string.errorOccured)
     }
 
     override fun datesChoosenFor(workout: Workout, dates: ArrayList<String>) {
@@ -158,6 +184,24 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener {
                 FirebaseRequestResult.FAILURE -> showErrorSnackbar()
             }
         }
+    }
+
+    override fun onCancelCallback() {
+        confirmationDialog.dismiss()
+    }
+
+    override fun onConfirmCallback(position: Int?) {
+        if (position != null) {
+            presenter.removeWorkoutAt(position) { result ->
+                if (result == FirebaseRequestResult.SUCCESS) {
+                    viewAdapter.notifyDataSetChanged()
+                    (activity as MainActivity).showToast(R.string.removeWorkoutSuccess)
+                } else if (result == FirebaseRequestResult.FAILURE) {
+                    (activity as MainActivity).showToast(R.string.operationError)
+                }
+            }
+        }
+        confirmationDialog.dismiss()
     }
 
 }

@@ -2,9 +2,8 @@ package com.monika.Model.WorkoutPlan
 
 import com.monika.Model.WorkoutComponents.MyDocument
 import com.monika.Model.WorkoutComponents.WorkoutElement
-import java.sql.Timestamp
 import java.io.Serializable
-import java.util.Date
+import java.util.*
 
 class Workout: Serializable, MyDocument {
 

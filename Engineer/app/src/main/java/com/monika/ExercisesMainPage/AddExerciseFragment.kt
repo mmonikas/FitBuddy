@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.monika.AlertDialogs.CategoryChoiceDialog
 import com.monika.Enums.FirebaseRequestResult
+import com.monika.MainActivity.MainActivity
 import com.monika.Model.WorkoutComponents.Category
 import com.monika.Model.WorkoutComponents.Exercise
 import com.monika.R
@@ -82,27 +83,30 @@ class AddExerciseFragment : Fragment(), SelectionListener {
                 if (isEditingMode) {
                     presenter.updateExercise(exercise) {
                         result ->
-//                        if (result == FirebaseRequestResult.SUCCESS) {
-//                            Toast.makeText(context, R.string.updateSuccess, Toast.LENGTH_LONG).show()
-//                        }
-//                        else if (result == FirebaseRequestResult.FAILURE) {
-//                            Toast.makeText(context, R.string.operationError, Toast.LENGTH_LONG).show()
-//                        }
+                        if (result == FirebaseRequestResult.SUCCESS) {
+                            (activity as MainActivity).showToast(R.string.updateSuccess)
+                            Navigation.findNavController(it).popBackStack()
+                        }
+                        else if (result == FirebaseRequestResult.FAILURE) {
+                            (activity as MainActivity).showToast(R.string.operationError)
+                            Navigation.findNavController(it).popBackStack()
+                        }
                         //Navigation.findNavController(it).popBackStack()
                     }
                 }
                 else {
                     presenter.saveExercise(exercise) { result ->
-//                        if (result == FirebaseRequestResult.SUCCESS) {
-//                            Toast.makeText(context, R.string.saveSuccess, Toast.LENGTH_LONG).show()
-//                        }
-//                        else if (result == FirebaseRequestResult.FAILURE) {
-//                            Toast.makeText(context, R.string.operationError, Toast.LENGTH_LONG).show()
-//                        }
-
+                      if (result == FirebaseRequestResult.SUCCESS) {
+                            (activity as MainActivity).showToast(R.string.saveSuccess)
+                            Navigation.findNavController(it).popBackStack()
+                        }
+                        else if (result == FirebaseRequestResult.FAILURE) {
+                            (activity as MainActivity).showToast(R.string.operationError)
+                            Navigation.findNavController(it).popBackStack()
+                        }
                     }
                 }
-                Navigation.findNavController(it).popBackStack()
+
             }
             else {
                 Toast.makeText(context, R.string.invalid_exercise_data, Toast.LENGTH_LONG).show()
@@ -114,9 +118,7 @@ class AddExerciseFragment : Fragment(), SelectionListener {
         exercise.name = add_exercise_name.text.toString()
         exercise.description = add_exercise_description.text.toString()
         exercise.category = add_exercise_chosenCategory.text.toString().toLowerCase()
-        val equipmentData = ArrayList<String>()
-        equipmentData.add(add_exercise_equipment.text.toString())
-        exercise.equipment = equipmentData
+        exercise.equipment = add_exercise_equipment.text.toString()
     }
 
     private fun setDetailsData() {
@@ -124,12 +126,7 @@ class AddExerciseFragment : Fragment(), SelectionListener {
         exercise = exerciseForDetails
         add_exercise_name.setText(exerciseForDetails.name)
         add_exercise_description.setText(exerciseForDetails.description)
-        var equipmentText = ""
-        exerciseForDetails.equipment?.forEach {
-            equipment ->
-            equipmentText = "$equipmentText, $equipment"
-        }
-        add_exercise_equipment.setText(equipmentText)
+        add_exercise_equipment.setText(exerciseForDetails.equipment)
         exerciseForDetails.category?.let {
             add_exercise_chosenCategoryImage.setImageResource(Utils.getCategoryImage(it))
             add_exercise_chosenCategory.text = it.toUpperCase()

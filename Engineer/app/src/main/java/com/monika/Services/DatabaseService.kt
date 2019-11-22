@@ -16,6 +16,7 @@ import com.monika.Model.WorkoutPlan.FirebasePlannedWorkout
 import com.monika.Model.WorkoutPlan.FirebaseWorkout
 import com.monika.Model.WorkoutPlan.FirebaseWorkoutElement
 import com.monika.Model.WorkoutPlan.PlannedWorkout
+import kotlinx.coroutines.handleCoroutineException
 
 
 class DatabaseService {
@@ -125,7 +126,32 @@ class DatabaseService {
             }
     }
 
-    fun saveNewDocument(document: MyDocument, collectionType: UserDataType, completion: (result: FirebaseRequestResult) -> Unit) {
+    fun checkIfExistsWorkoutInPlannedWorkouts(workoutDocReference: String, completion: (result: Boolean?) -> Unit) {
+        val dbCollectionToQuery = getCollectionForRequestedType(UserDataType.PLANNED_WORKOUT)
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        db.collection(dbCollectionToQuery)
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener { documents ->
+                val dataList = getProcessedFetchedDataArray(documents, UserDataType.PLANNED_WORKOUT) as ArrayList<FirebasePlannedWorkout>
+                val existingDocument = dataList.firstOrNull { item ->
+                    item.workout == workoutDocReference
+                }
+                if (existingDocument != null) {
+                    completion(true)
+                }
+                else {
+                    completion(false)
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w("DATA_FETCHING", "Error getting documents: ", exception)
+                completion(null)
+            }
+    }
+
+
+    fun saveNewDocument(document: MyDocument, collectionType: UserDataType, completion: (result: (FirebaseRequestResult), (String?)) -> Unit) {
         val dbCollectionForNewDocument = getCollectionForRequestedType(collectionType)
         val docReference = db.collection(dbCollectionForNewDocument).document()
         document.docReference = docReference.path
@@ -134,15 +160,15 @@ class DatabaseService {
             .addOnCompleteListener {
                 task ->
                 Log.w("DATA_ADDING_COMPLETED", "New document in: ${collectionType.name}")
-                completion(FirebaseRequestResult.COMPLETED)
+                completion(FirebaseRequestResult.COMPLETED, docReference.path)
             }
             .addOnSuccessListener {
                 Log.w("DATA_ADDING_SUCCESS", "Successfully added new document: ${collectionType.name}")
-                completion(FirebaseRequestResult.SUCCESS)
+                completion(FirebaseRequestResult.SUCCESS, docReference.path)
             }
             .addOnFailureListener { e ->
                 Log.w("DATA_ADDING_FAILURE", "Error writing document", e)
-                completion(FirebaseRequestResult.FAILURE)
+                completion(FirebaseRequestResult.FAILURE, null)
             }
     }
 

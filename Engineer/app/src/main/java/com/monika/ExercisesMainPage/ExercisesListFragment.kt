@@ -1,5 +1,6 @@
 package com.monika.ExercisesMainPage
 
+import android.content.Context
 import android.graphics.Canvas
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.monika.Enums.FirebaseRequestResult
 import com.monika.MainActivity.MainActivity
 import com.monika.R
 import com.monika.Services.Utils
+import com.monika.WorkoutsMainPage.WorkoutsListAdapter
 import kotlinx.android.synthetic.main.fragment_exercises_list.*
 
 
@@ -23,6 +25,7 @@ class ExercisesListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: ExercisesListAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
+
     private val presenter = ExercisesListPresenter()
 
     override fun onCreateView(
@@ -30,8 +33,8 @@ class ExercisesListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val options = presenter.getOptionsForUpdatesListener()
-        viewAdapter = ExercisesListAdapter(options)
+        viewAdapter = ExercisesListAdapter(presenter.exercises)
+
         return inflater.inflate(R.layout.fragment_exercises_list, container, false)
     }
 
@@ -42,17 +45,36 @@ class ExercisesListFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        viewAdapter.startListening()
         context?.let { it ->
             view?.let { view ->
                 Utils.hideSoftKeyBoard(it, view)
             }
         }
+        getContent()
     }
 
-    override fun onStop() {
-        super.onStop()
-        viewAdapter.stopListening()
+
+    private fun getContent() {
+        (activity as MainActivity).showProgressView()
+        (activity as MainActivity).disableBottomNavigation()
+        presenter.fetchExercises { result ->
+            if (result.isNotEmpty()) {
+                presenter.exercises = result
+                if (context != null) {
+                    viewAdapter = ExercisesListAdapter(presenter.exercises)
+                    recyclerView.adapter = viewAdapter
+                    (activity as MainActivity).enableBottomNavigation()
+                }
+//                viewAdapter = WorkoutsListAdapter(context!!, presenter.workouts, this)
+            }
+//            viewAdapter = WorkoutsListAdapter(context!!, presenter.workouts, this)
+//            setRecyclerView()
+            activity?.let {
+                (it as MainActivity).hideProgressView()
+            }
+        }
+
+
     }
 
     private fun setFAB() {
@@ -69,22 +91,30 @@ class ExercisesListFragment : Fragment() {
         }
         val swipeController = SwipeController(object : SwipeControllerActions() {
             override fun onRightClicked(position: Int) {
-                presenter.removeItemAt(viewAdapter.getItem(position)) {
-                        result ->
-                    if (result == FirebaseRequestResult.SUCCESS) {
-                        Toast.makeText(context, R.string.removeSuccess, Toast.LENGTH_LONG).show()
-                    }
-                    else if (result == FirebaseRequestResult.FAILURE) {
-                        Toast.makeText(context, R.string.operationError, Toast.LENGTH_LONG).show()
+                if (presenter.exercises[position].userId == null) {
+                    showCantEditNorDeleteInfo()
+                }
+                else {
+                    presenter.removeItemAt((position)) { result ->
+                        if (result == FirebaseRequestResult.SUCCESS) {
+                            viewAdapter.notifyDataSetChanged()
+                            Toast.makeText(context, R.string.removeSuccess, Toast.LENGTH_LONG).show()
+                        } else if (result == FirebaseRequestResult.FAILURE) {
+                            Toast.makeText(context, R.string.operationError, Toast.LENGTH_LONG).show()
+                        }
                     }
                 }
             }
 
             override fun onLeftClicked(position: Int) {
-                val bundle = Bundle()
-                bundle.putSerializable("exerciseForDetails", viewAdapter.getItem(position))
-                findNavController().navigate(R.id.addExerciseFragment, bundle, null)
-                //edit
+                if (presenter.exercises[position].userId == null) {
+                    showCantEditNorDeleteInfo()
+                }
+                else {
+                    val bundle = Bundle()
+                    bundle.putSerializable("exerciseForDetails", presenter.exercises[position])
+                    findNavController().navigate(R.id.addExerciseFragment, bundle, null)
+                }
             }
         }, context = context!!, isEditPossible = true)
 
@@ -98,4 +128,10 @@ class ExercisesListFragment : Fragment() {
         })
         (activity as MainActivity).hideProgressView()
     }
+
+    private fun showCantEditNorDeleteInfo() {
+        (activity as MainActivity).showToast(R.string.cantEditNorDelete)
+    }
+
+
 }

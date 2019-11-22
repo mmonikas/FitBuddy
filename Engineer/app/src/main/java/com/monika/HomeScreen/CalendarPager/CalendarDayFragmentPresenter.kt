@@ -37,7 +37,8 @@ class CalendarDayFragmentPresenter {
                             workoutElementToAdd.docReference = workoutElement.docReference
                             workoutElementToAdd.numOfReps = workoutElement.numOfReps
                             workoutElementToAdd.numOfSets = workoutElement.numOfSets
-                            workoutElementToAdd.timer = workoutElement.timer
+                            workoutElementToAdd.timeInterval = workoutElement.timeInterval
+                            workoutElementToAdd.isTimeIntervalMode = workoutElement.isTimeIntervalMode
                             val exerciseId = workoutElement.exercise
                             exerciseId?.let {
                                 fetchExercise(exerciseId) {
@@ -111,7 +112,8 @@ class CalendarDayFragmentPresenter {
                     workoutElementToAdd.docReference = workoutElement.docReference
                     workoutElementToAdd.numOfReps = workoutElement.numOfReps
                     workoutElementToAdd.numOfSets = workoutElement.numOfSets
-                    workoutElementToAdd.timer = workoutElement.timer
+                    workoutElementToAdd.timeInterval = workoutElement.timeInterval
+                    workoutElementToAdd.isTimeIntervalMode = workoutElement.isTimeIntervalMode
                     val exerciseId = workoutElement.exercise
                     exerciseId?.let {
                         fetchExercise(exerciseId) {
@@ -138,15 +140,16 @@ class CalendarDayFragmentPresenter {
     }
 
     fun fetchPlannedWorkouts(timestamp: String, completion: (result: ArrayList<PlannedWorkout>) -> Unit) {
-        val singlePlannedWorkout = PlannedWorkout()
+        var singlePlannedWorkout : PlannedWorkout
         val plannedWorkouts = ArrayList<PlannedWorkout>()
         var firebasePlannedWorkouts: ArrayList<FirebasePlannedWorkout>
         if (currentUser != null) {
             DatabaseService.instance.fetchUserPlannedWorkouts(timestamp = timestamp, userId = currentUser.uid) {
                 documents ->
                 if (documents.size > 0) {
-                    firebasePlannedWorkouts = documents as ArrayList<FirebasePlannedWorkout>
+                    firebasePlannedWorkouts = documents
                     firebasePlannedWorkouts.forEach { firebasePlannedWorkout ->
+                        val singlePlannedWorkout = PlannedWorkout()
                         singlePlannedWorkout.date = firebasePlannedWorkout.date
                         singlePlannedWorkout.completed = firebasePlannedWorkout.completed
                         singlePlannedWorkout.docReference = firebasePlannedWorkout.docReference

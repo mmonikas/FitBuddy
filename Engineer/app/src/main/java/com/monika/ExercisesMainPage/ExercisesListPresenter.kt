@@ -10,31 +10,52 @@ import com.monika.Services.DatabaseService
 
 class ExercisesListPresenter {
 
-    fun getOptionsForUpdatesListener(): FirestoreRecyclerOptions<Exercise> {
+    var exercises = ArrayList<Exercise>()
+
+    fun getOptionsForUpdatesListener(): FirestoreRecyclerOptions<Exercise>? {
         val user = FirebaseAuth.getInstance().currentUser
-        if (user != null) {
+        return if (user != null) {
             val query : Query = DatabaseService.instance.getQueryForFetching(UserDataType.EXERCISE)
                 .whereEqualTo("userId", user.uid)
                 .orderBy("name", Query.Direction.ASCENDING)
-            return FirestoreRecyclerOptions.Builder<Exercise>()
+            FirestoreRecyclerOptions.Builder<Exercise>()
                 .setQuery(query, Exercise::class.java)
                 .build()
-        }
-        else {
-            val query : Query = DatabaseService.instance.getQueryForFetching(UserDataType.EXERCISE)
-                .whereEqualTo("userId", "")
-                .orderBy("name", Query.Direction.ASCENDING)
-            return FirestoreRecyclerOptions.Builder<Exercise>()
-                .setQuery(query, Exercise::class.java)
-                .build()
+        } else null
+    }
+
+    fun getOptionsForBaseDataListener(): FirestoreRecyclerOptions<Exercise> {
+        val query : Query = DatabaseService.instance.getQueryForFetching(UserDataType.EXERCISE)
+            .whereEqualTo("userId", null)
+            .orderBy("name", Query.Direction.ASCENDING)
+        return FirestoreRecyclerOptions.Builder<Exercise>()
+            .setQuery(query, Exercise::class.java)
+            .build()
+    }
+
+    fun removeItemAt(position: Int, completion: (result: FirebaseRequestResult) -> Unit) {
+        val item = exercises[position]
+        DatabaseService.instance.removeDocument(item, UserDataType.EXERCISE) {
+            result ->
+            if (result == FirebaseRequestResult.SUCCESS) {
+                exercises.removeAt(position)
+            }
+            completion(result)
         }
     }
 
-    fun removeItemAt(item: Exercise, completion: (result: FirebaseRequestResult) -> Unit) {
-        DatabaseService.instance.removeDocument(item, UserDataType.EXERCISE) {
-            result -> completion(result)
+    fun fetchExercises (completion: (result: ArrayList<Exercise>) -> Unit) {
+        DatabaseService.instance.fetchUserData(UserDataType.EXERCISE) {
+            result ->
+            if(result.isNotEmpty()) {
+                val exercisesList = result as ArrayList<Exercise>
+                exercisesList.sortBy { exercise -> exercise.name }
+                completion(exercisesList)
+            }
         }
     }
+
+
 
 
 }

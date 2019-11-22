@@ -7,9 +7,9 @@ import java.sql.Timestamp
 
 class FirebaseWorkout: Serializable, MyDocument {
 
-    val name: String? = null
-    val initDate: Date? = null
-    val workoutElements: List<String>? = null
+    var name: String? = null
+    var initDate: Date? = null
+    var workoutElements: List<String>? = null
 
     constructor()
 }

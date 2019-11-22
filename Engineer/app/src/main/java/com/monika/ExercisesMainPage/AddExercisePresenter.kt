@@ -9,7 +9,7 @@ class AddExercisePresenter {
 
     fun saveExercise(exercise: Exercise, completion: (result: FirebaseRequestResult) -> Unit) {
         DatabaseService.instance.saveNewDocument(exercise, UserDataType.EXERCISE) {
-            result ->
+                result, _ ->
             completion(result)
         }
     }

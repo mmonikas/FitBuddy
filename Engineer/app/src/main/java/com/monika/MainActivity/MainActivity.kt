@@ -5,18 +5,23 @@ import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.monika.Model.WorkoutComponents.Exercise
 import com.monika.R
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -106,11 +111,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showProgressView() {
-        findViewById<LinearLayout>(R.id.main_progressView).visibility = View.VISIBLE
+        if (!main_progressView.isVisible) {
+            findViewById<LinearLayout>(R.id.main_progressView).visibility = View.VISIBLE
+        }
     }
 
     fun hideProgressView() {
-        findViewById<LinearLayout>(R.id.main_progressView).visibility = View.GONE
+        if (main_progressView.isVisible) {
+            findViewById<LinearLayout>(R.id.main_progressView).visibility = View.GONE
+        }
+    }
+
+    fun showToast(id: Int) {
+       // val text = resources.getString(id)
+        Snackbar.make(bottomNavigationView, id, Snackbar.LENGTH_LONG).apply {
+            view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams).apply {
+                setMargins(leftMargin, topMargin, rightMargin, bottomNavigationView.height)
+            }
+        }.show()
+        //Toast.makeText(applicationContext, text, Toast.LENGTH_LONG).show()
     }
 
 //    fun getExercises() : ArrayList<Exercise> {

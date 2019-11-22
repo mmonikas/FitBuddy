@@ -9,14 +9,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Window
 import android.view.WindowManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.core.view.isVisible
+import com.google.android.material.textfield.TextInputLayout
 import com.monika.ExercisesMainPage.WorkoutElementAddListener
 import com.monika.Model.WorkoutComponents.Exercise
 import com.monika.Model.WorkoutComponents.WorkoutElement
 import com.monika.R
+import com.monika.Services.Utils
 
 class WorkoutElementAddingDialog(private val exercise: Exercise, context: Context, listener: WorkoutElementAddListener) : Dialog(context) {
 
@@ -34,12 +34,22 @@ class WorkoutElementAddingDialog(private val exercise: Exercise, context: Contex
         titleLabel?.text = context.resources.getString(R.string.addExerciseToWorkout)
         val exerciseName = layout.findViewById<TextView>(R.id.workoutExerciseItemAddName)
         exerciseName.text = exercise.name
-
+        val image = layout.findViewById<ImageView>(R.id.workoutAddingElementCategoryImage)
+        exercise.category?.let {
+            image.setImageResource(Utils.getCategoryImage(it))
+        }
         val okButton = layout.findViewById<Button>(R.id.workoutElement_confirmButton)
         val cancelButton = layout.findViewById<Button>(R.id.cancelWorkoutElement)
 
         val reps = layout.findViewById<EditText>(R.id.repsNumber)
+        val repsLayout = layout.findViewById<TextInputLayout>(R.id.repsLayout)
         val sets = layout.findViewById<EditText>(R.id.setsNumber)
+        val time = layout.findViewById<EditText>(R.id.timeInterval)
+        val timeLayout = layout.findViewById<TextInputLayout>(R.id.timeIntervalLayout)
+        val isTimeMode = layout.findViewById<CheckBox>(R.id.checkBox)
+        isTimeMode.isChecked = false
+        timeLayout.isVisible = false
+        repsLayout.isVisible = true
 
         okButton.setOnClickListener {
             val reps = reps.text.toString()
@@ -62,6 +72,17 @@ class WorkoutElementAddingDialog(private val exercise: Exercise, context: Contex
         cancelButton.setOnClickListener {
             workoutElement = null
             dismiss()
+        }
+
+        isTimeMode.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                timeLayout.isVisible = true
+                repsLayout.isVisible = false
+            }
+            else {
+                timeLayout.isVisible = false
+                repsLayout.isVisible = true
+            }
         }
 
     }

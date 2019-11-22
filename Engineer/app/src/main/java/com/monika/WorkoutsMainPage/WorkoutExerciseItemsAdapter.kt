@@ -42,41 +42,59 @@ class WorkoutElementItemsAdapter(private val listener: AddAnotherListener?, priv
     override fun onBindViewHolder(holder: ItemsViewHolder, position: Int) {
         if (isAddingMode) {
             if (position == 0) {
-                holder.itemView.workoutExerciseItemName.visibility = View.GONE
-                holder.itemView.workoutExerciseRepsNum.visibility = View.GONE
-                holder.itemView.workoutExerciseSetsNum.visibility = View.GONE
-                holder.itemView.workoutElement_Element.visibility = View.GONE
-                holder.itemView.workoutElementcardView_addAnother.visibility = View.VISIBLE
-                holder.itemView.workoutElement_addAnother.visibility = View.VISIBLE
+                hideWorkoutElement(holder)
+                showAddAnother(holder)
                 holder.itemView.workoutElement_addAnother.setOnClickListener {
                     //nowy element alert dialog
                     listener?.onClickCallback()
                 }
             }
             else {
-                holder.itemView.workoutExerciseItemName.visibility = View.VISIBLE
-                holder.itemView.workoutExerciseRepsNum.visibility = View.VISIBLE
-                holder.itemView.workoutExerciseSetsNum.visibility = View.VISIBLE
-                holder.itemView.workoutElement_Element.visibility = View.VISIBLE
-                holder.itemView.workoutElementcardView_addAnother.visibility = View.GONE
-                holder.itemView.workoutElement_addAnother.visibility = View.GONE
+                hideAddAnother(holder)
+                showWorkoutElement(holder)
                 val item = workoutElementItems[position - 1]
                 holder.itemView.workoutExerciseItemName.text = item.exercise?.name
-                holder.itemView.workoutExerciseRepsNum.text = item.numOfReps.toString()
                 holder.itemView.workoutExerciseSetsNum.text = item.numOfSets.toString()
+                if (item.isTimeIntervalMode != null) {
+                    if (item.isTimeIntervalMode == true) {
+                        setViewForTimeIntervalMode(holder)
+                        holder.itemView.workoutExerciseTimeInterval.text = item.timeInterval.toString()
+                    }
+                    else {
+                        setViewForRepsMode(holder)
+                        holder.itemView.workoutExerciseRepsNum.text = item.numOfReps.toString()
+                    }
+                }
+                else {
+                    setViewForRepsMode(holder)
+                    holder.itemView.workoutExerciseRepsNum.text = item.numOfReps.toString()
+                }
+
+                holder.itemView.workoutExerciseRepsNum.text = item.numOfReps.toString()
                 val category = item.exercise?.category
                 setCategoryImage(category, holder.itemView.workoutExerciseCategoryImage)
             }
         }
         else {
-            holder.itemView.workoutExerciseItemName.visibility = View.VISIBLE
-            holder.itemView.workoutExerciseRepsNum.visibility = View.VISIBLE
-            holder.itemView.workoutExerciseSetsNum.visibility = View.VISIBLE
-            holder.itemView.workoutElement_addAnother.visibility = View.GONE
+            showWorkoutElement(holder)
+            hideAddAnother(holder)
             val item = workoutElementItems[position]
             holder.itemView.workoutExerciseItemName.text = item.exercise?.name
-            holder.itemView.workoutExerciseRepsNum.text = item.numOfReps.toString()
             holder.itemView.workoutExerciseSetsNum.text = item.numOfSets.toString()
+            if (item.isTimeIntervalMode != null) {
+                if (item.isTimeIntervalMode == true) {
+                    setViewForTimeIntervalMode(holder)
+                    holder.itemView.workoutExerciseTimeInterval.text = item.timeInterval.toString()
+                }
+                else {
+                    setViewForRepsMode(holder)
+                    holder.itemView.workoutExerciseRepsNum.text = item.numOfReps.toString()
+                }
+            }
+            else {
+                setViewForRepsMode(holder)
+                holder.itemView.workoutExerciseRepsNum.text = item.numOfReps.toString()
+            }
             val category = item.exercise?.category
             setCategoryImage(category, holder.itemView.workoutExerciseCategoryImage)
         }
@@ -93,5 +111,47 @@ class WorkoutElementItemsAdapter(private val listener: AddAnotherListener?, priv
         }
         else
             null
+    }
+
+    private fun hideWorkoutElement(holder: ItemsViewHolder) {
+        holder.itemView.workoutExerciseItemName.visibility = View.GONE
+        holder.itemView.workoutExerciseRepsNum.visibility = View.GONE
+        holder.itemView.workoutExerciseSetsNum.visibility = View.GONE
+        holder.itemView.workoutElement_Element.visibility = View.GONE
+        holder.itemView.time.visibility = View.GONE
+        holder.itemView.workoutExerciseTimeInterval.visibility = View.GONE
+    }
+
+    private fun showWorkoutElement(holder: ItemsViewHolder) {
+        holder.itemView.workoutExerciseItemName.visibility = View.VISIBLE
+        holder.itemView.workoutExerciseRepsNum.visibility = View.VISIBLE
+        holder.itemView.workoutExerciseSetsNum.visibility = View.VISIBLE
+        holder.itemView.workoutElement_Element.visibility = View.VISIBLE
+        holder.itemView.time.visibility = View.VISIBLE
+        holder.itemView.workoutExerciseTimeInterval.visibility = View.VISIBLE
+    }
+
+    private fun hideAddAnother(holder: ItemsViewHolder) {
+        holder.itemView.workoutElementcardView_addAnother.visibility = View.GONE
+        holder.itemView.workoutElement_addAnother.visibility = View.GONE
+    }
+
+    private fun showAddAnother(holder: ItemsViewHolder) {
+        holder.itemView.workoutElementcardView_addAnother.visibility = View.VISIBLE
+        holder.itemView.workoutElement_addAnother.visibility = View.VISIBLE
+    }
+
+    private fun setViewForTimeIntervalMode(holder: ItemsViewHolder) {
+        holder.itemView.workoutExerciseRepsNum.visibility = View.GONE
+        holder.itemView.repsNum.visibility = View.GONE
+        holder.itemView.time.visibility = View.VISIBLE
+        holder.itemView.workoutExerciseTimeInterval.visibility = View.VISIBLE
+    }
+
+    private fun setViewForRepsMode(holder: ItemsViewHolder) {
+        holder.itemView.time.visibility = View.GONE
+        holder.itemView.workoutExerciseTimeInterval.visibility = View.GONE
+        holder.itemView.workoutExerciseRepsNum.visibility = View.VISIBLE
+        holder.itemView.repsNum.visibility = View.VISIBLE
     }
 }

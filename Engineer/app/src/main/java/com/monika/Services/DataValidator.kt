@@ -1,5 +1,7 @@
 package com.monika.Services
 
+import com.monika.Model.WorkoutPlan.Workout
+
 class DataValidator {
 
     companion object{
@@ -17,5 +19,9 @@ class DataValidator {
     fun isPasswordValid(password: String): Boolean {
         return password.isNotEmpty() && !password.isNullOrBlank() && password.length > 4
         //TODO for now, password has to be better and so does email
+    }
+
+    fun isDataForNewWorkoutValid(workout: Workout) : Boolean {
+        return true
     }
 }

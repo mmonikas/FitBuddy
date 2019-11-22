@@ -1,10 +1,7 @@
 package com.monika.WorkoutsMainPage
 
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.firebase.ui.firestore.SnapshotParser
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.Query
 import com.monika.Enums.FirebaseRequestResult
 import com.monika.Enums.UserDataType
 import com.monika.Model.WorkoutComponents.Exercise
@@ -14,11 +11,8 @@ import com.monika.Model.WorkoutPlan.FirebaseWorkout
 import com.monika.Model.WorkoutPlan.FirebaseWorkoutElement
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.Services.DatabaseService
-import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 
 
 class WorkoutsListPresenter {
@@ -52,97 +46,67 @@ class WorkoutsListPresenter {
         val currentUser = FirebaseAuth.getInstance().currentUser
         if (currentUser != null) {
             var workoutsList = ArrayList<Workout>()
-            var workoutToAdd = Workout()
-            var currentWorkoutComponentsPath: List<String>
+
+            var workoutElementToAdd : WorkoutElement
+            var exercise: Exercise
+            var workoutElement : FirebaseWorkoutElement
+            var firebaseExercise: Exercise
+
 
             DatabaseService.instance.fetchUserData(UserDataType.WORKOUT) {
                     result ->
                 val firebaseWorkoutList = result as ArrayList<FirebaseWorkout>
                 firebaseWorkoutList.forEach { workout ->
-                    workoutToAdd.docReference = workout.docReference
-                    workoutToAdd.userId = currentUser.uid
-                    workoutToAdd.initDate = workout.initDate
-                    workoutToAdd.name = workout.name
-                    workoutToAdd.exercises = ArrayList()
-                    currentWorkoutComponentsPath = workout.workoutElements!!
-
-                    currentWorkoutComponentsPath?.forEach { path ->
-                        fetchWorkoutElement(path) {
-                                result ->
-                            val workoutElement = result as FirebaseWorkoutElement
-                            val workoutElementToAdd = WorkoutElement()
-                            workoutElementToAdd.docReference = workoutElement.docReference
-                            workoutElementToAdd.numOfReps = workoutElement.numOfReps
-                            workoutElementToAdd.numOfSets = workoutElement.numOfSets
-                            workoutElementToAdd.timer = workoutElement.timer
-                            val exerciseId = workoutElement.exercise
-                            exerciseId?.let {
-                                fetchExercise(exerciseId) {
-                                        result ->
-                                    val exercise = result as Exercise
-                                    workoutElementToAdd.exercise = exercise
-                                    workoutToAdd.exercises?.add(workoutElementToAdd)
-                                    if(workoutToAdd.exercises?.size == currentWorkoutComponentsPath.size) {
-                                        workoutsList.add(workoutToAdd)
-                                        completion(workoutsList)
-                                    }
-                                }
-                            }
-
+                    getWorkout(workout) { result: Workout ->
+                        workoutsList.add(result)
+                        if (workoutsList.size == firebaseWorkoutList.size) {
+                            completion(workoutsList)
                         }
                     }
                 }
+            }
+        }
+    }
+    //completion(workoutToAdd)
 
+    private fun getWorkout(workout: FirebaseWorkout, completion: (result: Workout) -> Unit) {
+        var currentWorkoutComponentsPath = workout.workoutElements!!
+        var workoutToAdd = Workout()
+        workoutToAdd.docReference = workout.docReference
+        workoutToAdd.userId = workout.userId
+        workoutToAdd.initDate = workout.initDate
+        workoutToAdd.name = workout.name
+        workoutToAdd.exercises = ArrayList()
+        currentWorkoutComponentsPath?.forEach { path ->
+            getWorkoutElement(path) { resultWorkoutElement ->
+                workoutToAdd.exercises?.add(resultWorkoutElement)
+                if (workoutToAdd.exercises?.size == currentWorkoutComponentsPath.size) {
+                    completion(workoutToAdd)
+                }
             }
         }
     }
 
 
-
-//    fun getOptionsForWorkoutsListListener(): FirestoreRecyclerOptions<Workout> {
-//        val query: Query = DatabaseService.instance.getQueryForFetching(UserDataType.WORKOUT)
-//            .orderBy("name", Query.Direction.ASCENDING)
-//        var workoutToAdd = Workout()
-//        var currentWorkoutComponentsPath: List<String>
-//        val options = FirestoreRecyclerOptions.Builder<Workout>()
-//            .setQuery(query) { snapshot ->
-//                val firebaseWorkout = snapshot.toObject(FirebaseWorkout::class.java)
-//                firebaseWorkout?.let {
-//                    workoutToAdd.docReference = firebaseWorkout.docReference
-//                    workoutToAdd.userId = firebaseWorkout.userId
-//                    workoutToAdd.initDate = firebaseWorkout.initDate
-//                    workoutToAdd.name = firebaseWorkout.name
-//                    workoutToAdd.exercises = ArrayList()
-//                    currentWorkoutComponentsPath = firebaseWorkout.workoutElements!!
-//                    currentWorkoutComponentsPath?.forEach { path ->
-//                        fetchWorkoutElement(path) { result ->
-//                            val workoutElement = result as FirebaseWorkoutElement
-//                            val workoutElementToAdd = WorkoutElement()
-//                            workoutElementToAdd.docReference = workoutElement.docReference
-//                            workoutElementToAdd.numOfReps = workoutElement.numOfReps
-//                            workoutElementToAdd.numOfSets = workoutElement.numOfSets
-//                            workoutElementToAdd.timer = workoutElement.timer
-//                            val exerciseId = workoutElement.exercise
-//                            exerciseId?.let {
-//                                fetchExercise(exerciseId) { result ->
-//                                    val exercise = result as Exercise
-//                                    workoutElementToAdd.exercise = exercise
-//                                    workoutToAdd.exercises?.add(workoutElementToAdd)
-//                                    //workoutsList.add(workoutToAdd)
-//                                    workoutToAdd?.let {
-//                                        return@fetchExercise it
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//            .build()
-//
-//        return options
-//    }
-
+    private fun getWorkoutElement(documentId: String, completion: (result: WorkoutElement) -> Unit) {
+        fetchWorkoutElement(documentId) { result ->
+            val workoutElement = result as FirebaseWorkoutElement
+            val workoutElementToAdd = WorkoutElement()
+            workoutElementToAdd.docReference = workoutElement.docReference
+            workoutElementToAdd.numOfReps = workoutElement.numOfReps
+            workoutElementToAdd.numOfSets = workoutElement.numOfSets
+            workoutElementToAdd.timeInterval = workoutElement.timeInterval
+            workoutElementToAdd.isTimeIntervalMode = workoutElement.isTimeIntervalMode
+            val exerciseId = workoutElement.exercise
+            exerciseId?.let {
+                fetchExercise(exerciseId) { result ->
+                    val exercise = result as Exercise
+                    workoutElementToAdd.exercise = exercise
+                    completion(workoutElementToAdd)
+                }
+            }
+        }
+    }
 
     fun fetchExercise(documentId: String, completion: (result: Any) -> Unit) {
         DatabaseService.instance.fetchCustomDocument(UserDataType.EXERCISE, documentId) {
@@ -162,7 +126,30 @@ class WorkoutsListPresenter {
         }
     }
 
+    fun removeWorkoutAt(position: Int, completion: (result: FirebaseRequestResult) -> Unit) {
+        val item = workouts[position]
+        DatabaseService.instance.removeDocument(item, UserDataType.WORKOUT) {
+                result ->
+            if (result == FirebaseRequestResult.SUCCESS) {
+                workouts.removeAt(position)
+            }
+            completion(result)
+        }
 
+    }
+
+    fun checkIfWorkoutCanBeDeleted(position: Int, completion: (result: Boolean?) -> Unit) {
+        val workoutId = workouts[position].docReference
+        if (workoutId != null) {
+            DatabaseService.instance.checkIfExistsWorkoutInPlannedWorkouts(workoutDocReference = workoutId) {
+                existsInPlannedWorkouts ->
+                completion(existsInPlannedWorkouts)
+            }
+        }
+        else {
+            completion(null)
+        }
+    }
 //    fun fetchUserWorkouts(completion: (result: ArrayList<Workout>) -> Unit) {
 //        val currentUser = FirebaseAuth.getInstance().currentUser
 //        if (currentUser != null) {

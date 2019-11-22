@@ -4,10 +4,11 @@ import com.monika.Model.WorkoutComponents.MyDocument
 import java.io.Serializable
 
 class FirebaseWorkoutElement: Serializable, MyDocument {
-    val exercise: String? = null
-    val numOfSets: Int? = null
-    val numOfReps: Int? = null
-    val timer: Int? = null
+    var exercise: String? = null
+    var numOfSets: Int? = null
+    var numOfReps: Int? = null
+    var timeInterval: Int? = null
+    var isTimeIntervalMode: Boolean? = null
 
     constructor()
 }

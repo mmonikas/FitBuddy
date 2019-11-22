@@ -8,11 +8,11 @@ import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.monika.ExercisesMainPage.WorkoutsPlannerListener
 import com.monika.Model.CalendarDayTimestamp
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
 import com.monika.WorkoutsMainPage.PlannedWorkoutsAdapter
-import com.monika.WorkoutsMainPage.WorkoutsPlannerListener
 import kotlinx.android.synthetic.main.fragment_collection_calendar_day.*
 import java.text.SimpleDateFormat
 import java.util.*

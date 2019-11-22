@@ -8,6 +8,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.monika.AlertDialogs.PlanWorkoutDialog
+import com.monika.ExercisesMainPage.WorkoutsPlannerListener
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
 import kotlinx.android.synthetic.main.workout_cardview.view.*
@@ -15,7 +16,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class WorkoutsListAdapter(private val context: Context, private val workouts: ArrayList<Workout>,
-                          private val listener: WorkoutsPlannerListener):
+                          private val listener: WorkoutsPlannerListener
+):
     RecyclerView.Adapter<WorkoutsListAdapter.WorkoutsViewHolder>() {
 
 
@@ -28,6 +30,11 @@ class WorkoutsListAdapter(private val context: Context, private val workouts: Ar
         holder.itemView.cardView_workoutElement.visibility = View.VISIBLE
 
         val workout = workouts[position]
+        if (workout.userId == null) {
+            holder.itemView.workoutUserImage.visibility = View.GONE
+        } else {
+            holder.itemView.workoutUserImage.visibility = View.VISIBLE
+        }
         holder.itemView.workoutcard_name.text = workout.name
         holder.itemView.workoutcard_exercisesNumber.text = workout.exercises?.size.toString()
         workout.initDate?.let {

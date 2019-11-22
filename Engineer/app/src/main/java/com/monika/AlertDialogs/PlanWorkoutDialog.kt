@@ -13,9 +13,9 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.Toast
+import com.monika.ExercisesMainPage.WorkoutsPlannerListener
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
-import com.monika.WorkoutsMainPage.WorkoutsPlannerListener
 import kotlinx.android.synthetic.main.dialog_plan_workout.*
 import java.text.SimpleDateFormat
 import java.util.*

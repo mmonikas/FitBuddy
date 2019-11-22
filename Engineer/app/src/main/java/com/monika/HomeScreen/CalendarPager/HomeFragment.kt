@@ -1,5 +1,6 @@
 package com.monika.HomeScreen.CalendarPager
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -64,12 +65,15 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
-        setTabLayout()
 //        if (presenter.exercises.isNotEmpty()) {
 //            setTabLayout()
 //        }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        setTabLayout()
+    }
     private fun setLayout() {
         (activity as MainActivity).supportActionBar?.show()
     }
@@ -80,9 +84,11 @@ class HomeFragment : Fragment() {
         tabLayout?.isTabIndicatorFullWidth = true
 //        tabLayout?.minimumWidth =
 //        calendarDaysCollectionPagerAdapter = HomeFragmentPagerAdapter(childFragmentManager)
+
         val adapter = HomeFragmentPagerAdapter(childFragmentManager)
         adapter.exercises = presenter.exercises
         home_pager?.adapter = adapter
+        home_pager?.offscreenPageLimit = 1
         //(activity as MainActivity).hideProgressView()
     }
 }
