@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import com.github.sundeepk.compactcalendarview.CompactCalendarView
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.monika.MainActivity.MainActivity
@@ -15,11 +17,16 @@ import com.monika.Model.WorkoutComponents.Exercise
 import com.monika.R
 import com.monika.SignInAndRegister.LoginFragmentPresenter
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), CompactCalendarView.CompactCalendarViewListener {
 
     val presenter = LoginFragmentPresenter()
+    private lateinit var compactCalendarView : CompactCalendarView
+    private val dateFormat = SimpleDateFormat("d MMMM yyyy", /*Locale.getDefault()*/Locale.ENGLISH)
+    private var isExpanded = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +75,55 @@ class HomeFragment : Fragment() {
 //        if (presenter.exercises.isNotEmpty()) {
 //            setTabLayout()
 //        }
+        compactCalendarView = compactcalendar_view
+
+        // Force English
+        compactCalendarView.setLocale(TimeZone.getDefault(), /*Locale.getDefault()*/Locale.ENGLISH)
+
+        compactCalendarView.setShouldDrawDaysHeader(true)
+        compactCalendarView.setListener(this)
+        compactCalendarView.setUseThreeLetterAbbreviation(true)
+
+        compactCalendarView.visibility = View.GONE
+        date_picker_button.visibility = View.GONE
+        setCurrentDate(Date())
+
+
+        date_picker_button.setOnClickListener {
+            if (isExpanded) {
+                val rotation = 0.toFloat()
+                ViewCompat.animate(date_picker_arrow).rotation(rotation).start()
+            }
+            else {
+                val rotation = 180.toFloat()
+                ViewCompat.animate(date_picker_arrow).rotation(rotation).start()
+            }
+
+            isExpanded = !isExpanded
+
+//            app_bar_layout.
+        }
+
+        fullCalendar.setOnClickListener {
+            compactCalendarView.visibility = View.VISIBLE
+            date_picker_button.visibility = View.VISIBLE
+        }
+
+    }
+
+    private fun setCurrentDate(date: Date) {
+        setSubtitle(dateFormat.format(date))
+        if (compactCalendarView != null) {
+            compactCalendarView.setCurrentDate(date)
+        }
+    }
+
+    private fun setSubtitle(subtitle: String) {
+        val datePickerTextView = date_picker_text_view
+
+        if (datePickerTextView != null) {
+            datePickerTextView.text = subtitle
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -90,6 +146,14 @@ class HomeFragment : Fragment() {
         home_pager?.adapter = adapter
         home_pager?.offscreenPageLimit = 1
         //(activity as MainActivity).hideProgressView()
+    }
+
+    override fun onDayClick(dateClicked: Date?) {
+        setSubtitle(dateFormat.format(dateClicked))
+    }
+
+    override fun onMonthScroll(firstDayOfNewMonth: Date?) {
+        setSubtitle(dateFormat.format(firstDayOfNewMonth))
     }
 }
 

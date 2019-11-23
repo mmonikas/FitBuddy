@@ -52,16 +52,21 @@ class WorkoutElementAddingDialog(private val exercise: Exercise, context: Contex
         repsLayout.isVisible = true
 
         okButton.setOnClickListener {
+            val time = time.text.toString()
             val reps = reps.text.toString()
             val sets = sets.text.toString()
-            if (reps.isNullOrBlank() || sets.isNullOrBlank()) {
-                Toast.makeText(context, R.string.fillAlltheData, Toast.LENGTH_LONG).show()
+            val isTime = isTimeMode.isChecked
+            if ((isTime && (reps.isNullOrBlank() || sets.isNullOrBlank())) ||
+                (!isTime && (time.isNullOrBlank() || sets.isNullOrBlank()))) {
+                Toast.makeText(context, R.string.invalid_exercise_data, Toast.LENGTH_LONG).show()
             }
             else {
                 workoutElement = WorkoutElement()
                 workoutElement?.exercise = exercise
                 workoutElement?.numOfSets = sets.toInt()
                 workoutElement?.numOfReps = reps.toInt()
+                workoutElement?.isTimeIntervalMode = isTimeMode.isChecked
+                workoutElement?.timeInterval = time.toInt()
                 workoutElement?.let {
                     listener.onWorkoutElementDefined(it)
                 }
