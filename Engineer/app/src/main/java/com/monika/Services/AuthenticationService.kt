@@ -38,6 +38,8 @@ class AuthenticationService {
                 completion(FirebaseRequestResult.FAILURE)
             }
         }
+
+
     }
 
     fun signInUserWithGoogle(acct: GoogleSignInAccount, completion: (result: FirebaseRequestResult) -> Unit) {

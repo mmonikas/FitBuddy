@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -27,6 +28,7 @@ class HomeFragment : Fragment(), CompactCalendarView.CompactCalendarViewListener
     private lateinit var compactCalendarView : CompactCalendarView
     private val dateFormat = SimpleDateFormat("d MMMM yyyy", /*Locale.getDefault()*/Locale.ENGLISH)
     private var isExpanded = false
+    private var choosenDate: Date = Calendar.getInstance().time
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,24 +91,23 @@ class HomeFragment : Fragment(), CompactCalendarView.CompactCalendarViewListener
         setCurrentDate(Date())
 
 
-        date_picker_button.setOnClickListener {
-            if (isExpanded) {
-                val rotation = 0.toFloat()
-                ViewCompat.animate(date_picker_arrow).rotation(rotation).start()
-            }
-            else {
-                val rotation = 180.toFloat()
-                ViewCompat.animate(date_picker_arrow).rotation(rotation).start()
-            }
-
-            isExpanded = !isExpanded
-
-//            app_bar_layout.
-        }
+//        date_picker_button.setOnClickListener {
+//            if (isExpanded) {
+//                val rotation = 0.toFloat()
+//                ViewCompat.animate(date_picker_arrow).rotation(rotation).start()
+//            }
+//            else {
+//                val rotation = 180.toFloat()
+//                ViewCompat.animate(date_picker_arrow).rotation(rotation).start()
+//            }
+//
+//            isExpanded = !isExpanded
+//
+////            app_bar_layout.
+//        }
 
         fullCalendar.setOnClickListener {
-            compactCalendarView.visibility = View.VISIBLE
-            date_picker_button.visibility = View.VISIBLE
+           toggleFullCalendar()
         }
 
     }
@@ -141,8 +142,8 @@ class HomeFragment : Fragment(), CompactCalendarView.CompactCalendarViewListener
 //        tabLayout?.minimumWidth =
 //        calendarDaysCollectionPagerAdapter = HomeFragmentPagerAdapter(childFragmentManager)
 
-        val adapter = HomeFragmentPagerAdapter(childFragmentManager)
-        adapter.exercises = presenter.exercises
+        val adapter = HomeFragmentPagerAdapter(childFragmentManager, choosenDate)
+        //        //adapter.exercises = presenter.exercises
         home_pager?.adapter = adapter
         home_pager?.offscreenPageLimit = 1
         //(activity as MainActivity).hideProgressView()
@@ -150,10 +151,36 @@ class HomeFragment : Fragment(), CompactCalendarView.CompactCalendarViewListener
 
     override fun onDayClick(dateClicked: Date?) {
         setSubtitle(dateFormat.format(dateClicked))
+        setViewPager(dateClicked)
+        toggleFullCalendar()
     }
 
     override fun onMonthScroll(firstDayOfNewMonth: Date?) {
         setSubtitle(dateFormat.format(firstDayOfNewMonth))
+    }
+
+    private fun toggleFullCalendar() {
+        if (compactCalendarView.isVisible) {
+            compactCalendarView.visibility = View.GONE
+            date_picker_button.visibility = View.GONE
+            val rotation = 0.toFloat()
+            ViewCompat.animate(date_picker_arrow).rotation(rotation).start()
+        }
+        else {
+            compactCalendarView.visibility = View.VISIBLE
+            date_picker_button.visibility = View.VISIBLE
+            val rotation = 180.toFloat()
+            ViewCompat.animate(date_picker_arrow).rotation(rotation).start()
+        }
+    }
+
+    private fun setViewPager(date: Date?) {
+        date?.let {
+            choosenDate = it
+            home_pager.adapter = HomeFragmentPagerAdapter(childFragmentManager, choosenDate)
+            //        //adapter.exercises = presenter.exercises
+        }
+
     }
 }
 

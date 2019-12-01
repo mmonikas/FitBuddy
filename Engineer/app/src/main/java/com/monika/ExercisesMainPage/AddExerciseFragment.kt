@@ -83,33 +83,36 @@ class AddExerciseFragment : Fragment(), SelectionListener {
                 if (isEditingMode) {
                     presenter.updateExercise(exercise) {
                         result ->
-                        if (result == FirebaseRequestResult.SUCCESS) {
-                            (activity as MainActivity).showToast(R.string.updateSuccess)
-                            Navigation.findNavController(it).popBackStack()
+                        when (result) {
+                            FirebaseRequestResult.SUCCESS -> {
+                                (activity as MainActivity).showToast(R.string.exerciseEdited)
+                            }
+                            FirebaseRequestResult.FAILURE -> {
+                                (activity as MainActivity).showToast(R.string.operationError)
+                            }
+                            else -> {}
                         }
-                        else if (result == FirebaseRequestResult.FAILURE) {
-                            (activity as MainActivity).showToast(R.string.operationError)
-                            Navigation.findNavController(it).popBackStack()
-                        }
-                        //Navigation.findNavController(it).popBackStack()
+                       // Navigation.findNavController(it).popBackStack()
                     }
                 }
                 else {
                     presenter.saveExercise(exercise) { result ->
-                      if (result == FirebaseRequestResult.SUCCESS) {
-                            (activity as MainActivity).showToast(R.string.saveSuccess)
-                            Navigation.findNavController(it).popBackStack()
+                        when (result) {
+                            FirebaseRequestResult.SUCCESS -> {
+                                (activity as MainActivity).showToast(R.string.exerciseAdded)
+                            }
+                            FirebaseRequestResult.FAILURE -> {
+                                (activity as MainActivity).showToast(R.string.operationError)
+                            }
+                            else -> {}
                         }
-                        else if (result == FirebaseRequestResult.FAILURE) {
-                            (activity as MainActivity).showToast(R.string.operationError)
-                            Navigation.findNavController(it).popBackStack()
-                        }
+                      //  Navigation.findNavController(it).popBackStack()
                     }
                 }
 
             }
             else {
-                Toast.makeText(context, R.string.invalid_exercise_data, Toast.LENGTH_LONG).show()
+                (activity as MainActivity).showToast(R.string.invalid_exercise_data)
             }
         }
     }

@@ -19,8 +19,10 @@ import com.monika.ExercisesMainPage.SwipeControllerActions
 import com.monika.ExercisesMainPage.WorkoutsPlannerListener
 import com.monika.MainActivity.MainActivity
 import com.monika.Model.WorkoutComponents.MyDocument
+import com.monika.Model.WorkoutPlan.PlannedWorkout
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
+import com.monika.Services.Utils
 import kotlinx.android.synthetic.main.fragment_workouts_list.*
 import java.util.*
 
@@ -75,6 +77,11 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener, ConfirmationListener {
 
     override fun onStart() {
         super.onStart()
+        context?.let { it ->
+            view?.let { view ->
+                Utils.hideSoftKeyBoard(it, view)
+            }
+        }
         getContent()
     }
 
@@ -115,10 +122,9 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener, ConfirmationListener {
                 }
                 else {
                     val bundle = Bundle()
-                    bundle.putSerializable("workoutForDetails", presenter.workouts[position])
+                    bundle.putSerializable("workoutToEdit", presenter.workouts[position])
                     findNavController().navigate(R.id.workoutAdd, bundle, null)
                 }
-                //edit
             }
         }, context = context!!, isEditPossible = true)
 
@@ -156,7 +162,7 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener, ConfirmationListener {
         val title = resources.getString(R.string.deleteWorkoutLabel)
         val contentText = resources.getString(R.string.deleteWorkoutContentCant)
         context?.let {
-            confirmationDialog = ConfirmationDialog(it, title, contentText, this, null, false)
+            confirmationDialog = ConfirmationDialog(it, title, contentText, this, null, null, false)
             confirmationDialog.show()
         }
     }
@@ -165,7 +171,7 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener, ConfirmationListener {
         val title = resources.getString(R.string.deleteWorkoutLabel)
         val contentText = resources.getString(R.string.deleteWorkoutContent)
         context?.let {
-            confirmationDialog = ConfirmationDialog(it, title, contentText, this, onPosition, true)
+            confirmationDialog = ConfirmationDialog(it, title, contentText, this, onPosition, null, true)
             confirmationDialog.show()
         }
     }
@@ -190,7 +196,7 @@ class WorkoutsList : Fragment(), WorkoutsPlannerListener, ConfirmationListener {
         confirmationDialog.dismiss()
     }
 
-    override fun onConfirmCallback(position: Int?) {
+    override fun onConfirmCallback(position: Int?, plannedWorkout: PlannedWorkout?) {
         if (position != null) {
             presenter.removeWorkoutAt(position) { result ->
                 if (result == FirebaseRequestResult.SUCCESS) {

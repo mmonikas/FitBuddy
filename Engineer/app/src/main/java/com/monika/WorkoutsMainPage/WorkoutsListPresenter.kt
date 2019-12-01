@@ -25,16 +25,22 @@ class WorkoutsListPresenter {
         workout: Workout,
         dates: ArrayList<String>,
         completion: (result: FirebaseRequestResult) -> Unit) {
-        val workoutToPlan = FirebasePlannedWorkout()
-        dates.forEach {
-            workoutToPlan.workout = workout.docReference
-            workoutToPlan.date = it
-            workoutToPlan.completed = false
-            workoutsToSaveAsPlanned.add(workoutToPlan)
+        FirebaseAuth.getInstance().currentUser?.uid?.let {
+            uid ->
+            var workoutToPlan : FirebasePlannedWorkout
+            dates.forEach {
+                workoutToPlan = FirebasePlannedWorkout()
+                workoutToPlan.workout = workout.docReference
+                workoutToPlan.date = it
+                workoutToPlan.completed = false
+                workoutToPlan.userId = uid
+                workoutsToSaveAsPlanned.add(workoutToPlan)
+            }
+            DatabaseService.instance.savePlannedWorkouts(workoutsToSaveAsPlanned) { result ->
+                completion(result)
+            }
         }
-        DatabaseService.instance.savePlannedWorkouts(workoutsToSaveAsPlanned) { result ->
-            completion(result)
-        }
+
 
     }
 
@@ -77,8 +83,8 @@ class WorkoutsListPresenter {
         workoutToAdd.initDate = workout.initDate
         workoutToAdd.name = workout.name
         workoutToAdd.exercises = ArrayList()
-        currentWorkoutComponentsPath?.forEach { path ->
-            getWorkoutElement(path) { resultWorkoutElement ->
+        workout.workoutElements?.forEach { firebaseWorkoutElement ->
+            getWorkoutElement(firebaseWorkoutElement) { resultWorkoutElement ->
                 workoutToAdd.exercises?.add(resultWorkoutElement)
                 if (workoutToAdd.exercises?.size == currentWorkoutComponentsPath.size) {
                     completion(workoutToAdd)
@@ -88,24 +94,22 @@ class WorkoutsListPresenter {
     }
 
 
-    private fun getWorkoutElement(documentId: String, completion: (result: WorkoutElement) -> Unit) {
-        fetchWorkoutElement(documentId) { result ->
-            val workoutElement = result as FirebaseWorkoutElement
-            val workoutElementToAdd = WorkoutElement()
-            workoutElementToAdd.docReference = workoutElement.docReference
-            workoutElementToAdd.numOfReps = workoutElement.numOfReps
-            workoutElementToAdd.numOfSets = workoutElement.numOfSets
-            workoutElementToAdd.timeInterval = workoutElement.timeInterval
-            workoutElementToAdd.isTimeIntervalMode = workoutElement.isTimeIntervalMode
-            val exerciseId = workoutElement.exercise
-            exerciseId?.let {
-                fetchExercise(exerciseId) { result ->
-                    val exercise = result as Exercise
-                    workoutElementToAdd.exercise = exercise
-                    completion(workoutElementToAdd)
-                }
+    private fun getWorkoutElement(firebaseWorkoutElement: FirebaseWorkoutElement, completion: (result: WorkoutElement) -> Unit) {
+        val workoutElementToAdd = WorkoutElement()
+        workoutElementToAdd.docReference = firebaseWorkoutElement.docReference
+        workoutElementToAdd.numOfReps = firebaseWorkoutElement.numOfReps
+        workoutElementToAdd.numOfSets = firebaseWorkoutElement.numOfSets
+        workoutElementToAdd.timeInterval = firebaseWorkoutElement.timeInterval
+        workoutElementToAdd.isTimeIntervalMode = firebaseWorkoutElement.isTimeIntervalMode
+        val exerciseId = firebaseWorkoutElement.exercise
+        exerciseId?.let {
+            fetchExercise(exerciseId) { result ->
+                val exercise = result as Exercise
+                workoutElementToAdd.exercise = exercise
+                completion(workoutElementToAdd)
             }
         }
+
     }
 
     fun fetchExercise(documentId: String, completion: (result: Any) -> Unit) {

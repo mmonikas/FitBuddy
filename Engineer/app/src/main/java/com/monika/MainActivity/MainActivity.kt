@@ -20,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.monika.Model.WorkoutComponents.Exercise
+import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     private val presenter = MainActivityPresenter()
     private var backPressedOnce: Boolean = false
     private lateinit var bottomNavigationView: BottomNavigationView
+    var allWorkouts = ArrayList<Workout>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
         navController = navHostFragment!!.navController
-            NavigationUI.setupWithNavController(
+        NavigationUI.setupWithNavController(
             bottomNavigationView,
             navController)
 //        )

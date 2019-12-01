@@ -74,7 +74,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:hint="@string/setsNumHint" android:textSize="16sp" android:id="@+id/setsNumber"/>
+                    android:hint="@string/setsNumHint" android:textSize="16sp" android:id="@+id/setsNumber"
+                    android:maxLength="3"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -92,7 +93,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:hint="@string/timeIntervalHint" android:textSize="16sp" android:id="@+id/timeInterval"/>
+                    android:hint="@string/timeIntervalHint" android:textSize="16sp" android:id="@+id/timeInterval"
+                    android:maxLength="4"/>
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -119,7 +121,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:hint="@string/repsNumHint" android:textSize="16sp" android:id="@+id/repsNumber"/>
+                    android:hint="@string/repsNumHint" android:textSize="16sp" android:id="@+id/repsNumber"
+                    android:maxLength="3"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button android:layout_width="0dp"

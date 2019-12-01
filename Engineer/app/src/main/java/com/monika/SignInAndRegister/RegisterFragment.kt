@@ -39,16 +39,16 @@ class RegisterFragment : Fragment() {
                 presenter.registerUserWithUserdata(activity as MainActivity, userData) {
                     result ->
                     if (result == FirebaseRequestResult.SUCCESS) {
-                        Toast.makeText(context, R.string.registerSuccess, Toast.LENGTH_LONG).show()
+                        (activity as MainActivity).showToast(R.string.registerSuccess)
                         Navigation.findNavController(view!!).popBackStack(R.id.loginFragment, true)
                     }
                     else if (result == FirebaseRequestResult.FAILURE) {
-                        Toast.makeText(context, R.string.registerFailure, Toast.LENGTH_LONG).show()
+                        (activity as MainActivity).showToast(R.string.registerFailure)
                     }
                 }
             }
             else {
-                Toast.makeText(context, R.string.registerErrorData, Toast.LENGTH_SHORT).show()
+                (activity as MainActivity).showToast(R.string.registerErrorData)
             }
         }
     }

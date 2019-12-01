@@ -55,6 +55,7 @@ class WorkoutElementItemsAdapter(private val listener: AddAnotherListener?, priv
                 val item = workoutElementItems[position - 1]
                 holder.itemView.workoutExerciseItemName.text = item.exercise?.name
                 holder.itemView.workoutExerciseSetsNum.text = item.numOfSets.toString()
+                holder.itemView.workoutExerciseEquipment.text = item.exercise?.equipment
                 if (item.isTimeIntervalMode != null) {
                     if (item.isTimeIntervalMode == true) {
                         setViewForTimeIntervalMode(holder)
@@ -81,6 +82,7 @@ class WorkoutElementItemsAdapter(private val listener: AddAnotherListener?, priv
             val item = workoutElementItems[position]
             holder.itemView.workoutExerciseItemName.text = item.exercise?.name
             holder.itemView.workoutExerciseSetsNum.text = item.numOfSets.toString()
+            holder.itemView.workoutExerciseEquipment.text = item.exercise?.equipment
             if (item.isTimeIntervalMode != null) {
                 if (item.isTimeIntervalMode == true) {
                     setViewForTimeIntervalMode(holder)
@@ -118,6 +120,8 @@ class WorkoutElementItemsAdapter(private val listener: AddAnotherListener?, priv
         holder.itemView.workoutExerciseRepsNum.visibility = View.GONE
         holder.itemView.workoutExerciseSetsNum.visibility = View.GONE
         holder.itemView.workoutElement_Element.visibility = View.GONE
+        holder.itemView.workoutExerciseEquipment.visibility = View.GONE
+        holder.itemView.workoutExerciseEquipmentLabel.visibility = View.GONE
         holder.itemView.time.visibility = View.GONE
         holder.itemView.workoutExerciseTimeInterval.visibility = View.GONE
     }
@@ -127,6 +131,8 @@ class WorkoutElementItemsAdapter(private val listener: AddAnotherListener?, priv
         holder.itemView.workoutExerciseRepsNum.visibility = View.VISIBLE
         holder.itemView.workoutExerciseSetsNum.visibility = View.VISIBLE
         holder.itemView.workoutElement_Element.visibility = View.VISIBLE
+        holder.itemView.workoutExerciseEquipment.visibility = View.VISIBLE
+        holder.itemView.workoutExerciseEquipmentLabel.visibility = View.VISIBLE
         holder.itemView.time.visibility = View.VISIBLE
         holder.itemView.workoutExerciseTimeInterval.visibility = View.VISIBLE
     }

@@ -15,6 +15,7 @@ class WorkoutAddPresenter {
     var workoutElements = ArrayList<WorkoutElement>()
     var exercises = ArrayList<Exercise>()
     lateinit var workout: Workout
+    lateinit var workoutToEdit: Workout
 
 
     fun getAllExercises(completion: (result: ArrayList<Exercise>) -> Unit) {
@@ -33,35 +34,53 @@ class WorkoutAddPresenter {
 
     fun saveNewWorkout(workout: Workout, completion: (result: FirebaseRequestResult) -> Unit) {
         val firebaseWorkoutToSave = FirebaseWorkout()
-        val workoutToSaveExercises = ArrayList<String>()
-        val firebaseWorkoutElement = FirebaseWorkoutElement()
+        val workoutToSaveExercises = ArrayList<FirebaseWorkoutElement>()
+        var firebaseWorkoutElement: FirebaseWorkoutElement
         workout.exercises?.forEach { workoutElementToSave ->
+            firebaseWorkoutElement = FirebaseWorkoutElement()
             firebaseWorkoutElement.exercise = workoutElementToSave.exercise?.docReference
             firebaseWorkoutElement.isTimeIntervalMode = workoutElementToSave.isTimeIntervalMode
             firebaseWorkoutElement.numOfReps = workoutElementToSave.numOfReps
             firebaseWorkoutElement.numOfSets = workoutElementToSave.numOfSets
             firebaseWorkoutElement.timeInterval = workoutElementToSave.timeInterval
-            DatabaseService.instance.saveNewDocument(firebaseWorkoutElement,
-                UserDataType.WORKOUT_ELEMENT) { result, firebaseWorkoutElementDocReference ->
-                if (result == FirebaseRequestResult.SUCCESS) {
-                    firebaseWorkoutElementDocReference?.let {
-                        workoutToSaveExercises.add(it)
-                    }
-                    if (workoutToSaveExercises.size == workout.exercises?.size) {
-                        firebaseWorkoutToSave.name = workout.name
-                        firebaseWorkoutToSave.initDate = workout.initDate
-                        firebaseWorkoutToSave.workoutElements = workoutToSaveExercises
-                        DatabaseService.instance.saveNewDocument(firebaseWorkoutToSave, UserDataType.WORKOUT) {
-                            result, _ ->
-                            completion(result)
-                        }
-                    }
-                }
-                else {
-                    completion(FirebaseRequestResult.FAILURE)
+            workoutToSaveExercises.add(firebaseWorkoutElement)
+            if (workoutToSaveExercises.size == workout.exercises?.size) {
+                firebaseWorkoutToSave.name = workout.name
+                firebaseWorkoutToSave.initDate = workout.initDate
+                firebaseWorkoutToSave.workoutElements = workoutToSaveExercises
+                DatabaseService.instance.saveNewDocument(firebaseWorkoutToSave, UserDataType.WORKOUT) {
+                        result, _ ->
+                    completion(result)
                 }
             }
+        }
+    }
 
+    fun updateEditedWorkout(workoutToSave: Workout, completion: (result: FirebaseRequestResult) -> Unit) {
+        workoutToEdit.docReference?.let { reference ->
+            val firebaseWorkoutToSave = FirebaseWorkout()
+            val workoutToSaveExercises = ArrayList<FirebaseWorkoutElement>()
+            var firebaseWorkoutElement: FirebaseWorkoutElement
+            firebaseWorkoutToSave.docReference = reference
+            firebaseWorkoutToSave.userId = workoutToSave.userId
+            workoutToSave.exercises?.forEach { workoutElementToSave ->
+                firebaseWorkoutElement = FirebaseWorkoutElement()
+                firebaseWorkoutElement.exercise = workoutElementToSave.exercise?.docReference
+                firebaseWorkoutElement.isTimeIntervalMode = workoutElementToSave.isTimeIntervalMode
+                firebaseWorkoutElement.numOfReps = workoutElementToSave.numOfReps
+                firebaseWorkoutElement.numOfSets = workoutElementToSave.numOfSets
+                firebaseWorkoutElement.timeInterval = workoutElementToSave.timeInterval
+                workoutToSaveExercises.add(firebaseWorkoutElement)
+                if (workoutToSaveExercises.size == workoutToSave.exercises?.size) {
+                    firebaseWorkoutToSave.name = workoutToSave.name
+                    firebaseWorkoutToSave.initDate = workoutToSave.initDate
+                    firebaseWorkoutToSave.workoutElements = workoutToSaveExercises
+                    DatabaseService.instance.updateDocument(firebaseWorkoutToSave, UserDataType.WORKOUT) {
+                            result ->
+                        completion(result)
+                    }
+                }
+            }
 
         }
     }

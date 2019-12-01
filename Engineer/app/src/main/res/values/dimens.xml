@@ -17,5 +17,6 @@
     <dimen name="cardView_radiusBig">12dp</dimen>
     <dimen name="cardView_radiusSmall">4dp</dimen>
     <dimen name="textView_margin">8dp</dimen>
+    <dimen name="border">2dp</dimen>
 
 </resources>

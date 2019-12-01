@@ -12,19 +12,22 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.monika.AlertDialogs.ConfirmationDialog
 import com.monika.Enums.FirebaseRequestResult
 import com.monika.MainActivity.MainActivity
+import com.monika.Model.WorkoutPlan.PlannedWorkout
 import com.monika.R
 import com.monika.Services.Utils
 import com.monika.WorkoutsMainPage.WorkoutsListAdapter
 import kotlinx.android.synthetic.main.fragment_exercises_list.*
 
 
-class ExercisesListFragment : Fragment() {
+class ExercisesListFragment : Fragment(), ConfirmationListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: ExercisesListAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var confirmationDialog: ConfirmationDialog
 
     private val presenter = ExercisesListPresenter()
 
@@ -95,12 +98,18 @@ class ExercisesListFragment : Fragment() {
                     showCantEditNorDeleteInfo()
                 }
                 else {
-                    presenter.removeItemAt((position)) { result ->
-                        if (result == FirebaseRequestResult.SUCCESS) {
-                            viewAdapter.notifyDataSetChanged()
-                            Toast.makeText(context, R.string.removeSuccess, Toast.LENGTH_LONG).show()
-                        } else if (result == FirebaseRequestResult.FAILURE) {
-                            Toast.makeText(context, R.string.operationError, Toast.LENGTH_LONG).show()
+                    presenter.checkIfExerciseCanBeDeleted(position) {
+                        existsSomewhere ->
+                        when (existsSomewhere) {
+                            null -> {
+                                showErrorInfo()
+                            }
+                            true -> {
+                                showCantDeleteInfo()
+                            }
+                            else -> {
+                                showDeleteConfirmationDialog(position)
+                            }
                         }
                     }
                 }
@@ -129,9 +138,43 @@ class ExercisesListFragment : Fragment() {
         (activity as MainActivity).hideProgressView()
     }
 
+    private fun showDeleteConfirmationDialog(position: Int) {
+
+    }
+
+    private fun showCantDeleteInfo() {
+        val title = resources.getString(R.string.deleteExerciseLabel)
+        val contentText = resources.getString(R.string.deleteExerciseContentCant)
+        context?.let {
+            confirmationDialog = ConfirmationDialog(it, title, contentText, this, null, null, false)
+            confirmationDialog.show()
+        }
+    }
+
+    private fun showErrorInfo() {
+        (activity as MainActivity).showToast(R.string.errorOccured)
+    }
+
     private fun showCantEditNorDeleteInfo() {
         (activity as MainActivity).showToast(R.string.cantEditNorDelete)
     }
 
+    override fun onConfirmCallback(position: Int?, plannedWorkout: PlannedWorkout?) {
+        if (position != null) {
+            presenter.removeItemAt((position)) { result ->
+                if (result == FirebaseRequestResult.SUCCESS) {
+                    viewAdapter.notifyDataSetChanged()
+                    (activity as MainActivity).showToast(R.string.removeSuccess)
+                } else if (result == FirebaseRequestResult.FAILURE) {
+                    (activity as MainActivity).showToast(R.string.operationError)
+                }
+            }
+        }
+        confirmationDialog.dismiss()
+    }
+
+    override fun onCancelCallback() {
+        confirmationDialog.dismiss()
+    }
 
 }

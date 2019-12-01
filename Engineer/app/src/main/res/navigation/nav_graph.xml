@@ -65,4 +65,6 @@
               android:label="Add exercise"/>
     <fragment android:id="@+id/myActivity" android:name="com.monika.MyActivity" android:label="fragment_my_activity"
               tools:layout="@layout/fragment_my_activity"/>
+    <fragment android:id="@+id/historyWorkouts" android:name="com.monika.HistoryWorkouts"
+              android:label="fragment_history_workouts" tools:layout="@layout/fragment_history_workouts"/>
 </navigation>

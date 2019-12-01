@@ -12,10 +12,11 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import com.monika.ExercisesMainPage.ConfirmationListener
+import com.monika.Model.WorkoutPlan.PlannedWorkout
 import com.monika.R
 
 class ConfirmationDialog(context: Context, private val title: String, private val content: String,
-                         listener: ConfirmationListener, private val elementPosition: Int?,
+                         listener: ConfirmationListener, private val elementPosition: Int?, private val plannedWorkout: PlannedWorkout?,
                          private val isCancelable: Boolean) : Dialog(context) {
 
     private var listener = listener
@@ -36,7 +37,7 @@ class ConfirmationDialog(context: Context, private val title: String, private va
         contentLabel.text = content
 
         okButton.setOnClickListener {
-            listener.onConfirmCallback(position = elementPosition)
+            listener.onConfirmCallback(position = elementPosition, plannedWorkout = plannedWorkout)
         }
 
         if (isCancelable) {

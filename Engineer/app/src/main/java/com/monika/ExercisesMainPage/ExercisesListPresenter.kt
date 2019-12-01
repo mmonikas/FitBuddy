@@ -55,7 +55,18 @@ class ExercisesListPresenter {
         }
     }
 
-
+    fun checkIfExerciseCanBeDeleted(position: Int, completion: (result: Boolean?) -> Unit) {
+        val exerciseId = exercises[position].docReference
+        if (exerciseId != null) {
+            DatabaseService.instance.checkIfExistsInAnyWorkout(exerciseDocReference = exerciseId) {
+                    existsSomewhere ->
+                completion(existsSomewhere)
+            }
+        }
+        else {
+            completion(null)
+        }
+    }
 
 
 }

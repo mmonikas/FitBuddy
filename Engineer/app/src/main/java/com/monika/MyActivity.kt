@@ -27,6 +27,7 @@ class MyActivity : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
+        setSeeHistoryListener()
         setLogOutListener()
     }
 
@@ -54,6 +55,12 @@ class MyActivity : Fragment() {
     private fun setLogOutListener() {
         logOutButton.setOnClickListener {
             logOutUser()
+        }
+    }
+
+    private fun setSeeHistoryListener() {
+        seeHistoryButton.setOnClickListener {
+            findNavController().navigate(R.id.historyWorkouts)
         }
     }
 

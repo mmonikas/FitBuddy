@@ -92,14 +92,14 @@
     <string name="calendarLabel">Calendar</string>
     <string name="myActivityLabel">Me</string>
     <string name="my_workouts_history">My workouts history</string>
-    <string name="operationError">There was a problem. Please, try again.</string>
+    <string name="operationError">Error occured. Task could not be completed.</string>
     <string name="updateSuccess">Exercise is updated!</string>
     <string name="saveSuccess">Exercise added successfully!</string>
     <string name="removeSuccess">Exercise was removed successfully.</string>
     <string name="noDatesChosen">At least one planned date for workout has to be chosen.</string>
     <string name="cancel">CANCEL</string>
     <string name="chooseExercise">Choose the exercise</string>
-    <string name="addWorkoutLabel">Add</string>
+    <string name="addWorkoutLabel">Add workout</string>
     <string name="addExerciseToWorkout">Add exercise to workout</string>
     <string name="setsNumHint">Number of sets</string>
     <string name="repsNumHint">Number of reps</string>
@@ -114,9 +114,26 @@
     <string name="cantEditNorDelete">You can delete or edit only the data defined by you.</string>
     <string name="deleteWorkoutLabel">Delete the workout</string>
     <string name="deleteWorkoutContent">Are you sure you want to delete this workout?</string>
-    <string name="deleteWorkoutContentCant">To delete the workout there have to be no planned or completed workouts that contains it.</string>
+    <string name="deleteWorkoutContentCant">To delete the workout there have to be no planned or completed workouts that
+        contains it.
+    </string>
     <string name="errorOccured">Error occured. Task could not be completed.</string>
     <string name="workoutAddInvalidData">Invalid data. No valid name or workout element defined.</string>
     <string name="workoutAdded">Workout added successfully!</string>
     <string name="removeWorkoutSuccess">Workout deleted</string>
+    <string name="historyWorkouts">My workouts history</string>
+    <string name="plannedDate">Date:</string>
+    <string name="completed">Completed</string>
+    <string name="logWorkout">Log workout completed</string>
+    <string name="logWorkoutSubtitle">You are logging this workout as completed.</string>
+    <string name="workoutLogAsDone">Your workout was logged as done!</string>
+    <string name="equipment_hint3">Equipment:</string>
+    <string name="chooseWorkout">Choose the workout</string>
+    <string name="exerciseAdded">Exercise was added successfully!</string>
+    <string name="exerciseEdited">Exercise was updated successfully!</string>
+    <string name="workoutUpdated">Workout was updated successfully!</string>
+    <string name="notCompleted">NOT COMPLETED</string>
+    <string name="deleteExerciseLabel">Delete the exercise</string>
+    <string name="deleteExerciseContentCant">To delete the exercise there have to be no workouts that contain it.
+    </string>
 </resources>

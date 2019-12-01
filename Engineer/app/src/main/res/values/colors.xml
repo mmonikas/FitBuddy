@@ -28,6 +28,7 @@
   <color name="primaryTextColor">#00001f</color>
   <color name="secondaryTextColor">#000000</color>
   <color name="accentOrange">#FD754B</color>
+  <color name="lightAccentOrange">#fdb857</color>
 
   <!--//defaultred Icon-->
   <!--<color name="accentOrange">#31A5EE</color>-->

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,10 +32,13 @@ class WorkoutAdd : Fragment(), AddAnotherListener, ExerciseSelectionListener, Wo
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var chooseExerciseDialog: ExerciseChoiceDialog
     private lateinit var workoutElementCreatingDialog: WorkoutElementAddingDialog
+    private var isEditingMode: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        if (arguments != null) {
+            presenter.workoutToEdit = arguments?.get("workoutToEdit") as Workout
+        }
     }
 
     override fun onCreateView(
@@ -47,8 +51,22 @@ class WorkoutAdd : Fragment(), AddAnotherListener, ExerciseSelectionListener, Wo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (arguments != null && presenter.workoutToEdit.name != null) {
+            setDetailsData()
+        }
         setRecyclerView()
         setSaveButtonListener()
+    }
+
+    private fun setDetailsData() {
+        presenter.workoutToEdit.exercises?.let {
+            items ->
+            presenter.workoutElements = items
+        }
+        presenter.workoutToEdit.name?.let { name ->
+            workoutNameEditText.setText(name)
+        }
+        isEditingMode = true
     }
 
     private fun setRecyclerView() {
@@ -119,15 +137,40 @@ class WorkoutAdd : Fragment(), AddAnotherListener, ExerciseSelectionListener, Wo
             val workoutToSave = getCollectedData()
             val isDataValid = DataValidator.instance.isDataForNewWorkoutValid(workoutToSave)
             if (isDataValid) {
-                presenter.saveNewWorkout(workoutToSave) {
-                    result ->
-                    if (result == FirebaseRequestResult.SUCCESS) {
-                        //(activity as MainActivity).showToast(R.string.workoutAdded)
-                        //findNavController().popBackStack()
+                if (isEditingMode) {
+                    presenter.updateEditedWorkout(workoutToSave) {
+                        result ->
+                        when (result) {
+                            FirebaseRequestResult.SUCCESS -> {
+                                (activity as MainActivity).showToast(R.string.workoutUpdated)
+                            }
+                            FirebaseRequestResult.FAILURE -> {
+                                (activity as MainActivity).showToast(R.string.operationError)
+                            }
+                            FirebaseRequestResult.COMPLETED -> {
+
+                            }
+                        }
+                        view?.let { view ->
+                            Navigation.findNavController(view).popBackStack()
+                        }
                     }
-                    else {
-                        //(activity as MainActivity).showToast(R.string.errorOccured)
-                       // findNavController().popBackStack()
+                }
+                else {
+                    presenter.saveNewWorkout(workoutToSave) { result ->
+                        when (result) {
+                            FirebaseRequestResult.SUCCESS -> {
+                                (activity as MainActivity).showToast(R.string.workoutAdded)
+                            }
+                            FirebaseRequestResult.FAILURE -> {
+                                (activity as MainActivity).showToast(R.string.operationError)
+                            }
+                            FirebaseRequestResult.COMPLETED -> {
+                            }
+                        }
+                        view?.let { view ->
+                            Navigation.findNavController(view).popBackStack()
+                        }
                     }
                 }
             }
@@ -141,7 +184,14 @@ class WorkoutAdd : Fragment(), AddAnotherListener, ExerciseSelectionListener, Wo
         val workout = Workout()
         workout.name = workoutNameEditText.text.toString()
         workout.exercises = presenter.workoutElements
-        workout.initDate = Date()
+        if (isEditingMode) {
+            workout.docReference = presenter.workoutToEdit.docReference
+            workout.userId = presenter.workoutToEdit.userId
+            workout.initDate = presenter.workoutToEdit.initDate
+        }
+        else {
+            workout.initDate = Date()
+        }
         return workout
     }
 

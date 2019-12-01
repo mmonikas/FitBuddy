@@ -30,7 +30,7 @@
     >
         <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
                                                            android:layout_height="match_parent"
-                                                           android:layout_gravity="start">
+                                                           android:layout_gravity="start" android:paddingBottom="8dp">
 
             <ImageView
                     android:layout_width="32dp"
@@ -39,7 +39,7 @@
                     app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
                     app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp"
                     app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
-                    android:scaleType="fitXY"/>
+                    android:scaleType="fitXY" android:foregroundTint="#FDB957"/>
             <TextView
                     android:text="@string/exercise_name"
                     android:layout_width="0dp"
@@ -97,13 +97,32 @@
                     app:layout_constraintStart_toStartOf="@id/setsNum"
             />
             <TextView
+                    android:text="@string/exerciseTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/workoutExerciseTimeInterval"
+                    android:textSize="14sp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintTop_toBottomOf="@+id/setsNum"
+                    app:layout_constraintStart_toEndOf="@id/time"
+                    android:layout_marginStart="8dp" android:fontFamily="@font/assistant_semibold"/>
+            <TextView
+                    android:text="@string/equipment_hint3"
+                    android:layout_width="0dp"
+                    android:fontFamily="@font/assistant"
+                    android:layout_height="wrap_content" android:id="@+id/workoutExerciseEquipmentLabel"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/setsNum"
+                    app:layout_constraintTop_toBottomOf="@id/time" android:layout_marginTop="2dp"
+            />
+            <TextView
                     android:text="TextView"
                     android:layout_width="0dp"
                     android:fontFamily="@font/assistant_semibold"
-                    android:layout_height="wrap_content" android:id="@+id/workoutExerciseTimeInterval"
+                    android:layout_height="wrap_content" android:id="@+id/workoutExerciseEquipment"
                     android:textSize="14sp"
-                    android:layout_marginStart="8dp" app:layout_constraintStart_toEndOf="@id/time"
-                    app:layout_constraintTop_toBottomOf="@id/setsNum" android:layout_marginTop="2dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@id/workoutExerciseEquipmentLabel"
+                    app:layout_constraintTop_toBottomOf="@id/time" android:layout_marginTop="2dp"
                     app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

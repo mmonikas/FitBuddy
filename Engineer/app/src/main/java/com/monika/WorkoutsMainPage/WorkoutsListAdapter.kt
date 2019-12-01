@@ -67,6 +67,7 @@ class WorkoutsListAdapter(private val context: Context, private val workouts: Ar
         }
         holder.itemView.workoutcard_planButton.visibility = View.VISIBLE
         holder.itemView.workoutcard_logworkout_button.visibility = View.GONE
+        holder.itemView.completedButton.visibility = View.GONE
     }
 
     private lateinit var viewAdapter: RecyclerView.Adapter<*>

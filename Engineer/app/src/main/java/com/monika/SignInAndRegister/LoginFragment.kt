@@ -69,7 +69,7 @@ class LoginFragment : Fragment() {
                     Navigation.findNavController(view!!).navigate(R.id.homeFragment)
                 }
                 else if (result == FirebaseRequestResult.FAILURE) {
-                    Toast.makeText(context, R.string.errorGoogleSignIn, Toast.LENGTH_LONG).show()
+                    (activity as MainActivity).showToast(R.string.errorGoogleSignIn)
                 }
             }
         }
@@ -113,7 +113,7 @@ class LoginFragment : Fragment() {
                 }
                 else if (result == FirebaseRequestResult.FAILURE) {
                     (activity as MainActivity).hideProgressView()
-                    Toast.makeText(context, R.string.errorSignIn, Toast.LENGTH_LONG).show()
+                    (activity as MainActivity).showToast(R.string.errorSignIn)
                 }
             }
         }

@@ -17,6 +17,9 @@ import com.monika.Model.WorkoutPlan.FirebaseWorkout
 import com.monika.Model.WorkoutPlan.FirebaseWorkoutElement
 import com.monika.Model.WorkoutPlan.PlannedWorkout
 import kotlinx.coroutines.handleCoroutineException
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class DatabaseService {
@@ -72,6 +75,38 @@ class DatabaseService {
                     }
                 }
                 completion(userData)
+            }
+            .addOnFailureListener { exception ->
+                Log.w("USER_PlannedWorkouts_FETCHING", "Error getting documents: ", exception)
+                completion(ArrayList())
+            }
+    }
+
+    fun fetchAllPlannedWorkoutsHistory(userId: String, completion: (result: ArrayList<FirebasePlannedWorkout>) -> Unit) {
+        val formatter = SimpleDateFormat("dd.MM.yyyy")
+        val dbCollectionToQuery = getCollectionForRequestedType(UserDataType.PLANNED_WORKOUT)
+        db.collection(dbCollectionToQuery)
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener { documents ->
+                val dataList: ArrayList<FirebasePlannedWorkout> = getProcessedFetchedDataArray(documents, UserDataType.PLANNED_WORKOUT)
+                        as ArrayList<FirebasePlannedWorkout>
+                val previousWorkouts = ArrayList<FirebasePlannedWorkout>()
+                dataList.forEach { plannedWorkout ->
+                    val date = formatter.parse(plannedWorkout.date)
+                    val today = Date()
+                    if (date.before(today)) {
+                        previousWorkouts.add(plannedWorkout)
+                    }
+                }
+                previousWorkouts.sortByDescending { element1 ->
+                    formatter.parse(element1.date)
+                }
+                Log.w(
+                    "USER_PlannedWorkouts_FETCHING",
+                    "Successfully fetched documents: ${UserDataType.PLANNED_WORKOUT.name}"
+                )
+                completion(previousWorkouts)
             }
             .addOnFailureListener { exception ->
                 Log.w("USER_PlannedWorkouts_FETCHING", "Error getting documents: ", exception)
@@ -151,6 +186,36 @@ class DatabaseService {
     }
 
 
+    fun checkIfExistsInAnyWorkout(exerciseDocReference: String, completion: (result: Boolean?) -> Unit) {
+        val dbCollectionToQuery = getCollectionForRequestedType(UserDataType.WORKOUT)
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        db.collection(dbCollectionToQuery)
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener { documents ->
+                val dataList = getProcessedFetchedDataArray(documents, UserDataType.WORKOUT) as ArrayList<FirebaseWorkout>
+                var exists = false
+                dataList.forEach { item ->
+                    val existingDocument = item.workoutElements?.firstOrNull {
+                            element ->
+                            element.exercise == exerciseDocReference }
+                    if (existingDocument != null) {
+                        exists = true
+                    }
+                }
+                if (exists) {
+                    completion(true)
+                }
+                else {
+                    completion(false)
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w("DATA_FETCHING", "Error getting documents: ", exception)
+                completion(null)
+            }
+    }
+
     fun saveNewDocument(document: MyDocument, collectionType: UserDataType, completion: (result: (FirebaseRequestResult), (String?)) -> Unit) {
         val dbCollectionForNewDocument = getCollectionForRequestedType(collectionType)
         val docReference = db.collection(dbCollectionForNewDocument).document()
@@ -179,7 +244,7 @@ class DatabaseService {
             writeBatch ->
             for (workout in workoutsToSaveAsPlanned) {
                 newReference = db.collection(collectionToWrite).document()
-                workout.userId = currentUser?.uid
+                workout.userId =  FirebaseAuth.getInstance().currentUser?.uid
                 workout.docReference = newReference.path
                 writeBatch.set(newReference, workout)
             }
@@ -307,6 +372,23 @@ class DatabaseService {
                     completion(FirebaseRequestResult.FAILURE)
                 }
         }
+    }
+
+    fun updateField(documentReference: String, fieldName: String, newValue: Any, completion: (result: FirebaseRequestResult) -> Unit) {
+        db.document(documentReference)
+            .update(fieldName, newValue)
+            .addOnCompleteListener {
+                Log.w("DATA_EDIT", "Updating: $fieldName")
+                completion(FirebaseRequestResult.COMPLETED)
+            }
+            .addOnSuccessListener {
+                Log.w("DATA_EDIT", "Successfully updated $fieldName")
+                completion(FirebaseRequestResult.SUCCESS)
+            }
+            .addOnFailureListener { e ->
+                Log.w("DATA_EDIT", "Error updating document", e)
+                completion(FirebaseRequestResult.FAILURE)
+            }
     }
 
     fun removeDocument(documentToRemove: MyDocument, dataType: UserDataType, completion: (result: FirebaseRequestResult) -> Unit) {
