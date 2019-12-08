@@ -11,7 +11,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
-import com.monika.ExercisesMainPage.ConfirmationListener
+import com.monika.ExercisesPage.ConfirmationListener
 import com.monika.Model.WorkoutPlan.PlannedWorkout
 import com.monika.R
 

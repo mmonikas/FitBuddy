@@ -6,7 +6,7 @@
                                                    android:layout_marginBottom="?actionBarSize"
                                                    android:background="@color/primaryDarkColor"
                                                    android:layout_height="match_parent"
-                                                   tools:context=".HomeScreen.CalendarPager.HomeFragment"
+                                                   tools:context=".HomePage.HomeFragment"
                                                    android:id="@+id/relativeLayout2">
 
 

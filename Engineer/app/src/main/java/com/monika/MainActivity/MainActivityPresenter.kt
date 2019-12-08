@@ -1,9 +1,7 @@
 package com.monika.MainActivity
 
-import com.google.firebase.auth.FirebaseAuth
 import com.monika.Enums.UserDataType
-import com.monika.Model.ModelSingletons.Categories
-import com.monika.Model.ModelSingletons.EquipmentItems
+import com.monika.Model.Categories
 import com.monika.Model.WorkoutComponents.Category
 import com.monika.Model.WorkoutComponents.Equipment
 import com.monika.Model.WorkoutComponents.Exercise
@@ -16,27 +14,13 @@ class MainActivityPresenter {
     var exercisesList = ArrayList<Exercise>()
 
     fun getAllCategories(completion: (result: Any) -> Unit) {
-        DatabaseService.instance.fetchBaseData(UserDataType.CATEGORY, sortByField = "name") {
+        DatabaseService.fetchBaseData(UserDataType.CATEGORY, sortByField = "name") {
             result ->
             categoriesList = result as ArrayList<Category>
             if (!categoriesList.isNullOrEmpty()) {
-                Categories.instance.setItems(categoriesList)
+                Categories.setItems(categoriesList)
                 completion
 
-            }
-            else {
-                completion
-            }
-        }
-    }
-
-    fun getAllEquipment(completion: (result: Any) -> Unit) {
-        DatabaseService.instance.fetchBaseData(UserDataType.EQUIPMENT) {
-                result ->
-            equipmentList = result as ArrayList<Equipment>
-            if (!equipmentList.isNullOrEmpty()) {
-                EquipmentItems.instance.setItems(equipmentList)
-                completion
             }
             else {
                 completion
@@ -45,7 +29,7 @@ class MainActivityPresenter {
     }
 
     fun getAllExercises(completion: (result: Any) -> Unit) {
-        DatabaseService.instance.fetchUserData(UserDataType.EXERCISE) {
+        DatabaseService.fetchUserData(UserDataType.EXERCISE) {
             result ->
             if(result.isNotEmpty()) {
                 exercisesList = result as ArrayList<Exercise>

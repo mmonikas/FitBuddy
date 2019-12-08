@@ -2,7 +2,6 @@ package com.monika.AlertDialogs
 
 import android.app.Dialog
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -12,7 +11,7 @@ import android.view.WindowManager
 import android.widget.*
 import androidx.core.view.isVisible
 import com.google.android.material.textfield.TextInputLayout
-import com.monika.ExercisesMainPage.WorkoutElementAddListener
+import com.monika.ExercisesPage.WorkoutElementAddListener
 import com.monika.Model.WorkoutComponents.Exercise
 import com.monika.Model.WorkoutComponents.WorkoutElement
 import com.monika.R

@@ -1,11 +1,10 @@
-package com.monika.ExercisesMainPage
+package com.monika.ExercisesPage
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import com.monika.Model.WorkoutComponents.Category
 import com.monika.Model.WorkoutComponents.Exercise
 import com.monika.R
 import com.monika.Services.Utils

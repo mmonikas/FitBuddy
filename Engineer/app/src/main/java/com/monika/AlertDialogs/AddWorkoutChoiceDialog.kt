@@ -11,7 +11,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
-import com.monika.ExercisesMainPage.WorkoutSelectionListener
+import com.monika.ExercisesPage.WorkoutSelectionListener
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
 import kotlinx.android.synthetic.main.dialog_category_choice.*

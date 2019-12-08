@@ -14,13 +14,9 @@ import com.monika.Enums.FirebaseRequestResult
 import com.monika.R
 
 
-class AuthenticationService {
+object AuthenticationService {
 
     private lateinit var auth: FirebaseAuth
-
-    companion object {
-        val instance = AuthenticationService()
-    }
 
     fun signInUserWithCredentials(activity: Activity, username: String, password: String,
                                   completion: (result: FirebaseRequestResult) -> Unit) {

@@ -9,9 +9,9 @@ import android.view.*
 import android.widget.Button
 import com.monika.Model.WorkoutComponents.Category
 import com.monika.R
-import com.monika.ExercisesMainPage.CategoryListAdapter
-import com.monika.ExercisesMainPage.SelectionListener
-import com.monika.Model.ModelSingletons.Categories
+import com.monika.ExercisesPage.CategoryListAdapter
+import com.monika.ExercisesPage.SelectionListener
+import com.monika.Model.Categories
 import kotlinx.android.synthetic.main.dialog_category_choice.*
 
 class CategoryChoiceDialog(context: Context, listener: SelectionListener) : Dialog(context) {
@@ -34,7 +34,7 @@ class CategoryChoiceDialog(context: Context, listener: SelectionListener) : Dial
 //        }
 
         if (categoriesList.isEmpty()) {
-            categoriesList.addAll(Categories.instance.getItems())
+            categoriesList.addAll(Categories.getItems())
             categoriesList.sortBy { element -> element.name }
             categoriesList.map { element -> element.name?.capitalize() }
         }

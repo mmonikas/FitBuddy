@@ -19,6 +19,8 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.monika.Model.WorkoutComponents.Exercise
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
@@ -43,7 +45,11 @@ class MainActivity : AppCompatActivity() {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+        val settings = FirebaseFirestoreSettings.Builder()
+            .setPersistenceEnabled(true)
+            .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
+            .build()
+        FirebaseFirestore.getInstance().firestoreSettings = settings
         setUpNavigation()
         fetchAllBaseData()
 
@@ -58,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     private fun fetchAllBaseData() {
       //  showProgressView()
         presenter.getAllCategories { }
-        presenter.getAllEquipment {  }
+
 
     }
 

@@ -22,14 +22,10 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class DatabaseService {
+object DatabaseService {
 
     private val db = FirebaseFirestore.getInstance()
     private val currentUser = FirebaseAuth.getInstance().currentUser
-
-    companion object {
-        val instance = DatabaseService()
-    }
 
     fun fetchUserData(requestedDataType: UserDataType, completion: (result: ArrayList<Any>) -> Unit) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid

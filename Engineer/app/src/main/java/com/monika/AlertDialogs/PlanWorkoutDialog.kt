@@ -13,7 +13,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.Toast
-import com.monika.ExercisesMainPage.WorkoutsPlannerListener
+import com.monika.ExercisesPage.WorkoutsPlannerListener
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
 import kotlinx.android.synthetic.main.dialog_plan_workout.*

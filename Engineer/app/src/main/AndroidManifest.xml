@@ -12,7 +12,8 @@
         <activity
                 android:name="com.monika.MainActivity.MainActivity"
                 android:label="@string/FitBuddy"
-                android:theme="@style/AppTheme">
+                android:theme="@style/AppTheme"
+                android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -21,13 +22,7 @@
         </activity>
         <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
 
-        <service
-                android:name=".Services.MyFirebaseMessagingService"
-                android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+
 
 
     </application>

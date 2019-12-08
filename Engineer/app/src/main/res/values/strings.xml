@@ -78,13 +78,13 @@
     <string name="FitBuddy">Fit Buddy</string>
     <string name="choose_category">Choose the category</string>
     <string name="ok">OK</string>
-    <string name="invalid_exercise_data">Please, enter correct data. Fill in all fields</string>
+    <string name="invalid_exercise_data">Please, fill in all the fields correctly</string>
     <string name="errorAddingExercise">Sorry, the operation could not be completed. Please, try again later.</string>
     <string name="dataSynchronized">Data synchronized successfully.</string>
     <string name="planButton">Plan this workout</string>
     <string name="planWorkout">Workout planning</string>
     <string name="chooseWhen">Choose date</string>
-    <string name="workoutsPlanned">Your workouts have been planned successfully!</string>
+    <string name="workoutsPlanned">Your workout was planned successfully!</string>
     <string name="workoutsPlanningError">There was a problem. Please, try again.</string>
     <string name="addWorkoutToDay">Add workout</string>
     <string name="log_as_completed">LOG COMPLETED</string>
@@ -96,7 +96,7 @@
     <string name="updateSuccess">Exercise is updated!</string>
     <string name="saveSuccess">Exercise added successfully!</string>
     <string name="removeSuccess">Exercise was removed successfully.</string>
-    <string name="noDatesChosen">At least one planned date for workout has to be chosen.</string>
+    <string name="noDatesChosen">At least date has to be chosen to plan the workout.</string>
     <string name="cancel">CANCEL</string>
     <string name="chooseExercise">Choose the exercise</string>
     <string name="addWorkoutLabel">Add workout</string>
@@ -114,11 +114,10 @@
     <string name="cantEditNorDelete">You can delete or edit only the data defined by you.</string>
     <string name="deleteWorkoutLabel">Delete the workout</string>
     <string name="deleteWorkoutContent">Are you sure you want to delete this workout?</string>
-    <string name="deleteWorkoutContentCant">To delete the workout there have to be no planned or completed workouts that
-        contains it.
+    <string name="deleteWorkoutContentCant">Workout can not be deleted because it is a part of at least one of your planned workouts.
     </string>
     <string name="errorOccured">Error occured. Task could not be completed.</string>
-    <string name="workoutAddInvalidData">Invalid data. No valid name or workout element defined.</string>
+    <string name="workoutAddInvalidData">Name and at least one workout element have to be defined</string>
     <string name="workoutAdded">Workout added successfully!</string>
     <string name="removeWorkoutSuccess">Workout deleted</string>
     <string name="historyWorkouts">My workouts history</string>
@@ -129,11 +128,15 @@
     <string name="workoutLogAsDone">Your workout was logged as done!</string>
     <string name="equipment_hint3">Equipment:</string>
     <string name="chooseWorkout">Choose the workout</string>
-    <string name="exerciseAdded">Exercise was added successfully!</string>
-    <string name="exerciseEdited">Exercise was updated successfully!</string>
-    <string name="workoutUpdated">Workout was updated successfully!</string>
+    <string name="exerciseAdded">Exercise added successfully!</string>
+    <string name="exerciseEdited">Exercise was updated!</string>
+    <string name="workoutUpdated">Workout updated successfully!</string>
     <string name="notCompleted">NOT COMPLETED</string>
     <string name="deleteExerciseLabel">Delete the exercise</string>
-    <string name="deleteExerciseContentCant">To delete the exercise there have to be no workouts that contain it.
-    </string>
+    <string name="deleteExerciseContentCant">Exercise can not be deleted because it is a part of at least one of your workouts.</string>
+    <string name="cantBeCompleted">Date of this planned workout is in future. You can’t log it as completed</string>
+    <string name="planningFromCalendar">Plan workout for</string>
+    <string name="editWorkoutLabel">Edit workout</string>
+    <string name="reminder">Remember to exercise regularly! It prevents from diseases and keeps you in shape!</string>
+    <string name="deleteExerciseContent">Are you sure you want to delete this exercise?</string>
 </resources>

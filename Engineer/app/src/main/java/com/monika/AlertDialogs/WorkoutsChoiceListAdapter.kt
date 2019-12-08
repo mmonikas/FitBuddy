@@ -1,17 +1,15 @@
 package com.monika.AlertDialogs
 
 import android.content.Context
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import androidx.core.content.ContextCompat
-import com.monika.ExercisesMainPage.WorkoutSelectionListener
+import com.monika.ExercisesPage.WorkoutSelectionListener
 import com.monika.Model.WorkoutPlan.Workout
 import com.monika.R
 import kotlinx.android.synthetic.main.category_list_item.view.*
-import kotlinx.android.synthetic.main.fragment_workout_add.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
