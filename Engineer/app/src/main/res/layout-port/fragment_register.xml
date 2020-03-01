@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:gravity="center|center_horizontal|center_vertical"
+              android:layout_gravity="center|center_horizontal|center_vertical"
+              tools:context=".SignInSignUp.RegisterFragment">
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:layout_marginVertical="@dimen/activity_vertical_margin"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:layout_gravity="center_horizontal|center|center_vertical"
+            android:gravity="center|center_horizontal|center_vertical">
+
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:gravity="center"
+                      android:orientation="vertical">
+
+            <!--<ImageView-->
+            <!--android:src="@drawable/fitbuddy_logo1"-->
+            <!--android:layout_width="@android:dimen/thumbnail_width"-->
+            <!--android:layout_height="@android:dimen/thumbnail_width"-->
+            <!--android:id="@+id/loginFragment_logo"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:contentDescription="@string/logoDesc"/>-->
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:id="@+id/registerFragment_name"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                    app:hintAnimationEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/registerNameHint"
+                        android:id="@+id/registerFragment_nameEditText"
+                        android:inputType="text"
+                        android:layout_marginVertical="@dimen/activity_vertical_margin"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="18sp"
+                        android:drawableStart="@drawable/ic_person_black_24dp"
+                        android:textAlignment="viewStart"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:id="@+id/registerFragment_login"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                    app:hintAnimationEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/loginUsernameHint"
+                        android:id="@+id/registerFragment_emailEditText"
+                        android:inputType="text"
+                        android:layout_marginVertical="@dimen/activity_vertical_margin"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="18sp"
+                        android:drawableStart="@drawable/ic_email_black_24dp"
+                        android:textAlignment="viewStart"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:id="@+id/registerFragment_password"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                    app:hintAnimationEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/loginPasswordHint"
+                        android:id="@+id/registerFragment_passwordEditText"
+                        android:inputType="textPassword"
+                        android:layout_marginVertical="@dimen/activity_vertical_margin"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="18sp"
+                        android:drawableStart="@drawable/ic_lock_black_24dp"
+                        android:textAlignment="viewStart"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:id="@+id/registerFragment_passwordRepeat"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                    app:hintAnimationEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/registerPasswordRepeatHint"
+                        android:id="@+id/registerFragment_passwordRepeatEditText"
+                        android:inputType="textPassword"
+                        android:layout_marginVertical="@dimen/activity_vertical_margin"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="18sp"
+                        android:drawableStart="@drawable/ic_lock_black_24dp"
+                        android:textAlignment="viewStart"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                    android:text="@string/registerFragment_signUpButtonText"
+                    android:layout_marginTop="@dimen/button_top_margin"
+                    android:layout_width="@dimen/button_big_width"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="@dimen/button_big_height"
+                    android:id="@+id/registerFragment_nextButton"
+                    android:elevation="@dimen/button_elevation"
+                    app:cornerRadius="@dimen/button_big_radius"
+                    android:fontFamily="@font/roboto_medium"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

@@ -1,6 +1,55 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!--?xml version="1.0" encoding="UTF-8"?-->
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+  <!--<color name="primaryColor">#54E0E0E0</color>-->
+  <!--<color name="primaryLightColor">#FFFFFF</color>-->
+  <!--<color name="primaryDarkColor">#b4b6bd</color>-->
+  <!--<color name="secondaryColor">#b4b6bd</color>-->
+  <!--&lt;!&ndash;<color name="secondaryLightColor">#00BCD4</color>&ndash;&gt;-->
+  <!--&lt;!&ndash;<color name="secondaryDarkColor">#3F51B5</color>&ndash;&gt;-->
+  <!--<color name="primaryTextColor">#000000</color>-->
+  <!--<color name="secondaryTextColor">#000000</color>-->
+  <color name="mainSeparatorColor">#DAE0E0E0</color>
+
+  <!--<color name="primaryColor">#1a237e</color>-->
+  <!--<color name="primaryLightColor">#534bae</color>-->
+  <!--<color name="primaryDarkColor">#000051</color>-->
+  <!--<color name="secondaryColor">#ab47bc</color>-->
+  <!--<color name="secondaryLightColor">#df78ef</color>-->
+  <!--<color name="secondaryDarkColor">#790e8b</color>-->
+  <!--<color name="primaryTextColor">#ffffff</color>-->
+  <!--<color name="secondaryTextColor">#ffffff</color>-->
+
+  <color name="primaryColor">#000044</color>
+  <color name="primaryLightColor">#ffffff</color>
+  <color name="primaryDarkColor">#00001F</color>
+  <color name="secondaryColor">#00001f</color>
+  <color name="secondaryLightColor">#ffffff</color>
+  <color name="secondaryDarkColor">#c7c7c7</color>
+  <color name="primaryTextColor">#00001f</color>
+  <color name="secondaryTextColor">#000000</color>
+  <color name="accentOrange">#FD754B</color>
+  <color name="lightAccentOrange">#fdb857</color>
+
+  <!--//defaultred Icon-->
+  <!--<color name="accentOrange">#31A5EE</color>-->
+  <!--<color name="accentOrange">#EF3800</color>-->
+  <!--<color name="primaryDarkColor">#53262F</color>-->
+  <!--<color name="secondaryDarkColor">#EFDDD9</color>-->
+  <!--<color name="primaryTextColor">#53262F</color>-->
+  <!--<color name="secondaryColor">#00001f</color>-->
+
+  <!--<color name="mainSeparatorColor">#DAE0E0E0</color>-->
+
+  <color name="mcgpalette0_50">#e1e2e5</color>
+    <color name="mcgpalette0_100">#B4B6BD</color>
+    <!--<color name="secondaryLightColor">#838592</color>-->
+    <!--<color name="secondaryColor">#515466</color>-->
+    <!--<color name="secondaryDarkColor">#2b3045</color>-->
+    <color name="mcgpalette0_500">#060B24</color>
+    <color name="mcgpalette0_600">#050a20</color>
+    <color name="mcgpalette0_700">#04081b</color>
+    <color name="mcgpalette0_800">#030616</color>
+    <color name="mcgpalette0_900">#02030d</color>
+
+
 </resources>
