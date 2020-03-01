@@ -1,1 +1,1 @@
-EngineerProject
+Android app supporting workouts planning and organising. Allows defining exercises and workouts plans what helps to be more effective and organised when having a workout. Workouts can be planned for particular days and later be marked as completed in order to be able to track one's training regularity.
