@@ -125,7 +125,12 @@ class CalendarDayFragment : Fragment(), PlannedWorkoutsLogCompleted, Confirmatio
                 presenter.registerAddedPlannedWorkout(item) { result ->
                     when (result) {
                         FirebaseRequestResult.SUCCESS -> {
-                            (activity as MainActivity).showToast(R.string.workoutLogAsDone)
+                            if (isDateInPast(plannedWorkout)) {
+                                (activity as MainActivity).showToast(R.string.workoutLogAsDone)
+                            }
+                            else {
+                                (activity as MainActivity).showToast(R.string.workoutsPlanned)
+                            }
                         }
                         FirebaseRequestResult.FAILURE -> {
                             (activity as MainActivity).showToast(R.string.operationError)
@@ -162,6 +167,11 @@ class CalendarDayFragment : Fragment(), PlannedWorkoutsLogCompleted, Confirmatio
                 }
             }
         }
+    }
+
+    private fun isDateInPast(plannedWorkout: PlannedWorkout): Boolean {
+        val plannedWorkoutDate = formatter.parse(plannedWorkout.date)
+        return Date().after(plannedWorkoutDate)
     }
 
     override fun onCancelCallback() {
